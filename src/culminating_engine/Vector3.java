@@ -294,9 +294,4 @@ public class Vector3 {
     
     //</editor-fold>
     
-    
-    
-    
-    
-    
 }
