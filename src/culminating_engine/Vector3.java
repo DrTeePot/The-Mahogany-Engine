@@ -281,23 +281,7 @@ public class Vector3 {
     //</editor-fold>
     
     //<editor-fold desc="Static methods">
-<<<<<<< HEAD
-    
-    public static double getMagnitude(double i, double j, double k){
-        return(Math.sqrt(i*i + j*j + k*k));
-    }
-    public static double getMagnitude(Vector3 s){
-        double i = s.getComponents()[0];
-        double j = s.getComponents()[1];
-        double k = s.getComponents()[2];
-        return(Math.sqrt(i*i + j*j + k*k));
-    }
-    
-    //</editor-fold>
-    
-    
-=======
->>>>>>> GameObject-class
+
     
     public static double getMagnitude(double i, double j, double k){
         return(Math.sqrt(i*i + j*j + k*k));
