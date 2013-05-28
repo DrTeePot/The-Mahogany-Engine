@@ -21,9 +21,9 @@ public class Vector3 {
      * @param k - the z position
      */
     Vector3(double i, double j, double k){
-        i = x;
-        j = y;
-        k = z;
+        x= i;
+        y = j;
+        z = k;
     }
     
     /**
@@ -177,6 +177,24 @@ public class Vector3 {
         return(Math.sqrt((x*x + y*y + z*z)));
     }
     
+    public double getAngle(Vector3 s){
+        return(Math.acos(this.dotMultiply(s) / (this.getMagnitude() * s.getMagnitude() ) ) );
+    }
+    
+    public void rotate(double a, double b, double c){
+        double xa = x;
+        double ya = Math.cos(a)*y + Math.sin(a) * z;
+        double za = (-1)*Math.sin(a) * y + Math.cos(a) * z;
+        double xb = Math.cos(b) * xa - Math.sin(b) * za;
+        double yb = ya;
+        double zb = Math.sin(b) * xa + Math.cos(b) * za;
+        double xc = Math.cos(c) * xb + Math.sin(c) * yb;
+        double yc = (-1) * Math.sin(c) * xb  + Math.cos(c)*yb;
+        double zc = zb;
+        
+        this.setVector(xc, yc, zc);
+    }
+    
     /**
      * Return the dot product of the vector by another vector as a double
      * pre: none
@@ -292,7 +310,26 @@ public class Vector3 {
         double k = s.getComponents()[2];
         return(Math.sqrt(i*i + j*j + k*k));
     }
+    public static double dotMultiply(Vector3 s, Vector3 d){
+        double x1 = s.getComponents()[0];
+        double y1 = s.getComponents()[1];
+        double z1 = s.getComponents()[2];
+        
+        double x2 = d.getComponents()[0];
+        double y2 = d.getComponents()[1];
+        double z2 = d.getComponents()[2];
+
+        return(x1*x2 + y1*y2 + z1*z2);
+    }
+    public static double dotMultiply(double x1, double y1, double z1, double x2, double y2, double z2){
+        return(x1*x2 + y1*y2 + z1*z2);
+    }
     
     //</editor-fold>
+    
+    @Override
+    public String toString(){
+        return("( " + x + ", " + y + ", " + z + " )");
+    }
     
 }

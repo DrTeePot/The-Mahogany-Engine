@@ -38,9 +38,27 @@ public class GameObject {
         }
     }
     
-    public void rotate(double d){
-        
+    public void rotate(double a, double b, double c){
+        for(Vector3[] d : world_points){
+            for(Vector3 s : d){
+                s.rotate(a,b,c);
+            }
+        }
     }
+    
+    public void rotateAroundX(double d){ //angle
+        for(Vector3[] a : world_points){
+            for(Vector3 s : a){
+                double x = s.getComponents()[0];
+                double y = s.getComponents()[1];
+                double z = s.getComponents()[2];
+                        
+                s.setVector(x, Math.cos(d)*y + Math.sin(d) * z, (-1)*Math.sin(d) * y + Math.cos(d) * z);
+            }
+        }
+    }
+    
+    
     
     //<editor-fold desc="Setter and getters">
     
