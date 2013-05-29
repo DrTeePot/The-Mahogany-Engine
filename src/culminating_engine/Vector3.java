@@ -15,7 +15,9 @@ public class Vector3 {
     private double z;
     
     /**
-     * Create a Vector3 object that stretches from the origin to point (i, j, k). This is a position vector.
+     * Create a Vector3 object that stretches from the origin to point (i, j, k). This is a position vector. <br>
+     * pre: none <br>
+     * post: A vector object is created
      * @param i - the x position
      * @param j - the y position
      * @param k - the z position
@@ -27,7 +29,9 @@ public class Vector3 {
     }
     
     /**
-     * Create a Vector3 object that is equivalent to the vector s. 
+     * Create a Vector3 object that is equivalent to the vector s. <br>
+     * pre: none <br>
+     * post: A Vector3 object is created
      * @param s - a Vector3 object representing a vector.
      */
     Vector3(Vector3 s){
@@ -39,8 +43,8 @@ public class Vector3 {
     //<editor-fold desc="Getters and setters">
     
     /**
-     * Sets the vector to be equal to the vector defined by the parameter s
-     * pre: none
+     * Sets the vector to be equal to the vector defined by the parameter s <br>
+     * pre: none <br>
      * post: The vector's definition is changed to that of the vector s
      * @param s - the vector to set this vector equal to
      */
@@ -52,8 +56,8 @@ public class Vector3 {
     }
     
     /**
-     * Sets the vector to be equal to the vector defined by the vector (i,j,k)
-     * pre: none
+     * Sets the vector to be equal to the vector defined by the vector (i,j,k) <br>
+     * pre: none <br>
      * post: The vector's definition is changed to that of the vector (i,j,k)
      * @param i - the x component of the vector 
      * @param j - the y component of the vector
@@ -66,8 +70,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the definition of the vector to the client as an array of doubles (of length 3)
-     * pre: none
+     * Returns the definition of the vector to the client as an array of doubles (of length 3) <br>
+     * pre: none <br>
      * post: The three components of the vector are returned
      * @return double[] l = {x,y,z}
      */
@@ -77,8 +81,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the x component of the vector.
-     * pre: none
+     * Returns the x component of the vector. <br>
+     * pre: none <br>
      * post: the vector that represents the x component is returned.
      * @return Vector3(x,0,0)
      */
@@ -87,8 +91,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the y component of the vector.
-     * pre: none
+     * Returns the y component of the vector. <br>
+     * pre: none <br>
      * post: the vector that represents the y component is returned.
      * @return Vector3(0,y,0)
      */
@@ -97,8 +101,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the z component of the vector.
-     * pre: none
+     * Returns the z component of the vector. <br>
+     * pre: none <br>
      * post: the vector that represents the z component is returned.
      * @return Vector3(0,0,z)
      */
@@ -107,8 +111,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the magnitude of the x component of the vector.
-     * pre: none
+     * Returns the magnitude of the x component of the vector. <br>
+     * pre: none <br>
      * post: The magnitude of the x component is returned as a double.
      * @return double x
      */
@@ -117,8 +121,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the magnitude of the y component of the vector.
-     * pre: none
+     * Returns the magnitude of the y component of the vector. <br>
+     * pre: none <br>
      * post: The magnitude of the y component is returned as a double.
      * @return double y
      */
@@ -127,8 +131,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the magnitude of the z component of the vector.
-     * pre: none
+     * Returns the magnitude of the z component of the vector. <br>
+     * pre: none <br>
      * post: The magnitude of the z component is returned as a double.
      * @return double z
      */
@@ -141,8 +145,8 @@ public class Vector3 {
     //<editor-fold desc="calculated manipulations and returns">
     
     /**
-     * Add a vector to this vector.
-     * pre: none
+     * Add a vector to this vector. <br>
+     * pre: none <br>
      * post: The vector is altered to be the vector + the vector s.
      * @param s 
      */
@@ -154,8 +158,8 @@ public class Vector3 {
     }
     
     /**
-     * Add a vector to this vector.
-     * pre: none
+     * Add a vector to this vector. <br>
+     * pre: none <br>
      * post: The vector is altered to be the vector + the vector defined by (i, j, k)
      * @param i - the x component of the addition vector
      * @param j - the y component of the addition vector
@@ -168,8 +172,8 @@ public class Vector3 {
     }
     
     /**
-     * Return the magnitude of the vector as a double.
-     * pre: none
+     * Return the magnitude of the vector as a double. <br>
+     * pre: none <br>
      * post: the vector's magnitude is returned.
      * @return magVector
      */
@@ -182,23 +186,23 @@ public class Vector3 {
     }
     
     public void rotate(double a, double b, double c){
-        double xa = x;
-        double ya = Math.cos(a)*y + Math.sin(a) * z;
-        double za = (-1)*Math.sin(a) * y + Math.cos(a) * z;
-        double xb = Math.cos(b) * xa - Math.sin(b) * za;
-        double yb = ya;
-        double zb = Math.sin(b) * xa + Math.cos(b) * za;
-        double xc = Math.cos(c) * xb + Math.sin(c) * yb;
-        double yc = (-1) * Math.sin(c) * xb  + Math.cos(c)*yb;
-        double zc = zb;
+        //double xa = x;
+        //double ya = Math.cos(a)*y + Math.sin(a) * z;
+        //double za = (-1)*Math.sin(a) * y + Math.cos(a) * z;
+        //double xb = (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z));
+        //double yb = (Math.cos(a)*y + Math.sin(a) * z);
+        //double zb = (Math.sin(b) * x + Math.cos(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z));
+        double xc = Math.cos(c) * (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z)) + Math.sin(c) * (Math.cos(a)*y + Math.sin(a) * z);
+        double yc = (-1) * Math.sin(c) * (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z))  + Math.cos(c)*(Math.cos(a)*y + Math.sin(a) * z);
+        double zc = (Math.sin(b) * x + Math.cos(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z));
         
         this.setVector(xc, yc, zc);
     }
     
     /**
-     * Return the dot product of the vector by another vector as a double
-     * pre: none
-     * post: The dot product is returned
+     * Return the dot product of the vector by another vector as a double <br>
+     * pre: none <br>
+     * post: The dot product is returned <br>
      * @param s - the vector to be dotted with this
      * @return this (dot) s
      */
@@ -210,8 +214,8 @@ public class Vector3 {
     }
     
     /**
-     * Return the dot product of the vector by another vector as a double
-     * pre: none
+     * Return the dot product of the vector by another vector as a double <br>
+     * pre: none <br>
      * post: The dot product is returned
      * @param i - the magnitude of the x component to be dotted.
      * @param j - the magnitude of the y component to be dotted.
@@ -223,8 +227,8 @@ public class Vector3 {
     }
     
     /**
-     * Return the vector that results when the vector is crossed with another vector as a Vector3.
-     * pre: none
+     * Return the vector that results when the vector is crossed with another vector as a Vector3. <br>
+     * pre: none <br>
      * post: returns the vector object that results when the vector is crossed with the vector s
      * @param s - the vector to be crossed
      * @return the vector object that results from this x s
@@ -240,8 +244,8 @@ public class Vector3 {
     }
     
     /**
-     * Return the vector that results when the vector is crossed with another vector as a Vector3.
-     * pre: none
+     * Return the vector that results when the vector is crossed with another vector as a Vector3. <br>
+     * pre: none <br>
      * post: returns the vector object that results when the vector is crossed with the vector defined by (i,j,k)
      * @param i - the magnitude of the x component of the vector
      * @param j - the magnitude of the y component of the vector
@@ -255,8 +259,8 @@ public class Vector3 {
     }
     
     /**
-     * The scalar multiple of the vector is returned. k*Vector
-     * pre: none
+     * The scalar multiple of the vector is returned. k*Vector <br>
+     * pre: none <br>
      * post: the vector defined by the scalar multiple is returned.
      * @param k - the multiple that the vector is multiplied by
      * @return the vector object that results from k*v;
@@ -282,8 +286,8 @@ public class Vector3 {
     }
     
     /**
-     * Returns the vector that results from projecting this vector on the parameter vector.
-     * pre: none
+     * Returns the vector that results from projecting this vector on the parameter vector. <br>
+     * pre: none <br>
      * post: Returns the vector in the direction of (i,j,k) with a magnitude of the (i,j,k) component of this vector.
      * @param i - the magnitude of the x component of the vector being projected on.
      * @param j - the magnitude of the y component of the vector being projected on.
