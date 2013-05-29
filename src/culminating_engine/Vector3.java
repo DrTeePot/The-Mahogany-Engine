@@ -181,20 +181,30 @@ public class Vector3 {
         return(Math.sqrt((x*x + y*y + z*z)));
     }
     
+    /**
+     * 
+     * @param s
+     * @return 
+     */
     public double getAngle(Vector3 s){
         return(Math.acos(this.dotMultiply(s) / (this.getMagnitude() * s.getMagnitude() ) ) );
     }
     
+    /**
+     * Rotate the vector around the three fundamental axes in three-space. <br>
+     * pre: none <br>
+     * post: The vector is rotated.
+     * @param a - the radians by which to rotate around the x axis.
+     * @param b - the radians by which to rotate around the y axis.
+     * @param c - the radians by which to rotate around the z axis.
+     */
     public void rotate(double a, double b, double c){
-        //double xa = x;
-        //double ya = Math.cos(a)*y + Math.sin(a) * z;
-        //double za = (-1)*Math.sin(a) * y + Math.cos(a) * z;
-        //double xb = (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z));
-        //double yb = (Math.cos(a)*y + Math.sin(a) * z);
-        //double zb = (Math.sin(b) * x + Math.cos(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z));
-        double xc = Math.cos(c) * (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z)) + Math.sin(c) * (Math.cos(a)*y + Math.sin(a) * z);
-        double yc = (-1) * Math.sin(c) * (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z))  + Math.cos(c)*(Math.cos(a)*y + Math.sin(a) * z);
-        double zc = (Math.sin(b) * x + Math.cos(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z));
+        double xc = Math.cos(c) * (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z)) 
+                + Math.sin(c) * (Math.cos(a)*y + Math.sin(a) * z);
+        double yc = (-1) * Math.sin(c) * (Math.cos(b) * x - Math.sin(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z))
+                + Math.cos(c)*(Math.cos(a)*y + Math.sin(a) * z);
+        double zc = Math.sin(b) * x 
+                + Math.cos(b) * ((-1)*Math.sin(a) * y + Math.cos(a) * z);
         
         this.setVector(xc, yc, zc);
     }
@@ -227,49 +237,46 @@ public class Vector3 {
     }
     
     /**
-     * Return the vector that results when the vector is crossed with another vector as a Vector3. <br>
+     * The vector that results when the vector is crossed with another vector. <br>
      * pre: none <br>
      * post: returns the vector object that results when the vector is crossed with the vector s
      * @param s - the vector to be crossed
-     * @return the vector object that results from this x s
      */
-    public Vector3 crossMultiply(Vector3 s){
+    public void crossMultiply(Vector3 s){
         double x2 = s.getComponents()[0];
         double y2 = s.getComponents()[1];
         double z2 = s.getComponents()[2];
         
-        return(new Vector3(y*z2 - z*y2,
+        this.setVector(y*z2 - z*y2,
                 z*x2 - x*z2, 
-                x*y2 - y*x2));
+                x*y2 - y*x2);
     }
     
     /**
-     * Return the vector that results when the vector is crossed with another vector as a Vector3. <br>
+     * The vector that results when the vector is crossed with another vector. <br>
      * pre: none <br>
-     * post: returns the vector object that results when the vector is crossed with the vector defined by (i,j,k)
+     * post: the vector is redefined as the object that results when the vector is crossed with the vector defined by (i,j,k)
      * @param i - the magnitude of the x component of the vector
      * @param j - the magnitude of the y component of the vector
      * @param k - the magnitude of the z component of the vector
-     * @return the vector object that results from the crossing of this vector with (i,j,k)
      */
-    public Vector3 crossMultiply(double i, double j, double k){
-        return(new Vector3(y*k - z*j,
+    public void crossMultiply(double i, double j, double k){
+        this.setVector(new Vector3(y*k - z*j,
                 z*i - x*k, 
                 x*j - y*i));
     }
     
     /**
-     * The scalar multiple of the vector is returned. k*Vector <br>
+     * The vector is stretched to the scalar multiple of the vector. k*Vector <br>
      * pre: none <br>
-     * post: the vector defined by the scalar multiple is returned.
+     * post: the vector defined by the scalar multiple is created.
      * @param k - the multiple that the vector is multiplied by
-     * @return the vector object that results from k*v;
      */
-    public Vector3 scalarMultiply(double k){
+    public void scalarMultiply(double k){
         double x2 = x * k;
         double y2 = y * k;
         double z2 = z * k;
-        return(new Vector3(x2, y2, z2));
+        this.setVector(x2, y2, z2);
     }
     
     /**
@@ -281,7 +288,7 @@ public class Vector3 {
      */
     public Vector3 projectionOn(Vector3 s){
         double k = (this.dotMultiply(s)/(s.getMagnitude() * s.getMagnitude()));
-        Vector3 v = new Vector3(s.scalarMultiply(k));
+        Vector3 v = Vector3.scalarMultiply(k, s);
         return(v);
     }
     
@@ -327,6 +334,20 @@ public class Vector3 {
     }
     public static double dotMultiply(double x1, double y1, double z1, double x2, double y2, double z2){
         return(x1*x2 + y1*y2 + z1*z2);
+    }
+    
+    /**
+     * The scalar multiple of the vector is returned. k*Vector <br>
+     * pre: none <br>
+     * post: the vector defined by the scalar multiple is returned.
+     * @param k - the multiple that the vector is multiplied by
+     * @return the vector object that results from k*v;
+     */
+    public static Vector3 scalarMultiply(double k, Vector3 s){
+        double x2 = s.getComponents()[0] * k;
+        double y2 = s.getComponents()[1] * k;
+        double z2 = s.getComponents()[2] * k;
+        return(new Vector3(x2, y2, z2));
     }
     
     //</editor-fold>

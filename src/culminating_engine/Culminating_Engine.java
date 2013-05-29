@@ -20,10 +20,10 @@ public class Culminating_Engine {
             new Face(new Vector3(0,0,0), new Vector3(1,0,0), new Vector3(0,0,1)),
             new Face(new Vector3(0,0,0), new Vector3(1,0,0), new Vector3(0,1,0)),
             new Face(new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(0,1,0)),
-            new Face(new Vector3(1,0,0), new Vector3(0,1,0), new Vector3(0,0,1))
-        });
+            new Face(new Vector3(1,0,0), new Vector3(0,1,0), new Vector3(0,0,1))},
+                new Vector3(0.5,0.5,0.5));
         log(si.toString());
-        si.rotate(PI/2, 0, 0);
+        si.rotateExternally(PI/2, 0, 0);
         log(si.toString());
         
     }

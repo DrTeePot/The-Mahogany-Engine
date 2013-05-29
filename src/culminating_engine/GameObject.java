@@ -11,35 +11,66 @@ package culminating_engine;
 public class GameObject {
     
     private Vector3 shapeOrigin;
+    private Face[] transformShape;
     private Face[] shape;
     private Vector3 orientationX;
     private Vector3 orientationY;
     private Vector3 orientationZ;
     
-    
-    GameObject(Vector3[][] p){
-        shape = new Face[p.length];
-        for(int i = 0; i < p.length; i++){
-            shape[i] = new Face(p[i]);
-        }
-        orientationX = new Vector3(1,0,0);
-        orientationY = new Vector3(0,1,0);
-        orientationZ = new Vector3(0,0,1);
-    }
-    
-    GameObject(Face[] f){
+    /**
+     * Creates a new instance of a GameObject with an arbitrary number of faces and an origin.
+     * Initialized to have the same orientation as the world. <br>
+     * pre: none <br>
+     * post: A GameObject object is created.
+     * @param f - the collection of Face objects that make up this object.
+     * @param origin - the point of origin for this object. The object will rotate and scale around this point.
+     */
+    GameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
         shape = f;
+        shapeOrigin = origin;
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
+        transformShape = new Face[shape.length];
+        populateTransformShape();
+
     }
+    
+    /**
+     * The function that creates the relative position vectors to the origin of the object rather than
+     * the origin of the world.
+     */
+    private void populateTransformShape(){
+        transformShape = new Face[shape.length];
+        for(int l = 0; l < shape.length; l++){
+            transformShape[l] = new Face(shape[l].getPoints());
+            for(Vector3 t: transformShape[l].getPoints()){
+                t.addVector(Vector3.scalarMultiply(-1,shapeOrigin));
+            }
+        }
+    }
+    
+    /**
+     * Translates the gameObject by t. (moves) <br>
+     * pre: none <br>
+     * post: The objects vectors are repositioned so as to be original + t
+     * @param t - the magnitude and direction in which to translate the object.
+     */
     public void translate(Vector3 t){
         for(Face a : shape){
             a.translate(t);
         }
     }
     
+    /**
+     * Translates the gameObject by t = (i,j,k). (moves) <br>
+     * pre: none <br>
+     * post: The objects vectors are repositioned so as to be original + t
+     * @param i - the magnitude of the x component of the vector to translate by.
+     * @param j - the magnitude of the y component of the vector to translate by.
+     * @param k - the magnitude of the z component of the vector to translate by.
+     */
     public void translate(double i, double j, double k){
         for(Face a : shape){
             a.translate(new Vector3(i,j,k));
@@ -54,23 +85,23 @@ public class GameObject {
      * @param b - the rotation around the y axis in radians
      * @param c - the rotation around the z axis in radians
      */
-    public void rotate(double a, double b, double c){
+    public void rotateExternally(double a, double b, double c){
         for(Face d : shape){
             d.rotate(a, b, c);
         }
+        orientationX.rotate(a, b, c);
+        orientationY.rotate(a, b, c);
+        orientationZ.rotate(a, b, c);
     }
     
-    public void rotateAroundX(double d){ //angle
-//        for(Face s : shape){
-//            double x = s.getComponents()[0];
-//            double y = s.getComponents()[1];
-//            double z = s.getComponents()[2];
-//
-//            s.setVector(x, Math.cos(d)*y + Math.sin(d) * z, (-1)*Math.sin(d) * y + Math.cos(d) * z);
-//        } 
+    public void rotateInternally(double a, double b, double c){
+        for(Face d : transformShape){
+            d.rotate(a, b, c);
+        }
+        orientationX.rotate(a, b, c);
+        orientationY.rotate(a, b, c);
+        orientationZ.rotate(a, b, c);
     }
-    
-    
     
     //<editor-fold desc="Setter and getters">
     
