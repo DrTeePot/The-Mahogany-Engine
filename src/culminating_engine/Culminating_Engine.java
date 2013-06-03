@@ -17,13 +17,13 @@ public class Culminating_Engine {
     public static void main(String[] args) {
         // TODO code application logic here
         GameObject si = new GameObject(new Face[] { 
-            new Face(new Vector3(0,0,0), new Vector3(1,0,0), new Vector3(0,0,1)),
-            new Face(new Vector3(0,0,0), new Vector3(1,0,0), new Vector3(0,1,0)),
-            new Face(new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(0,1,0)),
-            new Face(new Vector3(1,0,0), new Vector3(0,1,0), new Vector3(0,0,1))},
-                new Vector3(0.5,0.5,0.5));
+            new Face(new Vector3(0,1,1), new Vector3(1,1,0), new Vector3(0,0,1)),
+            new Face(new Vector3(0,1,1), new Vector3(1,1,0), new Vector3(0,1,0)),
+            new Face(new Vector3(0,1,1), new Vector3(0,1,1), new Vector3(0,1,0)),
+            new Face(new Vector3(1,1,0), new Vector3(0,1,0), new Vector3(0,0,1))},
+                new Vector3(1,1,1));
         log(si.toString());
-        si.rotateExternally(PI/2, 0, 0);
+        si.rotateAroundWorld(PI/2, 0, 0);
         log(si.toString());
         
     }

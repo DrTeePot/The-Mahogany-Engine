@@ -28,13 +28,12 @@ public class GameObject {
     GameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
         shape = f;
-        shapeOrigin = origin;
+        shapeOrigin = new Vector3(origin);
+        populateTransformShape();
+        
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
-        transformShape = new Face[shape.length];
-        populateTransformShape();
-
     }
     
     /**
@@ -43,11 +42,11 @@ public class GameObject {
      */
     private void populateTransformShape(){
         transformShape = new Face[shape.length];
-        for(int l = 0; l < shape.length; l++){
-            transformShape[l] = new Face(shape[l].getPoints());
-            for(Vector3 t: transformShape[l].getPoints()){
-                t.addVector(Vector3.scalarMultiply(-1,shapeOrigin));
-            }
+        for(int i = 0; i < shape.length; i++){
+            transformShape[i] = new Face(shape[i]);
+        }
+        for(Face s: transformShape){
+            s.translate(Vector3.scalarMultiply(-1, shapeOrigin));
         }
     }
     
@@ -61,6 +60,7 @@ public class GameObject {
         for(Face a : shape){
             a.translate(t);
         }
+        shapeOrigin.addVector(t);
     }
     
     /**
@@ -75,6 +75,7 @@ public class GameObject {
         for(Face a : shape){
             a.translate(new Vector3(i,j,k));
         }
+        shapeOrigin.addVector(i, j, k);
     }
     
     /**
@@ -85,7 +86,7 @@ public class GameObject {
      * @param b - the rotation around the y axis in radians
      * @param c - the rotation around the z axis in radians
      */
-    public void rotateExternally(double a, double b, double c){
+    public void rotateAroundWorld(double a, double b, double c){
         for(Face d : shape){
             d.rotate(a, b, c);
         }
@@ -94,13 +95,18 @@ public class GameObject {
         orientationZ.rotate(a, b, c);
     }
     
-    public void rotateInternally(double a, double b, double c){
+    public void rotateAroundSelf(double a, double b, double c){
         for(Face d : transformShape){
             d.rotate(a, b, c);
         }
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
         orientationZ.rotate(a, b, c);
+        for(int i = 0; i < shape.length; i++){
+            Face l = new Face(transformShape[i]);
+            l.translate(shapeOrigin);
+            shape[i] = new Face(l);
+        }
     }
     
     //<editor-fold desc="Setter and getters">

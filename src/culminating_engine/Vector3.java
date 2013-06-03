@@ -344,10 +344,21 @@ public class Vector3 {
      * @return the vector object that results from k*v;
      */
     public static Vector3 scalarMultiply(double k, Vector3 s){
-        double x2 = s.getComponents()[0] * k;
+        double x2 = s.getMagnitude_componentX() * k;
         double y2 = s.getComponents()[1] * k;
         double z2 = s.getComponents()[2] * k;
         return(new Vector3(x2, y2, z2));
+    }
+    
+    public static Vector3 addVectors(Vector3 s, Vector3 d){
+        double x1 = s.getComponents()[0];
+        double y1 = s.getComponents()[1];
+        double z1 = s.getComponents()[2];
+        double x2 = d.getComponents()[0];
+        double y2 = d.getComponents()[1];
+        double z2 = d.getComponents()[2];
+        
+        return(new Vector3(x1 + x2, y1+y2, z1+z2));
     }
     
     //</editor-fold>

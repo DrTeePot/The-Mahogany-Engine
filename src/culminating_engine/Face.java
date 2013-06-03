@@ -17,15 +17,25 @@ public class Face {
     
     Face(Vector3[] p){
         points = new Vector3[3];
-        System.arraycopy(p, 0, points, 0, 3);
+        for(int i = 0; i < 3; i ++){
+            points[i] = new Vector3(p[i]);
+        }
         colour = Color.GRAY;
+    }
+    
+    Face(Face f){
+        points = new Vector3[3];
+        for(int i = 0; i < points.length; i ++){
+            points[i] = new Vector3(f.getPoint(i));
+        }
+        colour = f.getColor();
     }
     
     Face(Vector3 p1, Vector3 p2, Vector3 p3){
         points = new Vector3[3];
-        points[0] = p1;
-        points[1] = p2;
-        points[2] = p3;
+        points[0] = new Vector3(p1);
+        points[1] = new Vector3(p2);
+        points[2] = new Vector3(p3);
         colour = Color.GRAY;
     }
     
@@ -37,8 +47,18 @@ public class Face {
         return points;
     }
     
+    public Color getColor(){
+        return(colour);
+    }
+    
     public void setPoint(int i, Vector3 s){
-        points[i] = s;
+        points[i] = new Vector3(s);
+    }
+    
+    public void setPoints(Vector3[] p){
+        for(int i = 0; i < 3; i++){
+            points[i] = new Vector3(p[i]);
+        }
     }
     
     public void translate(Vector3 t){
