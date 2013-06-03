@@ -330,6 +330,7 @@ public class Vector3 {
     }
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * The scalar multiple of the vector is returned. k*Vector <br>
      * pre: none <br>
@@ -355,6 +356,8 @@ public class Vector3 {
         return(new Vector3(x1 + x2, y1+y2, z1+z2));
     }
     
+=======
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
 =======
 >>>>>>> b697351b22428646b8ebd53870665a586b67c77f
     //</editor-fold>

@@ -21,6 +21,7 @@ public class GameObject {
     private Vector3 orientationZ;
     
 <<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * Creates a new instance of a GameObject with an arbitrary number of faces and an origin.
      * Initialized to have the same orientation as the world. <br>
@@ -36,6 +37,8 @@ public class GameObject {
         populateTransformShape();
         
 =======
+=======
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
     
     GameObject(Vector3[][] p){
 <<<<<<< HEAD
@@ -46,12 +49,16 @@ public class GameObject {
             shape[i] = new Face(p[i]);
         }
 >>>>>>> e22765485428378d1986833fce96929e4dc77beb
+<<<<<<< HEAD
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
+=======
 >>>>>>> b697351b22428646b8ebd53870665a586b67c77f
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
     }
     
+<<<<<<< HEAD
 <<<<<<< HEAD
     /**
      * The function that creates the relative position vectors to the origin of the object rather than
@@ -66,12 +73,17 @@ public class GameObject {
             s.translate(Vector3.scalarMultiply(-1, shapeOrigin));
         }
 =======
+=======
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
     GameObject(Face[] f){
         shape = new Face[f.length];
         shape = f;
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
+<<<<<<< HEAD
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
+=======
 >>>>>>> b697351b22428646b8ebd53870665a586b67c77f
     }
     public void translate(Vector3 t){
@@ -111,14 +123,20 @@ public class GameObject {
      * @param c - the rotation around the z axis in radians
      */
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void rotateAroundWorld(double a, double b, double c){
 =======
+=======
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
     public void rotate(double a, double b, double c){
 <<<<<<< HEAD
         for(Vector3[] d : worldPoints){
             for(Vector3 s : d){
                 s.rotate(a,b,c);
             }
+=======
+<<<<<<< HEAD
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
 =======
 >>>>>>> b697351b22428646b8ebd53870665a586b67c77f
         for(Face d : shape){
@@ -127,6 +145,7 @@ public class GameObject {
         }
     }
     
+<<<<<<< HEAD
 <<<<<<< HEAD
     public void rotateAroundSelf(double a, double b, double c){
         for(Face d : transformShape){
@@ -153,6 +172,19 @@ public class GameObject {
             }
         }
 =======
+    public void rotateAroundX(double d){ //angle
+<<<<<<< HEAD
+        for(Vector3[] a : worldPoints){
+            for(Vector3 s : a){
+                double x = s.getComponents()[0];
+                double y = s.getComponents()[1];
+                double z = s.getComponents()[2];
+                        
+                s.setVector(x, Math.cos(d)*y + Math.sin(d) * z, (-1)*Math.sin(d) * y + Math.cos(d) * z);
+            }
+        }
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
+=======
 //        for(Face s : shape){
 //            double x = s.getComponents()[0];
 //            double y = s.getComponents()[1];
@@ -161,6 +193,9 @@ public class GameObject {
 //            s.setVector(x, Math.cos(d)*y + Math.sin(d) * z, (-1)*Math.sin(d) * y + Math.cos(d) * z);
 //        } 
 >>>>>>> e22765485428378d1986833fce96929e4dc77beb
+<<<<<<< HEAD
+>>>>>>> b697351b22428646b8ebd53870665a586b67c77f
+=======
 >>>>>>> b697351b22428646b8ebd53870665a586b67c77f
     }
     
