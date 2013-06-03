@@ -81,4 +81,23 @@ public class Camera extends Vector3 {
     public void setDirectionVector(double i, double j, double k){
         directionVector = new Vector3(i, j, k);
     }
+    
+    /**
+     * returns the camera's position
+     * pre: none
+     * post: the camera's position has been returned
+     * @return new Vector3(
+     *          super.getMagnitude_componentX(),
+     *          super.getMagnitude_componentY(),
+     *          super.getMagnitude_componentZ()
+     *          )
+     */
+    public Vector3 getPositionVector(){
+        return new Vector3(
+                super.getMagnitude_componentX(),
+                super.getMagnitude_componentY(),
+                super.getMagnitude_componentZ()
+                );
+    }
+    
 }
