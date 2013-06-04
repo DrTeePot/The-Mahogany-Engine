@@ -29,19 +29,19 @@ public class GameObject {
         shape = new Face[f.length];
         shape = f;
         shapeOrigin = new Vector3(origin);
-//        for(int i = 0; i < f.length; i++){
-//            shape[i] = new Face(f[i]);
-//        }
         populateTransformShape();
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
-        for(Face l: shape)
-            System.out.println(l.toString());
-        for(Face l: transformShape)
-            System.out.println(l.toString());
     }
     
+    /**
+     * Creates a new instance of a GameObject with an arbitrary number of faces and default origin.
+     * Initialized to have the same orientation as the world. <br>
+     * pre: none <br>
+     * post: A GameObject object is created.
+     * @param f - the collection of Face objects that make up this object.
+     */
     GameObject(Face[] f){
         shape = new Face[f.length];
         shape = f;
@@ -62,22 +62,24 @@ public class GameObject {
             transformShape[i] = new Face(shape[i]);
         }
         for(Face s: transformShape){
-            s.translate(Vector3.scalarMultiply(-1, shapeOrigin));
+            s.addVector(Vector3.scalarMultiply(-1, shapeOrigin));
+        }
+    }
+    
+    public void update(){
+        for(int i = 0; i < shape.length; i ++){
+            shape[i] = new Face(Face.addVector(transformShape[i], shapeOrigin));
         }
     }
     
     public void translate(Vector3 t){
-        for(Face a : shape){
-            a.translate(t);
-        }
         shapeOrigin.addVector(t);
+        update();
     }
     
     public void translate(double i, double j, double k){
-        for(Face a : shape){
-            a.translate(new Vector3(i,j,k));
-        }
         shapeOrigin.addVector(i, j, k);
+        update();
     }
     
     /**
@@ -105,30 +107,22 @@ public class GameObject {
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
         orientationZ.rotate(a, b, c);
-        for(int i = 0; i < shape.length; i++){
-            Face l = new Face(transformShape[i]);
-            l.translate(shapeOrigin);
-            shape[i] = new Face(l);
-        }
+        update();
     }
     
     public void rotateAroundPoint(double a, double b, double c, Vector3 v){
         Face[] trs = new Face[shape.length];
         for(int i = 0; i < shape.length; i++){
             trs[i] = new Face(shape[i]);
-        }
-        for(Face s: trs){
-            s.translate(Vector3.scalarMultiply(-1, v));
-        }
-        for(Face d : trs){
-            d.rotate(a, b, c);
+            trs[i].subtractVector(v);
+            trs[i].rotate(a,b,c);
         }
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
         orientationZ.rotate(a, b, c);
         for(int i = 0; i < shape.length; i++){
             Face l = new Face(trs[i]);
-            l.translate(v);
+            l.addVector(v);
             shape[i] = new Face(l);
         }
     }

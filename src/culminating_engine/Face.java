@@ -61,9 +61,27 @@ public class Face {
         }
     }
     
-    public void translate(Vector3 t){
+    public void addVector(Vector3 t){
         for(Vector3 v : points){
             v.addVector(t);
+        }
+    }
+    
+    public void addVector(double i, double j, double k){
+        for(Vector3 v : points){
+            v.addVector(i, j, k);
+        }
+    }
+    
+    public void subtractVector(Vector3 t){
+        for(Vector3 v : points){
+            v.subtractVector(t);
+        }
+    }
+    
+    public void subtractVector(double i, double j, double k){
+        for(Vector3 v : points){
+            v.subtractVector(i, j, k);
         }
     }
     
@@ -76,5 +94,27 @@ public class Face {
     @Override
     public String toString(){
         return("{ " + points[0] + ", " + points[1] + ", " + points[2] + " } \n");
+    }
+    
+    public static Face addVector(Face f, Vector3 u){
+        Vector3[] l;
+        l = f.getPoints();
+        
+        for(Vector3 s : l){
+            s.addVector(u);
+        }
+        
+        return(new Face(l));
+    }
+    
+    public static Face subtractVector(Face f, Vector3 u){
+        Vector3[] l;
+        l = f.getPoints();
+        
+        for(Vector3 s : l){
+            s.subtractVector(u);
+        }
+        
+        return(new Face(l));
     }
 }
