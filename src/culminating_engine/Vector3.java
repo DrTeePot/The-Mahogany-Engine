@@ -22,7 +22,7 @@ public class Vector3 {
      * @param j - the y position
      * @param k - the z position
      */
-    Vector3(double i, double j, double k){
+    public Vector3(double i, double j, double k){
         x= i;
         y = j;
         z = k;
@@ -34,7 +34,7 @@ public class Vector3 {
      * post: A Vector3 object is created
      * @param s - a Vector3 object representing a vector.
      */
-    Vector3(Vector3 s){
+    public Vector3(Vector3 s){
         x = s.getMagnitude_componentX();
         y = s.getMagnitude_componentY();
         z = s.getMagnitude_componentZ();

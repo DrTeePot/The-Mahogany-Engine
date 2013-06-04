@@ -4,6 +4,8 @@
  */
 package culminating_engine;
 
+import culminating_engine.shapes.Cube;
+
 /**
  *
  * @author tristan
@@ -16,12 +18,13 @@ public class Culminating_Engine {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        GameObject si = new GameObject(new Face[] { 
-            new Face(new Vector3(0,1,1), new Vector3(0,2,1), new Vector3(0,1,2)),
-            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,1,2)),
-            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,2,1)),
-            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
-        }, new Vector3(0,1,1));
+//        GameObject si = new GameObject(new Face[] { 
+//            new Face(new Vector3(0,1,1), new Vector3(0,2,1), new Vector3(0,1,2)),
+//            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,1,2)),
+//            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,2,1)),
+//            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
+//        }, new Vector3(0,1,1));
+        GameObject si = new Cube(new Vector3(1,1,1), 10);
         log(si.toString());
         si.rotateAroundWorld(PI/2,0,0);
         log(si.toString());
