@@ -25,7 +25,7 @@ public class Face {
     
     Face(Face f){
         points = new Vector3[3];
-        for(int i = 0; i < points.length; i ++){
+        for(int i = 0; i < 3; i ++){
             points[i] = new Vector3(f.getPoint(i));
         }
         colour = f.getColor();
@@ -65,7 +65,7 @@ public class Face {
         for(Vector3 v : points){
             v.addVector(t);
         }
-    } 
+    }
     
     public void rotate(double a, double b, double c){
         for(Vector3 p: points){

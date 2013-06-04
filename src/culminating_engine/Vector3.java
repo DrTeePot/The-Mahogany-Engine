@@ -172,6 +172,33 @@ public class Vector3 {
     }
     
     /**
+     * Subtract a vector from this vector. <br>
+     * pre: none <br>
+     * post: The vector is altered to be the vector - the subtraction vector s.
+     * @param s - the vector to subtract
+     */
+    public void subtractVector(Vector3 s){
+        double[] aS = s.getComponents();
+        x -= aS[0];
+        y -= aS[1];
+        z -= aS[2];
+    }
+    
+    /**
+     * Subtract a vector from this vector. <br>
+     * pre: none <br>
+     * post: The vector is altered to be the vector - the vector defined by (i, j, k)
+     * @param i - the x component of the subtraction vector
+     * @param j - the y component of the subtraction vector
+     * @param k - the z component of the subtraction vector
+     */
+    public void subtractVector(double i, double j, double k){
+        x -= i;
+        y -= j;
+        z -= k;
+    }
+    
+    /**
      * Return the magnitude of the vector as a double. <br>
      * pre: none <br>
      * post: the vector's magnitude is returned.
@@ -233,12 +260,13 @@ public class Vector3 {
      * @param s - the vector to be crossed
      * @return the vector object that results from this x s
      */
-    public Vector3 crossMultiply(Vector3 s){
+    public void crossMultiply(Vector3 s){
         double x2 = s.getComponents()[0];
         double y2 = s.getComponents()[1];
         double z2 = s.getComponents()[2];
         
-        return(new Vector3(y*z2 - z*y2,
+        this.setVector(new Vector3(
+                y*z2 - z*y2,
                 z*x2 - x*z2, 
                 x*y2 - y*x2));
     }
@@ -252,8 +280,8 @@ public class Vector3 {
      * @param k - the magnitude of the z component of the vector
      * @return the vector object that results from the crossing of this vector with (i,j,k)
      */
-    public Vector3 crossMultiply(double i, double j, double k){
-        return(new Vector3(y*k - z*j,
+    public void crossMultiply(double i, double j, double k){
+        this.setVector(new Vector3(y*k - z*j,
                 z*i - x*k, 
                 x*j - y*i));
     }
@@ -265,11 +293,10 @@ public class Vector3 {
      * @param k - the multiple that the vector is multiplied by
      * @return the vector object that results from k*v;
      */
-    public Vector3 scalarMultiply(double k){
-        double x2 = x * k;
-        double y2 = y * k;
-        double z2 = z * k;
-        return(new Vector3(x2, y2, z2));
+    public void scalarMultiply(double k){
+        x = x * k;
+        y = y * k;
+        z = z * k;
     }
     
     /**
@@ -281,7 +308,7 @@ public class Vector3 {
      */
     public Vector3 projectionOn(Vector3 s){
         double k = (this.dotMultiply(s)/(s.getMagnitude() * s.getMagnitude()));
-        Vector3 v = new Vector3(s.scalarMultiply(k));
+        Vector3 v = new Vector3(Vector3.scalarMultiply(k,s));
         return(v);
     }
     
@@ -330,6 +357,46 @@ public class Vector3 {
     }
     
     /**
+     * Return the vector that results when the vector u is crossed with the vector v as a Vector3. <br>
+     * pre: none <br>
+     * post: returns the vector object that results when the vector u is crossed with the vector v\
+     * @param u - the first vector to the crossed
+     * @param v - the vector to cross u with
+     * @return the vector object that results from u x v
+     */
+    public static Vector3 crossMultiply(Vector3 u, Vector3 v){
+        double x1 = u.getComponents()[0];
+        double y1 = u.getComponents()[1];
+        double z1 = u.getComponents()[2];
+        double x2 = v.getComponents()[0];
+        double y2 = v.getComponents()[1];
+        double z2 = v.getComponents()[2];
+        
+        return(new Vector3(
+                y1*z2 - z1*y2,
+                z1*x2 - x1*z2, 
+                x1*y2 - y1*x2));
+    }
+    
+    /**
+     * Return the vector that results when the vector is crossed with another vector as a Vector3. <br>
+     * pre: none <br>
+     * post: returns the vector object that results when the vector (x,y,z) is crossed with the vector defined by (i,j,k)
+     * @param x - the magnitude of the x component of the 1st vector
+     * @param y - the magnitude of the y component of the 1st vector
+     * @param z - the magnitude of the z component of the 1st vector
+     * @param i - the magnitude of the x component of the 2nd vector
+     * @param j - the magnitude of the y component of the 2nd vector
+     * @param k - the magnitude of the z component of the 2nd vector
+     * @return the vector object that results from the crossing of (x,y,z) with (i,j,k)
+     */
+    public static Vector3 crossMultiply(double x, double y, double z, double i, double j, double k){
+        return(new Vector3(y*k - z*j,
+                z*i - x*k, 
+                x*j - y*i));
+    }
+    
+    /**
      * The scalar multiple of the vector is returned. k*Vector <br>
      * pre: none <br>
      * post: the vector defined by the scalar multiple is returned.
@@ -341,6 +408,22 @@ public class Vector3 {
         double y2 = s.getComponents()[1] * k;
         double z2 = s.getComponents()[2] * k;
         return(new Vector3(x2, y2, z2));
+    }
+    
+    /**
+     * The vector that occurs when the matrix [a, b, c] is multiplied with the vector v. <br>
+     * pre: none <br>
+     * post: The vector that is = to (ax, by, cz) is returned. 
+     * @param a - the value by which to multiply the x component
+     * @param b - the value by which to multiply the y component
+     * @param c - the value by which to multiply the z component
+     * @return the Vector3 object (ax, by, cz)
+     */
+    public static Vector3 matrixMultiply(double a, double b, double c, Vector3 v){
+        double x = v.getComponents()[0];
+        double y = v.getComponents()[1];
+        double z = v.getComponents()[2];
+        return(new Vector3(a*x,b*y,c*z));
     }
     
     public static Vector3 addVectors(Vector3 s, Vector3 d){

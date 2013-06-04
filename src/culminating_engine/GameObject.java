@@ -36,6 +36,10 @@ public class GameObject {
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
+        for(Face l: shape)
+            System.out.println(l.toString());
+        for(Face l: transformShape)
+            System.out.println(l.toString());
     }
     
     GameObject(Face[] f){
@@ -106,6 +110,42 @@ public class GameObject {
             l.translate(shapeOrigin);
             shape[i] = new Face(l);
         }
+    }
+    
+    public void rotateAroundPoint(double a, double b, double c, Vector3 v){
+        Face[] trs = new Face[shape.length];
+        for(int i = 0; i < shape.length; i++){
+            trs[i] = new Face(shape[i]);
+        }
+        for(Face s: trs){
+            s.translate(Vector3.scalarMultiply(-1, v));
+        }
+        for(Face d : trs){
+            d.rotate(a, b, c);
+        }
+        orientationX.rotate(a, b, c);
+        orientationY.rotate(a, b, c);
+        orientationZ.rotate(a, b, c);
+        for(int i = 0; i < shape.length; i++){
+            Face l = new Face(trs[i]);
+            l.translate(v);
+            shape[i] = new Face(l);
+        }
+    }
+    
+    public void scaleAroundWorld(double a, double b, double c){
+        for(Face f : shape){
+            for(int i = 0; i < 3; i++)
+                f.setPoint(i, Vector3.matrixMultiply(a, b, c, f.getPoint(i)));
+        }
+    }
+    
+    public void scaleAroundSelf(double a, double b, double c){
+        
+    }
+    
+    public void scaleAroundPoint(double a, double b, double c, Vector3 v){
+        
     }
     
     //<editor-fold desc="Setter and getters">

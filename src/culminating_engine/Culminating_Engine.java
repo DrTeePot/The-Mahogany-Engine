@@ -10,7 +10,7 @@ package culminating_engine;
  */
 public class Culminating_Engine {
     public static final double PI = Math.PI;
-
+   
     /**
      * @param args the command line arguments
      */
@@ -21,10 +21,10 @@ public class Culminating_Engine {
             new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,1,2)),
             new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,2,1)),
             new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))},
-                new Vector3(1,1,1));
-        log(si.toString());
-        si.rotateAroundWorld(PI/2, 0, 0);
-        log(si.toString());
+                new Vector3(0,1,1));
+        //log(si.toString());
+        //si.rotateAroundSelf(PI/2, 0, 0);
+        //log(si.toString());
         
     }
     
