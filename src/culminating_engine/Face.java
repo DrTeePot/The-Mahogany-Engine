@@ -12,10 +12,10 @@ import java.awt.Color;
  */
 public class Face {
     
-    Vector3[] points;
-    Color colour;
+    private Vector3[] points;
+    private Color colour;
     
-    Face(Vector3[] p){
+    public Face(Vector3[] p){
         points = new Vector3[3];
         for(int i = 0; i < 3; i ++){
             points[i] = new Vector3(p[i]);
@@ -23,7 +23,7 @@ public class Face {
         colour = Color.GRAY;
     }
     
-    Face(Face f){
+    public Face(Face f){
         points = new Vector3[3];
         for(int i = 0; i < 3; i ++){
             points[i] = new Vector3(f.getPoint(i));
@@ -31,7 +31,7 @@ public class Face {
         colour = f.getColor();
     }
     
-    Face(Vector3 p1, Vector3 p2, Vector3 p3){
+    public Face(Vector3 p1, Vector3 p2, Vector3 p3){
         points = new Vector3[3];
         points[0] = new Vector3(p1);
         points[1] = new Vector3(p2);
