@@ -437,6 +437,17 @@ public class Vector3 {
         return(new Vector3(x1 + x2, y1+y2, z1+z2));
     }
     
+    public static Vector3 subtractVectors(Vector3 s, Vector3 d){
+        double x1 = s.getComponents()[0];
+        double y1 = s.getComponents()[1];
+        double z1 = s.getComponents()[2];
+        double x2 = d.getComponents()[0];
+        double y2 = d.getComponents()[1];
+        double z2 = d.getComponents()[2];
+        
+        return(new Vector3(x1 - x2, y1-y2, z1-z2));
+    }
+    
     //</editor-fold>
     
     @Override
