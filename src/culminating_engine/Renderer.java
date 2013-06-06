@@ -6,6 +6,7 @@ package culminating_engine;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import culminating_engine.shapes.GameObject;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
