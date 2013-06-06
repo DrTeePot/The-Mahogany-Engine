@@ -5,7 +5,6 @@
 package culminating_engine.shapes;
 
 import culminating_engine.Face;
-import culminating_engine.GameObject;
 import culminating_engine.Vector3;
 
 /**
@@ -13,20 +12,19 @@ import culminating_engine.Vector3;
  * @author tristan
  */
 class RectangularPrism extends GameObject{
-    final Vector3 A;
-    final Vector3 B;
-    final Vector3 C;
-    final Vector3 D;
-    final Vector3 A2;
-    final Vector3 B2;
-    final Vector3 C2;
-    final Vector3 D2;
     
-    private Face[] shape;
-    private Vector3 shapeOrigin;
     
     public RectangularPrism(Vector3 origin, double width, double height, double depth){
-        super(null);
+        super();
+        final Vector3 A;
+        final Vector3 B;
+        final Vector3 C;
+        final Vector3 D;
+        final Vector3 A2;
+        final Vector3 B2;
+        final Vector3 C2;
+        final Vector3 D2;
+        
         double halfw = width/2;
         double halfh = height/2;
         double halfd = depth/2;
@@ -44,7 +42,7 @@ class RectangularPrism extends GameObject{
         D = new Vector3(x - halfd, y - halfw, z + halfh);
         D2 = new Vector3(x + halfd, y - halfw, z + halfh);
         
-        shape = new Face[] {
+        this.setShape(new Face[] {
             new Face(A, B, D), //front triangle 1
             new Face(D, C, B), //front triangle 2
             new Face(A2, B2, D2), //back triangle 1
@@ -55,9 +53,9 @@ class RectangularPrism extends GameObject{
             new Face(B2, C2, C), //right triangle 2
             new Face(A, B, B2), //bottom triangle 1
             new Face(A, A2, B2), //bottom triangle 2
-            new Face(D, C, C2),
-            new Face(D, D2, C2)
-        };
-        shapeOrigin = origin;
+            new Face(D, C, C2), //top triangle 1
+            new Face(D, D2, C2) //top triangle 2
+        });
+        this.setOrigin(origin);
     }
 }

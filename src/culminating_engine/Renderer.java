@@ -4,6 +4,7 @@
  */
 package culminating_engine;
 
+import culminating_engine.shapes.GameObject;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
