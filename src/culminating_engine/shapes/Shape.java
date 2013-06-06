@@ -10,11 +10,29 @@ import culminating_engine.Vector3;
  *
  * @author tristan
  */
-class RectangularPrism extends GameObject{
+public class Shape {
+    public static Face[] RECTANGLE(Vector3 origin, double width, double length){
+        final Vector3 A;
+        final Vector3 B;
+        final Vector3 C;
+        final Vector3 D;
+        
+        final double halfw = width / 2;
+        final double halfl = length / 2;
+        
+        final double x = origin.getComponents()[0];
+        final double y = origin.getComponents()[1];
+        final double z = origin.getComponents()[2];
+        
+        A = new Vector3(x, y - halfw, z - halfl);
+        B = new Vector3(x, y + halfw, z - halfl);
+        C = new Vector3(x, y + halfw, z + halfl);
+        D = new Vector3(x, y - halfw, z + halfl);
+        
+        return new Face[]{new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))};
+    }
     
-    
-    public RectangularPrism(Vector3 origin, double width, double height, double depth){
-        super();
+    public static Face[] RECTANGULARPRISM(Vector3 origin, double width, double height, double depth){
         final Vector3 A;
         final Vector3 B;
         final Vector3 C;
@@ -24,13 +42,13 @@ class RectangularPrism extends GameObject{
         final Vector3 C2;
         final Vector3 D2;
         
-        double halfw = width/2;
-        double halfh = height/2;
-        double halfd = depth/2;
+        final double halfw = width/2;
+        final double halfh = height/2;
+        final double halfd = depth/2;
         
-        double x = origin.getComponents()[0];
-        double y = origin.getComponents()[1];
-        double z = origin.getComponents()[2];
+        final double x = origin.getComponents()[0];
+        final double y = origin.getComponents()[1];
+        final double z = origin.getComponents()[2];
         
         A = new Vector3(x - halfd, y - halfw, z - halfh);
         A2 = new Vector3(x + halfd, y - halfw, z - halfh);
@@ -41,7 +59,7 @@ class RectangularPrism extends GameObject{
         D = new Vector3(x - halfd, y - halfw, z + halfh);
         D2 = new Vector3(x + halfd, y - halfw, z + halfh);
         
-        this.setShape(new Face[] {
+        return(new Face[] {
             new Face(A, B, D), //front triangle 1
             new Face(D, C, B), //front triangle 2
             new Face(A2, B2, D2), //back triangle 1
@@ -55,6 +73,7 @@ class RectangularPrism extends GameObject{
             new Face(D, C, C2), //top triangle 1
             new Face(D, D2, C2) //top triangle 2
         });
-        this.setOrigin(origin);
     }
+    
+    
 }

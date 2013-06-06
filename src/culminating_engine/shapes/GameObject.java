@@ -4,7 +4,6 @@
  */
 package culminating_engine.shapes;
 
-import culminating_engine.Face;
 import culminating_engine.Vector3;
 
 /**
@@ -48,7 +47,34 @@ public class GameObject {
     GameObject(Face[] f){
         shape = new Face[f.length];
         shape = f;
-        shapeOrigin = new Vector3(0,0,0);
+        
+        double nx = 0;
+        double px = 0;
+        double ny = 0;
+        double py = 0;
+        double nz = 0;
+        double pz = 0;
+        
+        for(Face l : f){
+            for (Vector3 v : l.getPoints()){
+                if(v.getComponents()[0] > px){
+                    px = v.getComponents()[0];
+                }else if(v.getComponents()[0] < nx){
+                    
+                }
+                if(v.getComponents()[1] > py){
+                    
+                } else if(v.getComponents()[1] < ny){
+                    
+                }
+                if(v.getComponents()[2] > pz){
+                    
+                } else if(v.getComponents()[1] < nz){
+                    
+                }
+            }
+        }
+        
         populateTransformShape();
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
@@ -65,6 +91,8 @@ public class GameObject {
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
     }
+    
+    
     
     /**
      * The function that creates the relative position vectors to the origin of the object rather than
