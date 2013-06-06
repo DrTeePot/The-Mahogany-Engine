@@ -12,8 +12,8 @@ import java.math.*;
  */
 public class Camera extends Vector3 {
     
-    double fov;
-    Vector3 directionVector;
+    private double fov;
+    private Vector3 directionVector;
     
     final double PI = Math.PI;
     
@@ -21,7 +21,7 @@ public class Camera extends Vector3 {
      * Create a camera object at point (i1, i2, i3) pointing in direction 
      *      (xTheta, yTheta, zTheta) and with a field of view of (fov)
      * @param i - the camera position, a Vector3
-     * @param f - the field of view, in radians (0 < f < pi)
+     * @param f - the field of view, in radians (0 < f < pi/2)
      * @param d - a direction vector representing the camera's direction
      */
     Camera(Vector3 i, double f, Vector3 d){
