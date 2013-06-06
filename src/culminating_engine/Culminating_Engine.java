@@ -4,6 +4,7 @@
  */
 package culminating_engine;
 
+import culminating_engine.shapes.GameObject;
 import culminating_engine.shapes.Cube;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;

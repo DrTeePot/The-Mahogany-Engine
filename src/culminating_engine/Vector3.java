@@ -445,7 +445,7 @@ public class Vector3 {
         double y2 = d.getComponents()[1];
         double z2 = d.getComponents()[2];
         
-        return(new Vector3(x1 - x2, y1-y2, z1-z2));
+        return(new Vector3(x2 - x1, y2-y1, z2-z1));
     }
     
     //</editor-fold>

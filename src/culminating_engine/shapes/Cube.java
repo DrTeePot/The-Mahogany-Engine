@@ -15,4 +15,5 @@ public class Cube extends RectangularPrism{
     public Cube(Vector3 origin, double dimension){
         super(origin, dimension, dimension, dimension);
     }
+    
 }
