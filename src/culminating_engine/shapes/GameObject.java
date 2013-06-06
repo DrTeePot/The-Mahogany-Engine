@@ -26,7 +26,7 @@ public class GameObject {
      * @param f - the collection of Face objects that make up this object.
      * @param origin - the point of origin for this object. The object will rotate and scale around this point.
      */
-    GameObject(Face[] f, Vector3 origin){
+    public GameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
         shape = f;
         shapeOrigin = new Vector3(origin);
@@ -43,7 +43,7 @@ public class GameObject {
      * post: A GameObject object is created.
      * @param f - the collection of Face objects that make up this object.
      */
-    GameObject(Face[] f){
+    public GameObject(Face[] f){
         shape = new Face[f.length];
         shape = f;
         
@@ -83,7 +83,7 @@ public class GameObject {
         orientationZ = new Vector3(0,0,1);
     }
     
-    GameObject(){
+    public GameObject(){
         shape = new Face[]{ 
             new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))      
         };
