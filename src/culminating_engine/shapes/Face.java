@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package culminating_engine;
+package culminating_engine.shapes;
 
+import culminating_engine.Vector3;
 import java.awt.Color;
 
 /**
