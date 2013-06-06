@@ -6,6 +6,7 @@ package culminating_engine;
 
 import culminating_engine.shapes.GameObject;
 import culminating_engine.shapes.Cube;
+import culminating_engine.shapes.Face;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;

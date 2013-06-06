@@ -11,7 +11,6 @@ import culminating_engine.Vector3;
  * @author tristan
  */
 public class GameObject {
-
     private Vector3 shapeOrigin;
     private Face[] shape;
     private Face[] transformShape;
@@ -57,20 +56,23 @@ public class GameObject {
         
         for(Face l : f){
             for (Vector3 v : l.getPoints()){
+                
                 if(v.getComponents()[0] > px){
                     px = v.getComponents()[0];
                 }else if(v.getComponents()[0] < nx){
-                    
+                    nx = v.getComponents()[0];
                 }
+                
                 if(v.getComponents()[1] > py){
-                    
+                    py = v.getComponents()[1];
                 } else if(v.getComponents()[1] < ny){
-                    
+                    ny = v.getComponents()[1];
                 }
+                
                 if(v.getComponents()[2] > pz){
-                    
-                } else if(v.getComponents()[1] < nz){
-                    
+                    pz = v.getComponents()[2];
+                } else if(v.getComponents()[2] < nz){
+                    nz = v.getComponents()[2];
                 }
             }
         }
