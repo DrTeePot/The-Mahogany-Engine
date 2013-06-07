@@ -24,9 +24,9 @@ class RectangularPrism extends GameObject{
         final Vector3 C2;
         final Vector3 D2;
         
-        double halfw = width/2;
-        double halfh = height/2;
-        double halfd = depth/2;
+        double halfw = width / 2;
+        double halfh = height / 2;
+        double halfd = depth / 2;
         
         double x = origin.getComponents()[0];
         double y = origin.getComponents()[1];
@@ -41,7 +41,7 @@ class RectangularPrism extends GameObject{
         D = new Vector3(x - halfd, y - halfw, z + halfh);
         D2 = new Vector3(x + halfd, y - halfw, z + halfh);
         
-        this.setShape(new Face[] {
+        this.setGameObject(new Face[] {
             new Face(A, B, D), //front triangle 1
             new Face(D, C, B), //front triangle 2
             new Face(A2, B2, D2), //back triangle 1
@@ -54,7 +54,6 @@ class RectangularPrism extends GameObject{
             new Face(A, A2, B2), //bottom triangle 2
             new Face(D, C, C2), //top triangle 1
             new Face(D, D2, C2) //top triangle 2
-        });
-        this.setOrigin(origin);
+        }, origin);
     }
 }

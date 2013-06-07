@@ -28,7 +28,9 @@ public class GameObject {
      */
     public GameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
-        shape = f;
+        for(int i = 0; i < f.length; i++){
+            shape[i] = new Face(f[i]);
+        }
         shapeOrigin = new Vector3(origin);
         populateTransformShape();
         orientationX = new Vector3(1,0,0);
@@ -45,7 +47,9 @@ public class GameObject {
      */
     public GameObject(Face[] f){
         shape = new Face[f.length];
-        shape = f;
+        for(int i = 0; i < f.length; i++){
+            shape[i] = new Face(f[i]);
+        }
         
         double nx = 0;
         double px = 0;
@@ -190,7 +194,9 @@ public class GameObject {
     
     public void setGameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
-        shape = f;
+        for(int i = 0; i < f.length; i++){
+            shape[i] = new Face(f[i]);
+        }
         shapeOrigin = new Vector3(origin);
         populateTransformShape();
         orientationX = new Vector3(1,0,0);
