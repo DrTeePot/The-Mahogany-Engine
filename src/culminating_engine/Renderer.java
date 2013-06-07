@@ -4,11 +4,12 @@
  */
 package culminating_engine;
 
+import culminating_engine.shapes.Face;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import culminating_engine.shapes.GameObject;
 import java.awt.Point;
-import java.awt.geom.AffineTransform;
+import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +24,11 @@ public class Renderer {
     private Camera camera;
     private double screenSize;
     
+    private Vector3 directionV = new Vector3(1,0,0); //All is rendered as if the
+                                                     //camera's direction vector 
+                                                     //were this, and everything
+                                                     //else was translated accordingly
+    
     
     /**
      * Create a renderer object, which is a factory that has the ability to 
@@ -34,7 +40,7 @@ public class Renderer {
      * @param s - the size of the screen (measured diagonally)
      */
     Renderer(GameObject[] o, Camera c, double s){
-        gameObjects.addAll(Arrays.asList(o));
+        gameObjects.addAll(rotateObjectsRelatively(o));
         camera = c;
         screenSize = s;
     }
@@ -48,7 +54,7 @@ public class Renderer {
      */
     public boolean pointInFOV(Vector3 v){
         Vector3 d1 = camera.getDirectionVector(); 
-        Vector3 d2 = Vector3.subtractVectors(v, camera.getPositionVector());
+        Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(),v);
         
         double angle = d1.getAngle(d2);
         
@@ -73,8 +79,9 @@ public class Renderer {
         double xyAngle , xzAngle;
         
         if (pointInFOV(v)){
-            Vector3 d1 = camera.getDirectionVector();
-            Vector3 d2 = Vector3.subtractVectors(v, camera.getPositionVector());
+//            Vector3 d1 = camera.getDirectionVector();
+            Vector3 d1 = directionV;
+            Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v);
 
             Vector3 d1xy = new Vector3(d1.getMagnitude_componentX(), d1.getMagnitude_componentY(), 0);
             Vector3 d2xy = new Vector3(d2.getMagnitude_componentX(), d2.getMagnitude_componentY(), 0);
@@ -97,7 +104,8 @@ public class Renderer {
             
             return new Point((int)xCoordinate, (int)yCoordinate);
         } else {
-            return new Point(0,0);
+            System.out.println("Not in FOV");
+            return null;
         }
     }
     
@@ -119,6 +127,55 @@ public class Renderer {
         return flipped;
     }
     
+    private Polygon threePointsInFovTriangle(Face f){
+        Point p;
+        int[] xCoordinates = new int[3];
+        int[] yCoordinates = new int[3];
+        
+        for (int vector = 0; vector < 3; vector++){
+            
+            p = V3toV2(f.getPoint(vector));
+            xCoordinates[vector] = p.x + (int)screenSize/2;
+            yCoordinates[vector] = p.y + (int)screenSize/2;
+        
+        }
+        
+        return new Polygon(xCoordinates, yCoordinates, 3);
+    }
+    
+    private Polygon twoPointsInFovTriangle(Face f){
+        return null;
+    }
+    
+    private Polygon onePointInFovTriangle(Face f){
+        Point p;
+        int[] xCoordinates = new int[3];
+        int[] yCoordinates = new int[3];
+        
+        Vector3 pIn = null;
+        
+        for (int vector = 0; vector < 3; vector++){
+            
+            if (pointInFOV(f.getPoint(vector))){
+                pIn = f.getPoint(vector);
+                break;
+            }
+        }
+        
+        for (int vector = 0; vector < 3; vector++){
+            if (pointInFOV(f.getPoint(vector))){
+                p = V3toV2(f.getPoint(vector));
+                xCoordinates[vector] = p.x + (int)screenSize/2;
+                yCoordinates[vector] = p.y + (int)screenSize/2;
+            } else {
+                
+            }
+                
+        }
+        
+        return null;
+    }
+    
     /**
      * Returns a buffered image of the scene, in which the outline to every Face
      *      object is shown
@@ -129,29 +186,65 @@ public class Renderer {
     public BufferedImage wireFrameRender(){
         BufferedImage output = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
         Graphics2D wire2D = output.createGraphics();
-        
-        Point p = new Point();
-        int[] xCoordinates = new int[3];
-        int[] yCoordinates = new int[3];
-        
+                
         for (int gameObject = 0; gameObject < gameObjects.size(); gameObject++){
             for (int face = 0; face < gameObjects.get(gameObject).getShape().length;face++){
+                
+                int numberOfPointsInFOV = 0;
                 for (int vector = 0; vector < 3; vector++){
-                    
-                    p = V3toV2(gameObjects.get(gameObject).getFace(face).getPoint(vector));
-                    xCoordinates[vector] = p.x + (int)screenSize/2;
-                    yCoordinates[vector] = p.y + (int)screenSize/2;
-                    
+                    if (pointInFOV(gameObjects.get(gameObject).getFace(face).getPoint(vector))){
+                        numberOfPointsInFOV ++;
+                    }
                 }
                 
+                Polygon triangle = null;
+                
+                switch (numberOfPointsInFOV){
+                        case 1: triangle = onePointInFovTriangle(gameObjects.get(gameObject).getFace(face));
+                        case 2: triangle = twoPointsInFovTriangle(gameObjects.get(gameObject).getFace(face));
+                        case 3: triangle = threePointsInFovTriangle(gameObjects.get(gameObject).getFace(face));
+                        default: break;
+                }
+                                
                 wire2D.setColor(Color.BLACK);
-                wire2D.drawPolygon(xCoordinates, yCoordinates, 3);
+                wire2D.drawPolygon(triangle);
             
             }
         }
         
         wire2D.dispose();
         return flipVertically(output);
+    }
+    
+    private ArrayList<GameObject> rotateObjectsRelatively(GameObject[] o){
+        ArrayList<GameObject> a = new ArrayList(); 
+        
+        double xyAngle, xzAngle;
+        Vector3 cameraD = camera.getDirectionVector();
+
+        Vector3 CameraDxy = new Vector3(cameraD.getMagnitude_componentX(), cameraD.getMagnitude_componentY(), 0);
+        Vector3 directionVxy = new Vector3(directionV.getMagnitude_componentX(), directionV.getMagnitude_componentY(), 0);
+        Vector3 CameraDxz = new Vector3(cameraD.getMagnitude_componentX(), 0, cameraD.getMagnitude_componentZ());
+        Vector3 directionVxz = new Vector3(directionV.getMagnitude_componentX(), 0, directionV.getMagnitude_componentZ());
+
+        if (cameraD.getMagnitude_componentY() < 0){
+            xyAngle = directionVxy.getAngle(CameraDxy) * -1;
+        } else{
+            xyAngle = directionVxy.getAngle(CameraDxy);
+        }
+        if (cameraD.getMagnitude_componentZ() <0){
+            xzAngle = directionVxz.getAngle(CameraDxz) * -1;
+        } else {
+            xzAngle = directionVxz.getAngle(CameraDxz);
+        }    
+                
+        for (GameObject g : o){
+            GameObject b = new GameObject(o);
+            b.rotateAroundPoint(0, -xzAngle ,-xyAngle , camera.getPositionVector());
+            a.add(b);
+        }
+        
+        return a;
     }
     
     public BufferedImage box(){
@@ -163,15 +256,5 @@ public class Renderer {
         wire2D.dispose();
         
         return output;
-    }
-    
-    /**Sorts the gameObjects array list so that the object with the back most
-     *      coordinate (relative to the camera) is first, and the object with
-     *      the front most coordinate (relative to the camera) is last
-     * pre: none
-     * post: the gameObjects arrayList has been sorted back to front
-     */
-    public void sortGameObjects_BackToFront(){
-        
     }
 }
