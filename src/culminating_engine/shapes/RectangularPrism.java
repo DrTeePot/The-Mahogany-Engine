@@ -10,7 +10,7 @@ import culminating_engine.Vector3;
  *
  * @author tristan
  */
-class RectangularPrism extends GameObject{
+public class RectangularPrism extends GameObject{
     
     
     public RectangularPrism(Vector3 origin, double width, double height, double depth){
