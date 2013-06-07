@@ -32,7 +32,7 @@ public class Shape {
         return new Face[]{new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))};
     }
     
-    public static Face[] RECTANGULARPRISM(Vector3 origin, double width, double height, double depth){
+    public static Face[] RECTANGULAR_PRISM(Vector3 origin, double width, double height, double depth){
         final Vector3 A;
         final Vector3 B;
         final Vector3 C;
@@ -75,5 +75,11 @@ public class Shape {
         });
     }
     
+    public static final Face[] CUBE(Vector3 origin, double dimension){
+        return(RECTANGULAR_PRISM(origin, dimension, dimension, dimension));
+    }
     
+    public static final Face[] TRIANGULAR_PYRADMID(Vector3 origin, double dimension){
+        //take a height, half height is where origin will fall. 
+    }
 }

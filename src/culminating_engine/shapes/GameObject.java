@@ -81,6 +81,7 @@ public class GameObject {
             }
         }
         
+        shapeOrigin = new Vector3(nx + ((px - nx)/2),ny + ((py - ny)/2), nz + ((pz - nz)/2));
         populateTransformShape();
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
@@ -105,6 +106,7 @@ public class GameObject {
         orientationY = new Vector3(g.getOrientation()[1]);
         orientationZ = new Vector3(g.getOrientation()[2]);
     }
+    
     public GameObject(){
         shape = new Face[]{ 
             new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))      
