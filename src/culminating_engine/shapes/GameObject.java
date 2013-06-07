@@ -87,6 +87,24 @@ public class GameObject {
         orientationZ = new Vector3(0,0,1);
     }
     
+    /**
+     * Creates a new instance of a GameObject from another GameObject. Deep copy.
+     * Initialized to have the same orientation as the given GameObject. <br>
+     * pre: none <br>
+     * post: A GameObject object is created.
+     * @param g - the GameObject to be copied.
+     */
+    public GameObject(GameObject g){
+        shape = new Face[g.getShape().length];
+        for(int i = 0; i < g.getShape().length; i++){
+            shape[i] = new Face(g.getShape()[i]);
+        }
+        shapeOrigin = new Vector3(g.getOrigin());
+        populateTransformShape();
+        orientationX = new Vector3(g.getOrientation()[0]);
+        orientationY = new Vector3(g.getOrientation()[1]);
+        orientationZ = new Vector3(g.getOrientation()[2]);
+    }
     public GameObject(){
         shape = new Face[]{ 
             new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))      
