@@ -5,10 +5,8 @@
 package culminating_engine;
 
 import culminating_engine.shapes.GameObject;
-import culminating_engine.shapes.Cube;
 import culminating_engine.shapes.Face;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -24,17 +22,6 @@ public class Culminating_Engine {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
-//        GameObject si = new GameObject(new Face[] { 
-//            new Face(new Vector3(0,1,1), new Vector3(0,2,1), new Vector3(0,1,2)),
-//            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,1,2)),
-//            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,2,1)),
-//            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
-//        }, new Vector3(0,1,1));
-//        GameObject si = new Cube(new Vector3(1,1,1), 10);
-//        log(si.toString());
-//        si.rotateAroundWorld(PI/2,0,0);
-//        log(si.toString());
         
         GameObject si = new GameObject(new Face[] { 
             new Face(new Vector3(0,1,1), new Vector3(0,2,1), new Vector3(0,1,2)),

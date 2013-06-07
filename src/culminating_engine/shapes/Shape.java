@@ -79,7 +79,7 @@ public class Shape {
         return(RECTANGULAR_PRISM(origin, dimension, dimension, dimension));
     }
     
-    public static final Face[] TRIANGULAR_PYRADMID(Vector3 origin, double dimension){
-        //take a height, half height is where origin will fall. 
-    }
+//    public static final Face[] TRIANGULAR_PYRADMID(Vector3 origin, double dimension){
+//        //take a height, half height is where origin will fall. 
+//    }
 }
