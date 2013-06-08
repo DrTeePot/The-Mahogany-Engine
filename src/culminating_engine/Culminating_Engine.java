@@ -31,11 +31,11 @@ public class Culminating_Engine {
 //            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
 //        }, new Vector3(0,1,1));
         
-        GameObject si = new RectangularPrism(new Vector3(0,0,0), 2,2,2);
-        si.rotateAroundSelf(PI/3, PI/2, PI/3.2);
+        GameObject si = new RectangularPrism(new Vector3(10,10,10), 1,1,1);
+        si.rotateAroundSelf(PI, PI, PI);
         GameObject[] world = {si};
         
-        Camera c = new Camera(new Vector3(-5,0,0), Math.toRadians(35), new Vector3(1,0,0));
+        Camera c = new Camera(new Vector3(0,0,0), Math.toRadians(35), new Vector3(1,1,1));
         Renderer r = new Renderer(world, c, 600);
         
         BufferedImage b = (BufferedImage)r.wireFrameRender();
