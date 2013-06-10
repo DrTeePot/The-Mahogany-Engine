@@ -226,6 +226,31 @@ public class Vector3 {
         this.setVector(xc, yc, zc);
     }
     
+    public void rotateTowards(Vector3 v, double r){
+        Vector3 n = new Vector3(Vector3.crossMultiply(this, v)); //vector perpendicular to both this and v
+        
+        this.rotateAround(n, r);
+    }
+    
+    public void rotateAround(Vector3 v, double d){
+        double vx = v.getComponents()[0];
+        double vy = v.getComponents()[1];
+        double vz = v.getComponents()[2];
+        
+        double cos = Math.cos(d);
+        double sin = Math.sin(d);
+        
+        double dot = Vector3.dotMultiply(this, v);
+        
+        double rx = vx * dot * (1-cos) + x * cos + ( (vy * z) - (vz * y) ) * sin;
+        double ry = vy * dot * (1-cos) + y * cos + ( (vz * x) - (vx * z) ) * sin;
+        double rz = vz * dot * (1-cos) + z * cos + ( (vx * y) - (vy * x) ) * sin;
+        
+        x = rx;
+        y = ry;
+        z = rz;
+    }
+    
     /**
      * Return the dot product of the vector by another vector as a double <br>
      * pre: none <br>
@@ -424,6 +449,10 @@ public class Vector3 {
         double y = v.getComponents()[1];
         double z = v.getComponents()[2];
         return(new Vector3(a*x,b*y,c*z));
+    }
+    
+    public static double getAngle(Vector3 u, Vector3 v){
+        return(Math.acos(Vector3.dotMultiply(u,v) / (u.getMagnitude() * v.getMagnitude() ) ) );
     }
     
     public static Vector3 addVectors(Vector3 s, Vector3 d){
