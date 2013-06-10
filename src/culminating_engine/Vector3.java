@@ -233,22 +233,35 @@ public class Vector3 {
     }
     
     public void rotateAround(Vector3 v, double d){
-        double vx = v.getComponents()[0];
-        double vy = v.getComponents()[1];
-        double vz = v.getComponents()[2];
+        //System.out.println(this.getMagnitude());
+        double magThis = this.getMagnitude();
+        double magV = v.getMagnitude();
+        
+        double vx = v.getComponents()[0]/magV;
+        double vy = v.getComponents()[1]/magV;
+        double vz = v.getComponents()[2]/magV;
+        
+        
+        //System.out.println(vx + " " + vy + " " + vz);
+        //System.out.println(Vector3.getMagnitude(vx, vy, vz));
+                 
+        
+        double x1 = x / magThis;
+        double y1 = y / magThis;
+        double z1 = z / magThis;
         
         double cos = Math.cos(d);
         double sin = Math.sin(d);
         
-        double dot = Vector3.dotMultiply(this, v);
+        double dot = Vector3.dotMultiply(x1,y1,z1, vx, vy, vz);
         
-        double rx = vx * dot * (1-cos) + x * cos + ( (vy * z) - (vz * y) ) * sin;
-        double ry = vy * dot * (1-cos) + y * cos + ( (vz * x) - (vx * z) ) * sin;
-        double rz = vz * dot * (1-cos) + z * cos + ( (vx * y) - (vy * x) ) * sin;
+        double rx = vx * dot * (1-cos) + x1 * cos + ( (vy * z1) - (vz * y1) ) * sin;
+        double ry = vy * dot * (1-cos) + y1 * cos + ( (vz * x1) - (vx * z1) ) * sin;
+        double rz = vz * dot * (1-cos) + z1 * cos + ( (vx * y1) - (vy * x1) ) * sin;
         
-        x = rx;
-        y = ry;
-        z = rz;
+        x = rx * magThis;
+        y = ry * magThis;
+        z = rz * magThis;
     }
     
     /**
