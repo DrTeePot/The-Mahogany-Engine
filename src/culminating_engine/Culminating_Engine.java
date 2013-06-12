@@ -32,15 +32,15 @@ public class Culminating_Engine {
 //            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
 //        }, new Vector3(0,1,1));
         
-        GameObject box = new RectangularPrism(new Vector3(10,0,0), 10,7,5);
+        GameObject box = new RectangularPrism(new Vector3(10,10,10), 5,5,5);
         GameObject tri = new GameObject(new Face[] {
              new Face(new Vector3(5,0,0), new Vector3(6,0,0),new Vector3(0,5,0))
              }, new Vector3(0,0,0));
         
-        box.rotateAroundSelf(PI, PI, PI/5);
+        box.rotateAroundSelf(PI, PI, PI);
         GameObject[] world = {box};
         
-        Camera c = new Camera(new Vector3(0,0,0), Math.toRadians(35), new Vector3(1,0,0));
+        Camera c = new Camera(new Vector3(0,0,0), Math.toRadians(35), new Vector3(1,1,1));
         Renderer r = new Renderer(world, c, 600);
         
         BufferedImage b = (BufferedImage)r.wireFrameRender();
