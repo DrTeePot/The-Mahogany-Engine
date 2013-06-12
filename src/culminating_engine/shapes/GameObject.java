@@ -118,7 +118,16 @@ public class GameObject {
         orientationZ = new Vector3(0,0,1);
     }
     
-    
+    public GameObject(Vector3 origin){
+        shape = new Face[]{ 
+            new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))      
+        };
+        shapeOrigin = new Vector3(origin);
+        populateTransformShape();
+        orientationX = new Vector3(1,0,0);
+        orientationY = new Vector3(0,1,0);
+        orientationZ = new Vector3(0,0,1);
+    }
     
     /**
      * The function that creates the relative position vectors to the origin of the object rather than
