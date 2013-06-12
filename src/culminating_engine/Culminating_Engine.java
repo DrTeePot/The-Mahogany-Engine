@@ -30,7 +30,7 @@ public class Culminating_Engine {
 //            new Face(new Vector3(0,1,1), new Vector3(1,1,1), new Vector3(0,2,1)),
 //            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
 //        }, new Vector3(0,1,1));
-        
+        /*
         GameObject si = new RectangularPrism(new Vector3(10,10,10), 1,1,1);
         si.rotateAroundSelf(PI, PI, PI);
         GameObject[] world = {si};
@@ -42,8 +42,13 @@ public class Culminating_Engine {
         
         File outputfile = new File("image.jpg");
         ImageIO.write(b, "jpg", outputfile);
+        */
+        Vector3 v = new Vector3(-2,-0.00001,0);
+        Vector3 u = new Vector3(5,0,0);
+        v.rotateTowards(u, PI/2);
         
-
+        log(v.toString());
+        
     }
     
     private static void log(String s){
