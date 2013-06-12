@@ -226,6 +226,44 @@ public class Vector3 {
         this.setVector(xc, yc, zc);
     }
     
+    public void rotateTowards(Vector3 v, double r){
+        Vector3 n = new Vector3(Vector3.crossMultiply(this, v)); //vector perpendicular to both this and v
+        
+        this.rotateAround(n, r);
+    }
+    
+    public void rotateAround(Vector3 v, double d){
+        //System.out.println(this.getMagnitude());
+        double magThis = this.getMagnitude();
+        double magV = v.getMagnitude();
+        
+        double vx = v.getComponents()[0]/magV;
+        double vy = v.getComponents()[1]/magV;
+        double vz = v.getComponents()[2]/magV;
+        
+        
+        //System.out.println(vx + " " + vy + " " + vz);
+        //System.out.println(Vector3.getMagnitude(vx, vy, vz));
+                 
+        
+        double x1 = x / magThis;
+        double y1 = y / magThis;
+        double z1 = z / magThis;
+        
+        double cos = Math.cos(d);
+        double sin = Math.sin(d);
+        
+        double dot = Vector3.dotMultiply(x1,y1,z1, vx, vy, vz);
+        
+        double rx = vx * dot * (1-cos) + x1 * cos + ( (vy * z1) - (vz * y1) ) * sin;
+        double ry = vy * dot * (1-cos) + y1 * cos + ( (vz * x1) - (vx * z1) ) * sin;
+        double rz = vz * dot * (1-cos) + z1 * cos + ( (vx * y1) - (vy * x1) ) * sin;
+        
+        x = rx * magThis;
+        y = ry * magThis;
+        z = rz * magThis;
+    }
+    
     /**
      * Return the dot product of the vector by another vector as a double <br>
      * pre: none <br>
@@ -424,6 +462,10 @@ public class Vector3 {
         double y = v.getComponents()[1];
         double z = v.getComponents()[2];
         return(new Vector3(a*x,b*y,c*z));
+    }
+    
+    public static double getAngle(Vector3 u, Vector3 v){
+        return(Math.acos(Vector3.dotMultiply(u,v) / (u.getMagnitude() * v.getMagnitude() ) ) );
     }
     
     public static Vector3 addVectors(Vector3 s, Vector3 d){
