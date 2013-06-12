@@ -48,7 +48,12 @@ public class Culminating_Engine {
         File outputfile = new File("image.jpg");
         ImageIO.write(b, "jpg", outputfile);
         
-
+        Vector3 v = new Vector3(-2,-0.00001,0);
+        Vector3 u = new Vector3(5,0,0);
+        v.rotateTowards(u, PI/2);
+        
+        log(v.toString());
+        
     }
     
     private static void log(String s){
