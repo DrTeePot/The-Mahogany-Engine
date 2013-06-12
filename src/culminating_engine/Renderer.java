@@ -76,13 +76,17 @@ public class Renderer {
         double xyAngle , xzAngle;
 
         Vector3 d1 = camera.getDirectionVector();
+        
+        
+        
         Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v);
 
         //projection on the xy-plane
+        Vector3 d1xy = new Vector3(d1.getMagnitude_componentX(), d1.getMagnitude_componentY(), 0);
         Vector3 d2xy = new Vector3(d2.getMagnitude_componentX(), d2.getMagnitude_componentY(), 0);
 
         //projection on the xzPlane
-        //Vector3 d1xz = new Vector3(d1.getMagnitude_componentX(), 0, d1.getMagnitude_componentZ());
+        Vector3 d1xz = new Vector3(d1.getMagnitude_componentX(), 0, d1.getMagnitude_componentZ());
         Vector3 d2xz = new Vector3(d2.getMagnitude_componentX(), 0, d2.getMagnitude_componentZ());
 
         if (d2.getMagnitude_componentY() < 0){
@@ -193,11 +197,6 @@ public class Renderer {
                 + 4*Math.pow(za,2)*zv*zo - 2*Math.cos(2*FOV)*zv*zo - 2*zv*zo;
 
         
-//        System.out.println("b^2 + 4ac: " + (Math.pow(b,2) - 4*a*c));
-//        System.out.println("a: " + a);
-//        System.out.println("b: " + b);
-//        System.out.println("c: " + c);
-        
         double[] t = new double[2];
         if (a != 0){ //Full line has two intersections
             t = quadraticFormula(a, b, c);
@@ -273,7 +272,7 @@ public class Renderer {
         
             line3D = makeAllPointsInFOV(p1,p2);
             
-            if (line3D[0] != null){
+            if ((line3D[0] != null)&&(line3D[1] != null)){
                 line2D[0] = V3toV2(line3D[0]);
                 line2D[1] = V3toV2(line3D[1]);
             }else{
