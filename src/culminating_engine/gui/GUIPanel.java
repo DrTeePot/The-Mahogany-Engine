@@ -69,8 +69,10 @@ public class GUIPanel extends JPanel implements Runnable{
     
     
     public void cycle() { //Change ALL THE VARS
-        //camera.rotateAroundWorld(0, 0, Math.toRadians(1));
-        box1.rotateAroundSelf(0, 0, Math.toRadians(1), new Vector3(10,0,0));
+        camera.rotateAroundWorld(0, 0, Math.toRadians(1));
+        //box1.rotateAroundPoint(0, 0, Math.toRadians(1), new Vector3(10,0,0));
+        
+        System.out.println(camera.getOrientation()[0]);
         
         repaint();
     }
