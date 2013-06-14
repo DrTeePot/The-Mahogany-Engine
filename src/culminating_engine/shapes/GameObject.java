@@ -18,6 +18,12 @@ public class GameObject {
     private Vector3 orientationY;
     private Vector3 orientationZ;
     
+    private boolean renderable;
+    private boolean physicsable;
+    private boolean collideable;
+    private boolean makesSound;
+    
+    
     /**
      * Creates a new instance of a GameObject with an arbitrary number of faces and an origin.
      * Initialized to have the same orientation as the world. <br>
@@ -36,8 +42,35 @@ public class GameObject {
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
+        
+        
     }
     
+    /**
+     * Creates a new instance of a GameObject with an arbitrary number of faces and an origin.
+     * Initialized to have the same orientation as the world. <br>
+     * pre: none <br>
+     * post: A GameObject object is created.
+     * @param f - the collection of Face objects that make up this object.
+     * @param origin - the point of origin for this object. The object will rotate and scale around this point.
+     */
+    public GameObject(Face[] f, Vector3 origin, boolean rend, boolean physic, boolean collide, boolean sound){
+        shape = new Face[f.length];
+        for(int i = 0; i < f.length; i++){
+            shape[i] = new Face(f[i]);
+        }
+        shapeOrigin = new Vector3(origin);
+        populateTransformShape();
+        orientationX = new Vector3(1,0,0);
+        orientationY = new Vector3(0,1,0);
+        orientationZ = new Vector3(0,0,1);
+        
+        renderable = rend;
+        physicsable = physic;
+        collideable = collide;
+        makesSound = sound;
+    }
+            
     /**
      * Creates a new instance of a GameObject with an arbitrary number of faces and default origin.
      * Initialized to have the same orientation as the world. <br>
@@ -89,6 +122,65 @@ public class GameObject {
     }
     
     /**
+     * Creates a new instance of a GameObject with an arbitrary number of faces and default origin.
+     * Initialized to have the same orientation as the world. <br>
+     * pre: none <br>
+     * post: A GameObject object is created.
+     * @param f - the collection of Face objects that make up this object
+     * @param rend - whether the object is renderable
+     * @param physic - whether the object obeys physics
+     * @param collide - whether the object performs collision
+     * @param sound - whether the object makes sounds
+     */
+    public GameObject(Face[] f, boolean rend, boolean physic, boolean collide, boolean sound){
+        shape = new Face[f.length];
+        for(int i = 0; i < f.length; i++){
+            shape[i] = new Face(f[i]);
+        }
+        
+        double nx = 0;
+        double px = 0;
+        double ny = 0;
+        double py = 0;
+        double nz = 0;
+        double pz = 0;
+        
+        for(Face l : f){
+            for (Vector3 v : l.getPoints()){
+                
+                if(v.getComponents()[0] > px){
+                    px = v.getComponents()[0];
+                }else if(v.getComponents()[0] < nx){
+                    nx = v.getComponents()[0];
+                }
+                
+                if(v.getComponents()[1] > py){
+                    py = v.getComponents()[1];
+                } else if(v.getComponents()[1] < ny){
+                    ny = v.getComponents()[1];
+                }
+                
+                if(v.getComponents()[2] > pz){
+                    pz = v.getComponents()[2];
+                } else if(v.getComponents()[2] < nz){
+                    nz = v.getComponents()[2];
+                }
+            }
+        }
+        
+        shapeOrigin = new Vector3(nx + ((px - nx)/2),ny + ((py - ny)/2), nz + ((pz - nz)/2));
+        populateTransformShape();
+        orientationX = new Vector3(1,0,0);
+        orientationY = new Vector3(0,1,0);
+        orientationZ = new Vector3(0,0,1);
+        
+        renderable = rend;
+        physicsable = physic;
+        collideable = collide;
+        makesSound = sound;
+    }
+    
+    /**
      * Creates a new instance of a GameObject from another GameObject. Deep copy.
      * Initialized to have the same orientation as the given GameObject. <br>
      * pre: none <br>
@@ -105,6 +197,30 @@ public class GameObject {
         orientationX = new Vector3(g.getOrientation()[0]);
         orientationY = new Vector3(g.getOrientation()[1]);
         orientationZ = new Vector3(g.getOrientation()[2]);
+    }
+    
+    /**
+     * Creates a new instance of a GameObject from another GameObject. Deep copy.
+     * Initialized to have the same orientation as the given GameObject. <br>
+     * pre: none <br>
+     * post: A GameObject object is created.
+     * @param g - the GameObject to be copied.
+     */
+    public GameObject(GameObject g, boolean rend, boolean physic, boolean collide, boolean sound){
+        shape = new Face[g.getShape().length];
+        for(int i = 0; i < g.getShape().length; i++){
+            shape[i] = new Face(g.getShape()[i]);
+        }
+        shapeOrigin = new Vector3(g.getOrigin());
+        populateTransformShape();
+        orientationX = new Vector3(g.getOrientation()[0]);
+        orientationY = new Vector3(g.getOrientation()[1]);
+        orientationZ = new Vector3(g.getOrientation()[2]);
+        
+        renderable = rend;
+        physicsable = physic;
+        collideable = collide;
+        makesSound = sound;
     }
     
     public GameObject(){
@@ -171,6 +287,7 @@ public class GameObject {
         for(Face d : shape){
             d.rotate(a, b, c);
         }
+        populateTransformShape();
         shapeOrigin.rotate(a, b, c);
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
