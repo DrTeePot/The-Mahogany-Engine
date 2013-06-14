@@ -4,13 +4,14 @@
  */
 package culminating_engine.shapes;
 
+import culminating_engine.Rigidbody;
 import culminating_engine.Vector3;
 
 /**
  *
  * @author tristan
  */
-public class GameObject {
+public abstract class GameObject {
     private Vector3 shapeOrigin;
     private Face[] shape;
     private Face[] transformShape;
@@ -22,6 +23,8 @@ public class GameObject {
     private boolean physicsable;
     private boolean collideable;
     private boolean makesSound;
+    
+    private Rigidbody physics;
     
     
     /**
@@ -295,12 +298,36 @@ public class GameObject {
     }
     
     public void rotateAroundSelf(double a, double b, double c){
-        for(Face d : transformShape){
-            d.rotate(a, b, c);
+        for(Face d:transformShape){
+            for(Vector3 p : d.getPoints()){
+                p.rotateAround(orientationX, a);
+            }
         }
-        orientationX.rotate(a, b, c);
-        orientationY.rotate(a, b, c);
-        orientationZ.rotate(a, b, c);
+        orientationY.rotateAround(orientationX, a);
+        orientationZ.rotateAround(orientationX, a);
+        
+        for(Face d:transformShape){
+            for(Vector3 p : d.getPoints()){
+                p.rotateAround(orientationY, b);
+            }
+        }
+        orientationX.rotateAround(orientationY, b);
+        orientationZ.rotateAround(orientationY, b);
+        
+        for(Face d:transformShape){
+            for(Vector3 p : d.getPoints()){
+                p.rotateAround(orientationZ, c);
+            }
+        }
+        orientationX.rotateAround(orientationZ, c);
+        orientationY.rotateAround(orientationZ, c);
+//      
+//        for(Face d : transformShape){
+//            d.rotate(a, b, c);
+//        }
+//        orientationX.rotate(a, b, c);
+//        orientationY.rotate(a, b, c);
+//        orientationZ.rotate(a, b, c);
         update();
     }
     
@@ -336,6 +363,12 @@ public class GameObject {
         
     }
     
+    //<editor-fold desc="Physicser variables">
+    private double mass;
+    private Vector3 force;
+    private Vector3 velocity;
+    //</editor-fold>
+            
     //<editor-fold desc="Setter and getters">
     
     public void setGameObject(Face[] f, Vector3 origin){
