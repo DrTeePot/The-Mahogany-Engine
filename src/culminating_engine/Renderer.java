@@ -4,16 +4,13 @@
  */
 package culminating_engine;
 
-import culminating_engine.shapes.Face;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import culminating_engine.shapes.GameObject;
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.math.*;
 
 /**
  *
@@ -75,35 +72,33 @@ public class Renderer {
         double xCoordinate, yCoordinate;
         double xyAngle , xzAngle;
 
-        Vector3 d1 = camera.getDirectionVector();
-        
-        
-        
+        Vector3[] camOrientation = camera.getOrientation();
+        Vector3 camDirection = new Vector3(camera.getDirectionVector());
         Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v);
+        
+        Vector3 hd2 = d2.projectionOn(camOrientation[2]);
+        Vector3 wd2 = d2.projectionOn(camOrientation[1]);
 
-        //projection on the xy-plane
-        Vector3 d1xy = new Vector3(d1.getMagnitude_componentX(), d1.getMagnitude_componentY(), 0);
-        Vector3 d2xy = new Vector3(d2.getMagnitude_componentX(), d2.getMagnitude_componentY(), 0);
-
-        //projection on the xzPlane
-        Vector3 d1xz = new Vector3(d1.getMagnitude_componentX(), 0, d1.getMagnitude_componentZ());
-        Vector3 d2xz = new Vector3(d2.getMagnitude_componentX(), 0, d2.getMagnitude_componentZ());
-
-        if (d2.getMagnitude_componentY() < 0){
-            xyAngle = d1.getAngle(d2xy) * -1;
+        
+        double vectorMagnitude = d2.getMagnitude();
+        double width, height;
+        if (hd2.getMagnitude_componentZ() < 0){
+            height = hd2.getMagnitude() * -1;
         } else {
-            xyAngle = d1.getAngle(d2xy);
+            height = hd2.getMagnitude();
         }
-        if (d2.getMagnitude_componentZ() <0){
-            xzAngle = d1.getAngle(d2xz) * -1;
+        if (wd2.getMagnitude_componentY() < 0){
+            width = wd2.getMagnitude() * -1;
         } else {
-            xzAngle = d1.getAngle(d2xz);
-        }   
+            width = wd2.getMagnitude();
+        }  
+        
+        //System.out.println("Vector: " + d2 + ", projected on: " + camOrientation[2] + ". Yields: "+ hd2);
 
-        xCoordinate = (screenSize/2) * (xyAngle/camera.getFOV());
-        yCoordinate = (screenSize/2) * (xzAngle/camera.getFOV());
+        xCoordinate = (screenSize/2) * (width/vectorMagnitude);
+        yCoordinate = (screenSize/2) * (height/vectorMagnitude);
 
-            return new Point((int)xCoordinate, (int)yCoordinate);
+        return new Point((int)xCoordinate, (int)yCoordinate);
     }
     
     /**
@@ -206,7 +201,6 @@ public class Renderer {
         }
                 
         double x1, y1, z1, x2, y2, z2;
-        x1 = y1 = z1 = x2 = y2 = z2 = 0;
         Vector3 v1, v2;
         v1 = null;
         v2 = null;
@@ -267,7 +261,7 @@ public class Renderer {
     }
     
     private Point[] lineTo2D(Vector3 p1, Vector3 p2){
-        Vector3[] line3D = new Vector3[2];
+        Vector3[] line3D;
         Point[] line2D = new Point[2];
         
             line3D = makeAllPointsInFOV(p1,p2);
