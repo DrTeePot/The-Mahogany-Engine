@@ -15,7 +15,7 @@ public class Culminating_Engine {
     public static final double PI = Math.PI;
     
     /**
-     * @param args the command line arguments
+ * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
          new GUIFrame();
