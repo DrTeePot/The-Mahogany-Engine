@@ -7,7 +7,6 @@ package culminating_engine;
 import culminating_engine.shapes.GameObject;
 import culminating_engine.shapes.RectangularPrism;
 import culminating_engine.shapes.Face;
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,15 +31,17 @@ public class Culminating_Engine {
 //            new Face(new Vector3(1,1,1), new Vector3(0,2,1), new Vector3(0,1,2))
 //        }, new Vector3(0,1,1));
         
-        GameObject box = new RectangularPrism(new Vector3(10,10,10), 5,5,5);
+        GameObject box = new RectangularPrism(new Vector3(10, 0, 0), 5,5,5);
+        box.rotateAroundWorld(PI/3, PI/3, PI/3);
         GameObject tri = new GameObject(new Face[] {
              new Face(new Vector3(5,0,0), new Vector3(6,0,0),new Vector3(0,5,0))
              }, new Vector3(0,0,0));
         
-        box.rotateAroundSelf(PI, PI, PI);
+//        box.rotateAroundSelf(PI, PI, PI);
         GameObject[] world = {box};
         
-        Camera c = new Camera(new Vector3(0,0,0), Math.toRadians(35), new Vector3(1,1,1));
+        Camera c = new Camera(new Vector3(0,0,0), Math.toRadians(35), new Vector3(1,0,0));
+        c.rotateAroundWorld(PI/3, PI/3, PI/3);
         Renderer r = new Renderer(world, c, 600);
         
         BufferedImage b = (BufferedImage)r.wireFrameRender();
