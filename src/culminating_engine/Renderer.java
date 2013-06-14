@@ -26,17 +26,43 @@ public class Renderer {
     
     /**
      * Create a renderer object, which is a factory that has the ability to 
-     *      render a scene when given a game object and a camera object
+     *      render a scene when given a GameObjects and a camera object
      * pre: none
      * post: A renderer object has been created
      * @param o - an array of GameObjects (to possibly be rendered)
      * @param c - a camera object
      * @param s - the size of the screen (measured diagonally)
      */
-    Renderer(GameObject[] o, Camera c, double s){
+    public Renderer(GameObject[] o, Camera c, double w, double h){
         camera = c;
-        screenSize = s;
+        screenSize = Math.max(w, h);
         gameObjects.addAll(Arrays.asList(o));
+    }
+    
+    /**
+     * Create a renderer object, which is a factory that has the ability to 
+     *      render a scene when given a GameObjects and a camera object
+     * pre: none
+     * post: A renderer object has been created
+     * @param c - a camera object
+     * @param s - the size of the screen (measured diagonally)
+     */
+    public Renderer(Camera c, double w, double h){
+        camera = c;
+        screenSize = Math.max(w, h);
+    }
+    
+    
+    public void addObjects(ArrayList<GameObject> g){
+        gameObjects.addAll(g);
+    }
+    
+    public void addObjects(GameObject[] g){
+        gameObjects.addAll(Arrays.asList(g));
+    }
+    
+    public void addObject(GameObject g){
+        gameObjects.add(g);
     }
     
     /**
@@ -287,6 +313,8 @@ public class Renderer {
         BufferedImage output = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
         Graphics2D wire2D = output.createGraphics();
                 
+        wire2D.setColor(Color.BLACK);
+        
         for (int gameObject = 0; gameObject < gameObjects.size(); gameObject++){
             for (int face = 0; face < gameObjects.get(gameObject).getShape().length;face++){
                 
