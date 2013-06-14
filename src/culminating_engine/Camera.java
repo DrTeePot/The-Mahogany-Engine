@@ -4,30 +4,28 @@
  */
 package culminating_engine;
 
-import java.math.*;
+import culminating_engine.shapes.GameObject;
 
 /**
  *
  * @author Aidan
  */
-public class Camera extends Vector3 {
+public class Camera extends GameObject {
     
     private double fov;
-    private Vector3 directionVector;
+    private Vector3 directionVector = new Vector3(1,0,0);
     
     final double PI = Math.PI;
     
     /**
      * Create a camera object at point (i1, i2, i3) pointing in direction 
-     *      (xTheta, yTheta, zTheta) and with a field of view of (fov)
+     *      (1,0,0) and with a field of view of (fov)
      * @param i - the camera position, a Vector3
      * @param f - the field of view, in radians (0 < f < pi/2)
-     * @param d - a direction vector representing the camera's direction
      */
-    Camera(Vector3 i, double f, Vector3 d){
+    public Camera(Vector3 i, double f){
         super (i);
         fov = f;
-        directionVector = d;
     }
  
     /**
@@ -57,7 +55,8 @@ public class Camera extends Vector3 {
      * @return directionVector
      */
     public Vector3 getDirectionVector(){
-        return directionVector;
+        Vector3[] o = getOrientation();
+        return o[0];
     }
     
     /**
@@ -93,11 +92,7 @@ public class Camera extends Vector3 {
      *          )
      */
     public Vector3 getPositionVector(){
-        return new Vector3(
-                super.getMagnitude_componentX(),
-                super.getMagnitude_componentY(),
-                super.getMagnitude_componentZ()
-                );
+        return getOrigin();
     }
     
 }
