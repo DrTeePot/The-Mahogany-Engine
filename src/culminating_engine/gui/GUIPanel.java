@@ -7,6 +7,7 @@ package culminating_engine.gui;
 import culminating_engine.Camera;
 import culminating_engine.Renderer;
 import culminating_engine.Vector3;
+import culminating_engine.shapes.EquilateralTriangularPyramid;
 import culminating_engine.shapes.GameObject;
 import culminating_engine.shapes.RectangularPrism;
 import java.awt.Graphics;
@@ -20,24 +21,32 @@ import javax.swing.JPanel;
 public class GUIPanel extends JPanel implements Runnable{
     
     private Thread animator; //This is the thread that this class runs in
-    private final int DELAY = 20; //This is the delay between draw cycles
+    private final int DELAY = 10; //This is the delay between draw cycles
     
     private Camera camera;
     private Renderer renderer;
     
-    GameObject box1 = new RectangularPrism(new Vector3(10, 0, 0), 5,5,5);
-    GameObject box2 = new RectangularPrism(new Vector3(-10, 0, 0), 5,5,5);
-    GameObject box3 = new RectangularPrism(new Vector3(0, 10, 0), 5,5,5);
-    GameObject box4 = new RectangularPrism(new Vector3(0, -10, 0), 5,5,5);
+    private final double PI = Math.PI;
+    
+    GameObject box1 = new RectangularPrism(new Vector3(10, 0, 0), 2,2,2);
+    GameObject box2 = new RectangularPrism(new Vector3(-10, 0, 0),1,1,1);
+    GameObject box3 = new RectangularPrism(new Vector3(0, 10, 0), .5,.5,.5);
+    GameObject box4 = new RectangularPrism(new Vector3(0, -10, 0), .3,1,1.6);
+    GameObject box5 = new RectangularPrism(new Vector3(0, 0, 10), 4,4,4);
+    GameObject box6 = new RectangularPrism(new Vector3(0, 0, -10), 5,5,5);
     
     public GUIPanel(){
         camera = new Camera(new Vector3(0,0,0), Math.toRadians(35));
-        renderer = new Renderer(camera, 600, 600);
+        renderer = new Renderer(camera, 1000, 600);
         
         renderer.addObject(box1);
         renderer.addObject(box2);
         renderer.addObject(box3);
         renderer.addObject(box4);
+        renderer.addObject(box5);
+        renderer.addObject(box6);
+        
+        camera.rotateAroundWorld(0, 0, 0);
 
     }
     
@@ -69,10 +78,11 @@ public class GUIPanel extends JPanel implements Runnable{
     
     
     public void cycle() { //Change ALL THE VARS
-        camera.rotateAroundWorld(0, 0, Math.toRadians(1));
-        //box1.rotateAroundPoint(0, 0, Math.toRadians(1), new Vector3(10,0,0));
-        
-        System.out.println(camera.getOrientation()[0]);
+        camera.rotateAroundSelf(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0.1));
+        box1.rotateAroundPoint(Math.toRadians(0), Math.toRadians(-3), Math.toRadians(0), new Vector3(10,0,0));
+        box2.rotateAroundPoint(Math.toRadians(0), Math.toRadians(1), Math.toRadians(0), new Vector3(-10,0,0));
+        box3.rotateAroundPoint(Math.toRadians(-1), Math.toRadians(0), Math.toRadians(0), new Vector3(0,10,0));
+        box4.rotateAroundPoint(Math.toRadians(.3), Math.toRadians(0.6), Math.toRadians(1.5), new Vector3(0,-10,0));
         
         repaint();
     }
