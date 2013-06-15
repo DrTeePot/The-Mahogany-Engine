@@ -13,7 +13,7 @@ import culminating_engine.shapes.GameObject;
 public class Camera extends GameObject {
     
     private double fov;
-    private Vector3 directionVector = new Vector3(1,0,0);
+//    private Vector3 directionVector = new Vector3(1,0,0);
     
     final double PI = Math.PI;
     
@@ -47,40 +47,7 @@ public class Camera extends GameObject {
     public void setFov(double f){
         fov = f;
     }
-    
-    /**
-     * Returns the direction vector
-     * pre: none
-     * post: the direction vector has been returned
-     * @return directionVector
-     */
-    public Vector3 getDirectionVector(){
-        Vector3[] o = getOrientation();
-        return o[0];
-    }
-    
-    /**
-     * Sets the directionVector equal to the Vector3 v
-     * pre: none
-     * post: the direction vector has been set to v
-     * @param v - the new directionVector for the camera
-     */
-    public void setDirectionVector(Vector3 v){
-        directionVector = v;
-    }
-    
-    /**
-     * Sets the directionVector equal to a position vector with components i, j, and k
-     * pre: none
-     * post: the direction vector has changed to one with one with coordinates i, j, and k
-     * @param i - the i component
-     * @param j - the j component
-     * @param k - the k component
-     */
-    public void setDirectionVector(double i, double j, double k){
-        directionVector = new Vector3(i, j, k);
-    }
-    
+   
     /**
      * returns the camera's position
      * pre: none
