@@ -20,7 +20,10 @@ public class Renderer {
     
     private ArrayList<GameObject> gameObjects = new ArrayList();
     private Camera camera;
-    private double screenSize;
+    
+    private int screenSize;
+    private int outWidth;
+    private int outHeight;
     
     private final double PI = Math.PI;
     
@@ -33,9 +36,13 @@ public class Renderer {
      * @param c - a camera object
      * @param s - the size of the screen (measured diagonally)
      */
-    public Renderer(GameObject[] o, Camera c, double w, double h){
+    public Renderer(GameObject[] o, Camera c, int w, int h){
         camera = c;
-        screenSize = Math.max(w, h);
+        
+        outWidth = w;
+        outHeight = h;
+        screenSize = (int)(Math.max(w, h) * Math.sqrt(2));
+        
         gameObjects.addAll(Arrays.asList(o));
     }
     
@@ -47,9 +54,11 @@ public class Renderer {
      * @param c - a camera object
      * @param s - the size of the screen (measured diagonally)
      */
-    public Renderer(Camera c, double w, double h){
+    public Renderer(Camera c, int w, int h){
         camera = c;
-        screenSize = Math.max(w, h);
+        outWidth = w;
+        outHeight = h;
+        screenSize = (int)(Math.max(w, h) * Math.sqrt(2));    
     }
     
     
@@ -73,7 +82,7 @@ public class Renderer {
      * @return boolean - true if point is in FOV, else false
      */
     public boolean pointInFOV(Vector3 v){
-        Vector3 d1 = camera.getDirectionVector(); 
+        Vector3 d1 = camera.getOrientation()[0]; 
         Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v);
         
         double angle = d1.getAngle(d2);
@@ -99,7 +108,6 @@ public class Renderer {
         double xyAngle , xzAngle;
 
         Vector3[] camOrientation = camera.getOrientation();
-        Vector3 camDirection = new Vector3(camera.getDirectionVector());
         Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v);
         
         Vector3 hd2 = d2.projectionOn(camOrientation[2]);
@@ -108,22 +116,27 @@ public class Renderer {
         
         double vectorMagnitude = d2.getMagnitude();
         double width, height;
-        if (hd2.getMagnitude_componentZ() < 0){
+        if ((hd2.getComponents()[0] * camOrientation[2].getComponents()[0] < 0)||
+                (hd2.getComponents()[1] * camOrientation[2].getComponents()[1] < 0)||
+                (hd2.getComponents()[2] * camOrientation[2].getComponents()[2] < 0)){
             height = hd2.getMagnitude() * -1;
         } else {
             height = hd2.getMagnitude();
         }
-        if (wd2.getMagnitude_componentY() < 0){
+        if ((wd2.getComponents()[0] * camOrientation[1].getComponents()[0] < 0)||
+                (wd2.getComponents()[1] * camOrientation[1].getComponents()[1] < 0)||
+                (wd2.getComponents()[2] * camOrientation[1].getComponents()[2] < 0)){
             width = wd2.getMagnitude() * -1;
         } else {
             width = wd2.getMagnitude();
-        }  
+        }
+        
         
         //System.out.println("Vector: " + d2 + ", projected on: " + camOrientation[2] + ". Yields: "+ hd2);
 
-        xCoordinate = (screenSize/2) * (width/vectorMagnitude);
-        yCoordinate = (screenSize/2) * (height/vectorMagnitude);
-
+        xCoordinate = (screenSize/2) * (width/(vectorMagnitude*camera.getFOV()));
+        yCoordinate = (screenSize/2) * (height/(vectorMagnitude*camera.getFOV()));
+       
         return new Point((int)xCoordinate, (int)yCoordinate);
     }
     
@@ -170,9 +183,9 @@ public class Renderer {
         double yd = p1.getMagnitude_componentY() - p2.getMagnitude_componentY();
         double zd = p1.getMagnitude_componentZ() - p2.getMagnitude_componentZ();
         
-        double xa = camera.getDirectionVector().getMagnitude_componentX();
-        double ya = camera.getDirectionVector().getMagnitude_componentY();
-        double za = camera.getDirectionVector().getMagnitude_componentZ();
+        double xa = camera.getOrientation()[0].getMagnitude_componentX();
+        double ya = camera.getOrientation()[0].getMagnitude_componentY();
+        double za = camera.getOrientation()[0].getMagnitude_componentZ();
         
         double xv = camera.getPositionVector().getMagnitude_componentX();
         double yv = camera.getPositionVector().getMagnitude_componentY();
@@ -363,21 +376,14 @@ public class Renderer {
                 }
             
             }
-        }
-        
+        }        
         wire2D.dispose();
+        
+        output = output.getSubimage((screenSize/2) - (outWidth/2), 
+                                    (screenSize/2) - (outHeight/2), 
+                                    outWidth, outHeight);        
+        
         return flipVertically(output);
     }
-    
-    
-    public BufferedImage box(){
-        BufferedImage output = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
-        Graphics2D wire2D = output.createGraphics();
-        
-        wire2D.setBackground(Color.WHITE );
-        wire2D.fillRect(100, 100, 200, 200);
-        wire2D.dispose();
-        
-        return output;
-    }
 }
+    
