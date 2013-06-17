@@ -12,7 +12,7 @@ import culminating_engine.Vector3;
  */
 public class EquilateralTriangularPrism extends GameObject{
     
-    EquilateralTriangularPrism(Vector3 origin, double sideLength, double height){
+    public EquilateralTriangularPrism(Vector3 origin, double sideLength, double height){
         super();
         final double PI = Math.PI;
         final Vector3 A;
@@ -37,7 +37,7 @@ public class EquilateralTriangularPrism extends GameObject{
         B = new Vector3(x - (hyp * cos75), y - (cos15 * hyp), z - halfh);
         C = new Vector3(x + (hyp * cos15), y + (cos75 * hyp), z - halfh);
         A2 = new Vector3(x - (hyp * cos45), y + (cos45 * hyp), z + halfh);
-        B2 = new Vector3(x - (hyp * cos75), y - (cos15 * hyp), z +halfh);
+        B2 = new Vector3(x - (hyp * cos75), y - (cos15 * hyp), z + halfh);
         C2 = new Vector3(x + (hyp * cos15), y + (cos75 * hyp), z + halfh);
         
         this.setGameObject(new Face[]{

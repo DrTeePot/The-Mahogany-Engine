@@ -258,13 +258,15 @@ public abstract class GameObject {
             transformShape[i] = new Face(shape[i]);
         }
         for(Face s: transformShape){
-            s.addVector(Vector3.scalarMultiply(-1, shapeOrigin));
+            s.subtractVector(shapeOrigin);
         }
     }
     
     private void update(){
-        for(int i = 0; i < shape.length; i ++){
-            shape[i] = new Face(Face.addVector(transformShape[i], shapeOrigin));
+        for(int i = 0; i < shape.length; i++){
+            Face l = new Face(transformShape[i]);
+            l.addVector(shapeOrigin);
+            shape[i] = new Face(l);
         }
     }
     
@@ -298,6 +300,7 @@ public abstract class GameObject {
     }
     
     public void rotateAroundSelf(double a, double b, double c){
+        
         for(Face d:transformShape){
             for(Vector3 p : d.getPoints()){
                 p.rotateAround(orientationX, a);
@@ -321,14 +324,9 @@ public abstract class GameObject {
         }
         orientationX.rotateAround(orientationZ, c);
         orientationY.rotateAround(orientationZ, c);
-//      
-//        for(Face d : transformShape){
-//            d.rotate(a, b, c);
-//        }
-//        orientationX.rotate(a, b, c);
-//        orientationY.rotate(a, b, c);
-//        orientationZ.rotate(a, b, c);
+        
         update();
+
     }
     
     public void rotateAroundPoint(double a, double b, double c, Vector3 v){
@@ -341,6 +339,7 @@ public abstract class GameObject {
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
         orientationZ.rotate(a, b, c);
+        
         for(int i = 0; i < shape.length; i++){
             Face l = new Face(trs[i]);
             l.addVector(v);
