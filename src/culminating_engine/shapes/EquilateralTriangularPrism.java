@@ -34,11 +34,11 @@ public class EquilateralTriangularPrism extends GameObject{
         
         
         A = new Vector3(x - (hyp * cos45), y + (cos45 * hyp), z - halfh);
-        B = new Vector3(x - (hyp * cos75), y - (cos15 * hyp), z - halfh);
-        C = new Vector3(x + (hyp * cos15), y + (cos75 * hyp), z - halfh);
+        B = new Vector3(x + (hyp * cos75), y - (cos15 * hyp), z - halfh);
+        C = new Vector3(x + (hyp * cos15), y - (cos75 * hyp), z - halfh);
         A2 = new Vector3(x - (hyp * cos45), y + (cos45 * hyp), z + halfh);
-        B2 = new Vector3(x - (hyp * cos75), y - (cos15 * hyp), z + halfh);
-        C2 = new Vector3(x + (hyp * cos15), y + (cos75 * hyp), z + halfh);
+        B2 = new Vector3(x + (hyp * cos75), y - (cos15 * hyp), z + halfh);
+        C2 = new Vector3(x + (hyp * cos15), y - (cos75 * hyp), z + halfh);
         
         this.setGameObject(new Face[]{
             new Face(A, B, C), //bottom

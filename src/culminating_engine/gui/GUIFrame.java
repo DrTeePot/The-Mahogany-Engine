@@ -17,7 +17,7 @@ public class GUIFrame extends JFrame{
 
         //build the window        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setTitle("The Mahogany Engine");
         setResizable(false);

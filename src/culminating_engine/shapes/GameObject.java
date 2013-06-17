@@ -135,7 +135,7 @@ public abstract class GameObject {
      * @param collide - whether the object performs collision
      * @param sound - whether the object makes sounds
      */
-    public GameObject(Face[] f, boolean rend, boolean physic, boolean collide, boolean sound){
+    public GameObject(Face[] f, Rigidbody r){
         shape = new Face[f.length];
         for(int i = 0; i < f.length; i++){
             shape[i] = new Face(f[i]);
@@ -169,6 +169,8 @@ public abstract class GameObject {
                     nz = v.getComponents()[2];
                 }
             }
+            
+            
         }
         
         shapeOrigin = new Vector3(nx + ((px - nx)/2),ny + ((py - ny)/2), nz + ((pz - nz)/2));
@@ -176,11 +178,7 @@ public abstract class GameObject {
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
-        
-        renderable = rend;
-        physicsable = physic;
-        collideable = collide;
-        makesSound = sound;
+        physics = r;
     }
     
     /**
@@ -209,7 +207,7 @@ public abstract class GameObject {
      * post: A GameObject object is created.
      * @param g - the GameObject to be copied.
      */
-    public GameObject(GameObject g, boolean rend, boolean physic, boolean collide, boolean sound){
+    public GameObject(GameObject g, Rigidbody r){
         shape = new Face[g.getShape().length];
         for(int i = 0; i < g.getShape().length; i++){
             shape[i] = new Face(g.getShape()[i]);
@@ -220,12 +218,15 @@ public abstract class GameObject {
         orientationY = new Vector3(g.getOrientation()[1]);
         orientationZ = new Vector3(g.getOrientation()[2]);
         
-        renderable = rend;
-        physicsable = physic;
-        collideable = collide;
-        makesSound = sound;
+        physics = r;
     }
     
+    /**
+     * Creates a point GameObject with an orientation. Consists of one face, that has all points at the origin, 
+     * and the shapeOrigin, which is also at the origin. <br>
+     * pre: none <br>
+     * post: Creates an instance of a GameObject that will render as a point at the origin.
+     */
     public GameObject(){
         shape = new Face[]{ 
             new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))      
@@ -237,9 +238,17 @@ public abstract class GameObject {
         orientationZ = new Vector3(0,0,1);
     }
     
+    /**
+     * Creates a point GameObject at the point specified by the Vector3 origin. <br>
+     * pre: none <br>
+     * post: A GameObject object is created with one face, at the origin. 
+     * @param origin 
+     */
     public GameObject(Vector3 origin){
+        double[] a = origin.getComponents();
+
         shape = new Face[]{ 
-            new Face(new Vector3(0,0,0), new Vector3(0,0,0), new Vector3(0,0,0))      
+            new Face(new Vector3(a[0],a[1],a[2]), new Vector3(a[0],a[1],a[2]), new Vector3(a[0],a[1],a[2]))      
         };
         shapeOrigin = new Vector3(origin);
         populateTransformShape();
@@ -262,6 +271,10 @@ public abstract class GameObject {
         }
     }
     
+    /**
+     * This function resets the position vectors of the object when the position of the shape with respect to
+     * its origin (shapeOrigin) has changed.
+     */
     private void update(){
         for(int i = 0; i < shape.length; i++){
             Face l = new Face(transformShape[i]);
@@ -270,11 +283,25 @@ public abstract class GameObject {
         }
     }
     
+    /**
+     * Move the shape in the direction of the Vector3(t) by the magnitude of t. <br>
+     * pre: none <br>
+     * post: The shape is translated by itself + the given vector. 
+     * @param t - the amount and direction in which to move the object.
+     */
     public void translate(Vector3 t){
         shapeOrigin.addVector(t);
         update();
     }
     
+    /**
+     * Move the shape in the direction of the Vector3(i,j,k) by the magnitude of (i,j,k) : Mag = Math.sqrt(a*a + b*b + c*c). <br>
+     * pre: none <br>
+     * post: The shape is translated by itself + the given vector. 
+     * @param i - the amount to move the object in the x direction.
+     * @param j - the amount to move the object in the y direction.
+     * @param k - the amount to move the object in the z direction.
+     */
     public void translate(double i, double j, double k){
         shapeOrigin.addVector(i, j, k);
         update();
@@ -299,6 +326,14 @@ public abstract class GameObject {
         orientationZ.rotate(a, b, c);
     }
     
+    /**
+     * Rotates this GameObject around the objects origin (shapeOrigin) <br>
+     * pre: none <br>
+     * post: This object is rotated by the specified amount around its x, y, and z axis.
+     * @param a - the rotation around the x axis in radians
+     * @param b - the rotation around the y axis in radians
+     * @param c - the rotation around the z axis in radians
+     */
     public void rotateAroundSelf(double a, double b, double c){
         
         for(Face d:transformShape){
@@ -329,6 +364,14 @@ public abstract class GameObject {
 
     }
     
+    /**
+     * Rotates this GameObject around the given point as a Vector3. <br>
+     * pre: none <br>
+     * post: This object is rotated around a point by the specified amount around the x, y, and z axis of the world
+     * @param a - the rotation around the x axis in radians
+     * @param b - the rotation around the y axis in radians
+     * @param c - the rotation around the z axis in radians
+     */
     public void rotateAroundPoint(double a, double b, double c, Vector3 v){
         Face[] trs = new Face[shape.length];
         for(int i = 0; i < shape.length; i++){
@@ -347,29 +390,57 @@ public abstract class GameObject {
         }
     }
     
+    /**
+     * Increase the distance of each point from the origin of the world by multiples of a, b, and c. <br>
+     * pre: none <br>
+     * post: the GameObject increases in size by a,b, and c. <br>
+     * Do not use, this function is not fully implemented, and doesn't do anything.
+     * @param a - the amount to scale the x components by.
+     * @param b - the amount to scale the y components by.
+     * @param c - the amount to scale the z components by.
+     */
     public void scaleAroundWorld(double a, double b, double c){
-        for(Face f : shape){
-            for(int i = 0; i < 3; i++)
-                f.setPoint(i, Vector3.matrixMultiply(a, b, c, f.getPoint(i)));
+        for(Face d:shape){
+            for(Vector3 p : d.getPoints()){
+                p.matrixMultiply(a,b,c);
+            }
         }
     }
     
+    /**
+     * Increase the distance of each point from the origin of the shape by multiples of a, b, and c. <br>
+     * pre: none <br>
+     * post: the GameObject increases in size by a,b, and c. <br>
+     * Do not use, this function is not fully implemented, and doesn't do anything.
+     * @param a - the amount to scale the x components by.
+     * @param b - the amount to scale the y components by.
+     * @param c - the amount to scale the z components by.
+     */
     public void scaleAroundSelf(double a, double b, double c){
         
     }
     
+    /**
+     * Increase the distance of each point from a specified point by multiples of a, b, and c. <br>
+     * pre: none <br>
+     * post: the GameObject increases in size by a,b, and c. <br>
+     * Do not use, this function is not fully implemented, and doesn't do anything.
+     * @param a - the amount to scale the x components by.
+     * @param b - the amount to scale the y components by.
+     * @param c - the amount to scale the z components by.
+     */
     public void scaleAroundPoint(double a, double b, double c, Vector3 v){
         
     }
     
-    //<editor-fold desc="Physicser variables">
-    private double mass;
-    private Vector3 force;
-    private Vector3 velocity;
-    //</editor-fold>
             
     //<editor-fold desc="Setter and getters">
     
+    /**
+     * Resets the 
+     * @param f
+     * @param origin 
+     */
     public void setGameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
         for(int i = 0; i < f.length; i++){

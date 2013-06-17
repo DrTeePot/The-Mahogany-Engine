@@ -338,6 +338,20 @@ public class Vector3 {
     }
     
     /**
+     * The vector that occurs when the matrix [a, b, c] is multiplied with the vector v. <br>
+     * pre: none <br>
+     * post: This vector is multiplied to become (ax, by, cz). 
+     * @param a - the value by which to multiply the x component
+     * @param b - the value by which to multiply the y component
+     * @param c - the value by which to multiply the z component
+     */
+    public void matrixMultiply(double a, double b, double c){
+        x = x * a;
+        y *= b;
+        z *= c;
+    }
+    
+    /**
      * Returns the vector that results from projecting this vector on the parameter vector.
      * pre: none
      * post: Returns the vector in the direction of s with a magnitude of the s component of the vector.
