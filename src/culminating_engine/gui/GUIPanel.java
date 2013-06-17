@@ -7,6 +7,7 @@ package culminating_engine.gui;
 import culminating_engine.Camera;
 import culminating_engine.Renderer;
 import culminating_engine.Vector3;
+import culminating_engine.shapes.EquilateralTriangularPrism;
 import culminating_engine.shapes.GameObject;
 import culminating_engine.shapes.RectangularPrism;
 import java.awt.Graphics;
@@ -25,8 +26,8 @@ public class GUIPanel extends JPanel implements Runnable{
     private Camera camera;
     private Renderer renderer;
     
-    GameObject box1 = new RectangularPrism(new Vector3(10, 0, 0), 5,5,5);
-    GameObject box2 = new RectangularPrism(new Vector3(-10, 0, 0), 5,5,5);
+    GameObject box1 = new RectangularPrism(new Vector3(10, 5, 0), 5,5,5);
+    GameObject box2 = new EquilateralTriangularPrism(new Vector3(10, 0, 0), 5,5);
     GameObject box3 = new RectangularPrism(new Vector3(0, 10, 0), 5,5,5);
     GameObject box4 = new RectangularPrism(new Vector3(0, -10, 0), 5,5,5);
     
@@ -70,9 +71,13 @@ public class GUIPanel extends JPanel implements Runnable{
     
     public void cycle() { //Change ALL THE VARS
         camera.rotateAroundWorld(0, 0, Math.toRadians(1));
-        //box1.rotateAroundPoint(0, 0, Math.toRadians(1), new Vector3(10,0,0));
+        box1.rotateAroundPoint(0, 0, Math.toRadians(1), new Vector3(10,4,4));
+        box2.rotateAroundSelf(0, 0, Math.toRadians(1));//, new Vector3(10,0,0));
+        box3.rotateAroundSelf(0, Math.toRadians(1), Math.toRadians(1));//, new Vector3(10,0,0));
+        box4.rotateAroundSelf(0, Math.toRadians(1), Math.toRadians(1));//, new Vector3(10,0,0));
         
-        System.out.println(camera.getOrientation()[0]);
+        
+        //System.out.println(camera.getOrientation()[0]);
         
         repaint();
     }
