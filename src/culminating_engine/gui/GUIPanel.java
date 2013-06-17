@@ -4,14 +4,20 @@
  */
 package culminating_engine.gui;
 
-import culminating_engine.Camera;
+import culminating_engine.shapes.Camera;
 import culminating_engine.Renderer;
 import culminating_engine.Vector3;
 import culminating_engine.shapes.EquilateralTriangularPyramid;
 import culminating_engine.shapes.GameObject;
+import culminating_engine.shapes.Player;
 import culminating_engine.shapes.RectangularPrism;
+import culminating_engine.shapes.RectangularPyramid;
 import java.awt.Graphics;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javax.swing.JPanel;
 
 /**
@@ -23,31 +29,74 @@ public class GUIPanel extends JPanel implements Runnable{
     private Thread animator; //This is the thread that this class runs in
     private final int DELAY = 10; //This is the delay between draw cycles
     
+    private Player player;
+    
     private Camera camera;
     private Renderer renderer;
     
+    private Random r = new Random();
+    
     private final double PI = Math.PI;
     
-    GameObject box1 = new RectangularPrism(new Vector3(10, 0, 0), 2,2,2);
-    GameObject box2 = new RectangularPrism(new Vector3(-10, 0, 0),1,1,1);
-    GameObject box3 = new RectangularPrism(new Vector3(0, 10, 0), .5,.5,.5);
-    GameObject box4 = new RectangularPrism(new Vector3(0, -10, 0), .3,1,1.6);
-    GameObject box5 = new RectangularPrism(new Vector3(0, 0, 10), 4,4,4);
-    GameObject box6 = new RectangularPrism(new Vector3(0, 0, -10), 5,5,5);
+    GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0);
+    
+    
+    int numObjects = 500;
+    double spaceObjectsOccupy = 500;
+    double maxObjectSize = 20;
+    double maxRotationSpeed = 0.2;
+    double maxRotationAroundSelfSpeed = 2;
+    double maxRotationDistance = 100;
+            
+    ArrayList<GameObject> objects = new ArrayList<GameObject>();
+    ArrayList<Double[]> rotations = new ArrayList<Double[]>();
+    ArrayList<Double[]> rotationsAroundSelf = new ArrayList<Double[]>();
+    ArrayList<Double[]> rotationDistance = new ArrayList<Double[]>();
+
     
     public GUIPanel(){
+        //Window must be focused to add a KeyListener
+        setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(new Controls()); //allow keyboard input (for controls)
+        
         camera = new Camera(new Vector3(0,0,0), Math.toRadians(35));
-        renderer = new Renderer(camera, 1000, 600);
+        player = new Player(p, camera);
         
-        renderer.addObject(box1);
-        renderer.addObject(box2);
-        renderer.addObject(box3);
-        renderer.addObject(box4);
-        renderer.addObject(box5);
-        renderer.addObject(box6);
+        for (int i = 0; i < numObjects; i++){
+            objects.add(new RectangularPrism(
+                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
+                    r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize)
+                    );
+        }
         
-        camera.rotateAroundWorld(0, 0, 0);
-
+        for (int i = 0; i < numObjects; i++){
+            rotations.add(new Double[]{r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2),
+                r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2),
+                r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2)});
+        }
+        
+        for (int i = 0; i < numObjects; i++){
+            rotationDistance.add(new Double[]{
+                                objects.get(i).getOrigin().getMagnitude_componentX() + 
+                    r.nextDouble() *maxRotationDistance - (maxRotationDistance / 2),
+                                objects.get(i).getOrigin().getMagnitude_componentY() + 
+                    r.nextDouble() *maxRotationDistance - (maxRotationDistance / 2),
+                                objects.get(i).getOrigin().getMagnitude_componentZ() + 
+                    r.nextDouble() *maxRotationDistance - (maxRotationDistance / 2)});
+        }
+        
+        for (int i = 0; i < numObjects; i++){
+            rotationsAroundSelf.add(new Double[]{r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2),
+                r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2),
+                r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2)});
+        }
+        
+        renderer = new Renderer(player.getCamera(), 1000, 600);
+        renderer.addObjects(objects);
+        
     }
     
     /*
@@ -78,15 +127,90 @@ public class GUIPanel extends JPanel implements Runnable{
     
     
     public void cycle() { //Change ALL THE VARS
-        camera.rotateAroundSelf(Math.toRadians(0), Math.toRadians(0), Math.toRadians(0.1));
-        box1.rotateAroundPoint(Math.toRadians(0), Math.toRadians(-3), Math.toRadians(0), new Vector3(10,0,0));
-        box2.rotateAroundPoint(Math.toRadians(0), Math.toRadians(1), Math.toRadians(0), new Vector3(-10,0,0));
-        box3.rotateAroundPoint(Math.toRadians(-1), Math.toRadians(0), Math.toRadians(0), new Vector3(0,10,0));
-        box4.rotateAroundPoint(Math.toRadians(.3), Math.toRadians(0.6), Math.toRadians(1.5), new Vector3(0,-10,0));
+
+        for (int i = 0; i < objects.size(); i++){
+            objects.get(i).rotateAroundPoint(Math.toRadians(rotations.get(i)[0]),
+                                            Math.toRadians(rotations.get(i)[1]), 
+                                            Math.toRadians(rotations.get(i)[2]), 
+                    new Vector3(rotationDistance.get(i)[0],rotationDistance.get(i)[1], rotationDistance.get(i)[2]));
+            objects.get(i).rotateAroundSelf(Math.toRadians(rotationsAroundSelf.get(i)[0]),
+                                            Math.toRadians(rotationsAroundSelf.get(i)[1]), 
+                                            Math.toRadians(rotationsAroundSelf.get(i)[2]));
+        }
+        
+        player.move();
         
         repaint();
     }
   
+        /*
+     * Listens for keys, and reports which keys are down to the player object
+     * Pre: None
+     * Post: Player object knows what keys are pressed
+     */
+    class Controls extends KeyAdapter {
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int key = e.getKeyCode(); // what key was pressed?
+                        
+            //Controls (pretty self explanatory)
+            if ((key == KeyEvent.VK_LEFT) && (!player.getMovingLeft()))  {
+                player.setMovingLeft(true);
+            }else if ((key == KeyEvent.VK_RIGHT) && (!player.getMovingRight())) {
+                player.setMovingRight(true);
+            }else if ((key == KeyEvent.VK_UP) && (!player.getMovingForward())) {
+                player.setMovingForward(true);
+            }else if ((key == KeyEvent.VK_DOWN) && (!player.getMovingBackward())) {
+                player.setMovingBackward(true);
+            }else if ((key == KeyEvent.VK_SPACE) && (!player.getMovingUp())) {
+                player.setMovingUp(true);
+            }else if ((key == KeyEvent.VK_SHIFT) && (!player.getMovingDown())) {
+                player.setMovingDown(true);
+            }
+            
+            if ((key == KeyEvent.VK_A) && (!player.getRotatingNegativeY()))  {
+                player.setRotatingNegativeY(true);
+            }else if ((key == KeyEvent.VK_D) && (!player.getRotatingPositiveY())) {
+                player.setRotatingPositiveY(true);
+            }else if ((key == KeyEvent.VK_W) && (!player.getRotatingPositiveZ())) {
+                player.setRotatingPositiveZ(true);
+            }else if ((key == KeyEvent.VK_S) && (!player.getRotatingNegativeZ())) {
+                player.setRotatingNegativeZ(true);
+            }
+        }
+        
+        @Override
+        public void keyReleased(KeyEvent e) {
+            int key = e.getKeyCode(); // what key was released?
+                       
+            //Controls (pretty self explanatory)
+            if (key == KeyEvent.VK_LEFT) {
+                player.setMovingLeft(false);
+            } else if (key == KeyEvent.VK_RIGHT) {
+                player.setMovingRight(false);
+            } else if (key == KeyEvent.VK_UP) {
+                player.setMovingForward(false);
+            } else if (key == KeyEvent.VK_DOWN) {
+                player.setMovingBackward(false);
+            } else if (key == KeyEvent.VK_SPACE) {
+                player.setMovingUp(false);
+            } else if (key == KeyEvent.VK_SHIFT) {
+                player.setMovingDown(false);
+            }
+            
+            if (key == KeyEvent.VK_A)  {
+                player.setRotatingNegativeY(false);
+            }else if (key == KeyEvent.VK_D) {
+                player.setRotatingPositiveY(false);
+            }else if (key == KeyEvent.VK_W) {
+                player.setRotatingPositiveZ(false);
+            }else if (key == KeyEvent.VK_S) {
+                player.setRotatingNegativeZ(false);
+            }
+        }
+        
+    }
+    
     public void delay(long beforeTime){
         long timeDiff, sleep;
         timeDiff = System.currentTimeMillis() - beforeTime;
