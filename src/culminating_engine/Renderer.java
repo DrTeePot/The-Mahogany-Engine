@@ -4,6 +4,7 @@
  */
 package culminating_engine;
 
+import culminating_engine.shapes.Camera;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import culminating_engine.shapes.GameObject;
