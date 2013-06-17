@@ -89,7 +89,8 @@ public class GUIPanel extends JPanel implements Runnable{
         }
         
         for (int i = 0; i < numObjects; i++){
-            rotationsAroundSelf.add(new Double[]{r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2),
+            rotationsAroundSelf.add(new Double[]{
+                r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2),
                 r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2),
                 r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2)});
         }
@@ -133,9 +134,10 @@ public class GUIPanel extends JPanel implements Runnable{
                                             Math.toRadians(rotations.get(i)[1]), 
                                             Math.toRadians(rotations.get(i)[2]), 
                     new Vector3(rotationDistance.get(i)[0],rotationDistance.get(i)[1], rotationDistance.get(i)[2]));
-            objects.get(i).rotateAroundSelf(Math.toRadians(rotationsAroundSelf.get(i)[0]),
+            objects.get(i).rotateAroundPoint(Math.toRadians(rotationsAroundSelf.get(i)[0]),
                                             Math.toRadians(rotationsAroundSelf.get(i)[1]), 
-                                            Math.toRadians(rotationsAroundSelf.get(i)[2]));
+                                            Math.toRadians(rotationsAroundSelf.get(i)[2]),
+                                            new Vector3(objects.get(i).getOrigin()));
         }
         
         player.move();
