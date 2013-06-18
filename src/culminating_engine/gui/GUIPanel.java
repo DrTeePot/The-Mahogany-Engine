@@ -9,6 +9,7 @@ import culminating_engine.Renderer;
 import culminating_engine.Vector3;
 import culminating_engine.shapes.EquilateralTriangularPyramid;
 import culminating_engine.shapes.GameObject;
+import culminating_engine.shapes.Line;
 import culminating_engine.shapes.Player;
 import culminating_engine.shapes.RectangularPrism;
 import culminating_engine.shapes.RectangularPyramid;
@@ -39,6 +40,15 @@ public class GUIPanel extends JPanel implements Runnable{
     private final double PI = Math.PI;
     
     GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0); //the game object used to define the player
+    
+    Vector3 o = new Vector3(0,0,0); //origin of world
+    //axis of world
+    GameObject xp = new Line(o, new Vector3(100,0,0)); 
+    GameObject xn = new Line(o, new Vector3(-100,0,0));
+    GameObject yp = new Line(o, new Vector3(0,100,0));
+    GameObject yn = new Line(o, new Vector3(0,-100,0));
+    GameObject zp = new Line(o, new Vector3(0,0,100));
+    GameObject zn = new Line(o, new Vector3(0,0,-100));
     
     
     /**
@@ -122,6 +132,12 @@ public class GUIPanel extends JPanel implements Runnable{
         //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
+        renderer.addObject(xp);
+        renderer.addObject(xn);
+        renderer.addObject(yp);
+        renderer.addObject(yn);
+        renderer.addObject(zp);
+        renderer.addObject(zn);
         
     }
     
