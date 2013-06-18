@@ -379,6 +379,8 @@ public abstract class GameObject {
             trs[i].subtractVector(v);
             trs[i].rotate(a,b,c);
         }
+        
+        shapeOrigin.rotate(a, b, c);
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
         orientationZ.rotate(a, b, c);

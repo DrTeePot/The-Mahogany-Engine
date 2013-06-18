@@ -387,12 +387,14 @@ public class Vector3 {
     public static double getMagnitude(double i, double j, double k){
         return(Math.sqrt(i*i + j*j + k*k));
     }
+    
     public static double getMagnitude(Vector3 s){
         double i = s.getComponents()[0];
         double j = s.getComponents()[1];
         double k = s.getComponents()[2];
         return(Math.sqrt(i*i + j*j + k*k));
     }
+    
     public static double dotMultiply(Vector3 s, Vector3 d){
         double x1 = s.getComponents()[0];
         double y1 = s.getComponents()[1];
@@ -404,6 +406,7 @@ public class Vector3 {
 
         return(x1*x2 + y1*y2 + z1*z2);
     }
+    
     public static double dotMultiply(double x1, double y1, double z1, double x2, double y2, double z2){
         return(x1*x2 + y1*y2 + z1*z2);
     }
