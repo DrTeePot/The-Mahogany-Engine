@@ -7,6 +7,8 @@ package culminating_engine.gui;
 import culminating_engine.shapes.Camera;
 import culminating_engine.Renderer;
 import culminating_engine.Vector3;
+import culminating_engine.shapes.Cube;
+import culminating_engine.shapes.EquilateralTriangularPrism;
 import culminating_engine.shapes.EquilateralTriangularPyramid;
 import culminating_engine.shapes.GameObject;
 import culminating_engine.shapes.Line;
@@ -43,12 +45,12 @@ public class GUIPanel extends JPanel implements Runnable{
     
     Vector3 o = new Vector3(0,0,0); //origin of world
     //axis of world
-    GameObject xp = new Line(o, new Vector3(100,0,0)); 
-    GameObject xn = new Line(o, new Vector3(-100,0,0));
-    GameObject yp = new Line(o, new Vector3(0,100,0));
-    GameObject yn = new Line(o, new Vector3(0,-100,0));
-    GameObject zp = new Line(o, new Vector3(0,0,100));
-    GameObject zn = new Line(o, new Vector3(0,0,-100));
+    GameObject xp = new Line(o, new Vector3(1000,0,0)); 
+    GameObject xn = new Line(o, new Vector3(-1000,0,0));
+    GameObject yp = new Line(o, new Vector3(0,1000,0));
+    GameObject yn = new Line(o, new Vector3(0,-1000,0));
+    GameObject zp = new Line(o, new Vector3(0,0,1000));
+    GameObject zn = new Line(o, new Vector3(0,0,-1000));
     
     
     /**
@@ -59,12 +61,16 @@ public class GUIPanel extends JPanel implements Runnable{
      *      and WASD (camera rotation).
      * 
      */
-    int numObjects = 200; //number of obects to randomly generate
-    double spaceObjectsOccupy = 500; //size of cube in which objects are generated
+    int numRect = 100; 
+    int numTriPyr = 50;
+    int numTriPris = 100;
+    int numCube = 50;
+    int numObjects = numRect + numTriPyr + numTriPris + numCube;//number of obects to randomly generate
+    double spaceObjectsOccupy = 1000; //size of cube in which objects are generated
     double maxObjectSize = 20; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
-    double maxRotationDistance = 100;
+    double maxRotationDistance = 50;
             
     //will hold all objects
     ArrayList<GameObject> objects = new ArrayList<GameObject>(); 
@@ -89,18 +95,39 @@ public class GUIPanel extends JPanel implements Runnable{
         requestFocusInWindow();
         addKeyListener(new Controls()); //allow keyboard input (for controls)
         
-        camera = new Camera(new Vector3(0,0,0), Math.toRadians(35));
+        camera = new Camera(new Vector3(0,0,0), Math.toRadians(35)); // the second argument is the field of view
         player = new Player(p, camera); //add the camera to the player, so that 
                                         //it moves with the player
         
         //Randomly generate the objects
-        for (int i = 0; i < numObjects; i++){
+        for (int i = 0; i < numRect; i++){
             objects.add(new RectangularPrism(
                     new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
                     r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
                     r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
                     r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize)
                     );
+        }
+        for (int i = 0; i < numTriPyr; i++){
+            objects.add(new EquilateralTriangularPyramid(
+                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)), 
+                    r.nextDouble()*maxObjectSize ));
+        }
+        for (int i = 0; i < numTriPris; i++){
+            objects.add(new EquilateralTriangularPrism(
+                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
+                    r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize*3));
+        }
+        for (int i = 0; i < numCube; i++){
+            objects.add(new Cube(
+                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)), 
+                    r.nextDouble()*maxObjectSize ));
         }
         
         //Randomly generate points for the objects to rotate around
@@ -132,12 +159,12 @@ public class GUIPanel extends JPanel implements Runnable{
         //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
-        renderer.addObject(xp);
-        renderer.addObject(xn);
-        renderer.addObject(yp);
-        renderer.addObject(yn);
-        renderer.addObject(zp);
-        renderer.addObject(zn);
+//        renderer.addObject(xp);
+//        renderer.addObject(xn);
+//        renderer.addObject(yp);
+//        renderer.addObject(yn);
+//        renderer.addObject(zp);
+//        renderer.addObject(zn);
         
     }
     
