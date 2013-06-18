@@ -30,8 +30,8 @@ public class Player extends GameObject{
      */
     public Player (GameObject g, Camera c){
         super(g);
-        speed = 0.5;
-        rotSpeed =0.3;
+        speed = 5;
+        rotSpeed = 1;
                 
         cam = c;
     }
