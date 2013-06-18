@@ -40,7 +40,7 @@ public class GUIPanel extends JPanel implements Runnable{
     private final double PI = Math.PI;
     
     GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0); //the game object used to define the player
-    
+    GameObject tri1 = new EquilateralTriangularPyramid(new Vector3(10,0,0), 5);
     Vector3 o = new Vector3(0,0,0); //origin of world
     //axis of world
     GameObject xp = new Line(o, new Vector3(100,0,0)); 
@@ -138,6 +138,7 @@ public class GUIPanel extends JPanel implements Runnable{
         renderer.addObject(yn);
         renderer.addObject(zp);
         renderer.addObject(zn);
+        renderer.addObject(tri1);
         
     }
     
@@ -197,7 +198,7 @@ public class GUIPanel extends JPanel implements Runnable{
                                             Math.toRadians(rotationsAroundSelf.get(i)[2]));//,
                                             //new Vector3(objects.get(i).getOrigin()));
         }
-        
+        tri1.rotateAroundSelf(Math.toRadians(0), Math.toRadians(0), Math.toRadians(1));
         //Move and rotate the camera (based on pressed keys)
         player.move();
         
