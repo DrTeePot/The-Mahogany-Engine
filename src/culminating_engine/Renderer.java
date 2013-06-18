@@ -19,10 +19,10 @@ import java.util.Arrays;
  */
 public class Renderer {
     
-    private ArrayList<GameObject> gameObjects = new ArrayList();
-    private Camera camera;
+    private ArrayList<GameObject> gameObjects = new ArrayList(); //list of all objects to be rendered
+    private Camera camera; //the camera used to render
     
-    private int screenSize;
+    private int screenSize; 
     private int outWidth;
     private int outHeight;
     
@@ -62,15 +62,22 @@ public class Renderer {
         screenSize = (int)(Math.max(w, h) * Math.sqrt(2));    
     }
     
-    
+    /**
+     * Add an ArrayList of objects to the list of objects to be rendered
+     * pre: none
+     * post: objects have been added to the list
+     * @param g - the ArrayList of objects to be added
+     */
     public void addObjects(ArrayList<GameObject> g){
         gameObjects.addAll(g);
     }
     
-    public void addObjects(GameObject[] g){
-        gameObjects.addAll(Arrays.asList(g));
-    }
-    
+    /**
+     * Add a single GameObject to the list of objects to be rendered
+     * pre: none
+     * post: object has been added to the list
+     * @param g - the object to be added
+     */
     public void addObject(GameObject g){
         gameObjects.add(g);
     }
@@ -88,6 +95,9 @@ public class Renderer {
         
         double angle = d1.getAngle(d2);
         
+        //if the angle between the direction the camera is pointed
+        //  and the point to be rendered is less than the field of view, 
+        //  thenthe point is in the field of view
         if ((camera.getFOV() >= angle)&&(angle >= -camera.getFOV())){
             return true;
         } else {
@@ -108,15 +118,21 @@ public class Renderer {
         double xCoordinate, yCoordinate;
         double xyAngle , xzAngle;
 
-        Vector3[] camOrientation = camera.getOrientation();
-        Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v);
+        Vector3[] camOrientation = camera.getOrientation(); //the camera's orientation
+        Vector3 d2 = Vector3.subtractVectors(camera.getPositionVector(), v); //the points position relative to the camera
         
-        Vector3 hd2 = d2.projectionOn(camOrientation[2]);
-        Vector3 wd2 = d2.projectionOn(camOrientation[1]);
-
+        Vector3 hd2 = d2.projectionOn(camOrientation[2]); //point projected on to the camera's Z-axis
+        Vector3 wd2 = d2.projectionOn(camOrientation[1]); //point projected on to the camera's Y-axis
         
         double vectorMagnitude = d2.getMagnitude();
+        
         double width, height;
+        
+        /**
+         * the following checks whether the above projections are parallel or antiparallel,
+         *      to the axes they were projected onto. If they are antiparallel, then the resulting
+         *      magnitude of the projection needs to be multiplied by negative 1.
+         */
         if ((hd2.getComponents()[0] * camOrientation[2].getComponents()[0] < 0)||
                 (hd2.getComponents()[1] * camOrientation[2].getComponents()[1] < 0)||
                 (hd2.getComponents()[2] * camOrientation[2].getComponents()[2] < 0)){
@@ -132,9 +148,7 @@ public class Renderer {
             width = wd2.getMagnitude();
         }
         
-        
-        //System.out.println("Vector: " + d2 + ", projected on: " + camOrientation[2] + ". Yields: "+ hd2);
-
+        //properly scales and positions the coordinates
         xCoordinate = (screenSize/2) * (width/(vectorMagnitude*camera.getFOV()));
         yCoordinate = (screenSize/2) * (height/(vectorMagnitude*camera.getFOV()));
        
@@ -159,6 +173,15 @@ public class Renderer {
         return flipped;
     }
     
+    /**
+     * Given an a, b, and c value, return the solution(s) to the quadratic formula
+     * pre: none
+     * post: solutions have been returned as double[]
+     * @param a - the a value
+     * @param b - the b value
+     * @param c - the c value
+     * @return - a double[] of the solutions
+     */
     private double[] quadraticFormula(double a, double b, double c){
         double [] x = new double[2];
         
@@ -174,6 +197,21 @@ public class Renderer {
         return b >= a ? c >= a && c <= b : c >= b && c <= a;
     }
     
+    /**
+     * Given a line, the following function and returns a line that has every
+     *      single point in the field of view (if any). The field of view is 
+     *      defined by an infinite cone, whose splay is equal to the angle of 
+     *      the field of view. Thus, by finding the intersection(s) of the 
+     *      given line and that infinite cone, a line entirely inside of the
+     *      field of view can be returned. 
+     *      For more information about infinite cones, go to:
+     *      http://yayamoose.homelinux.com/~ripper/mirrors/www.magic-software.com/Documentation/IntersectLineCone.pdf
+     * pre: none
+     * post: A line with all points in the FOV is returned
+     * @param p1 - the first point defining the given line
+     * @param p2 - the second point defining the given line
+     * @return - a line contained by the FOV
+     */
     private Vector3[] makeAllPointsInFOV(Vector3 p1, Vector3 p2){      
         
         double xo = p1.getMagnitude_componentX();
@@ -300,6 +338,16 @@ public class Renderer {
         
     }
     
+    
+    /**
+     * Given a line in R3, uses makeAllPointsInFOV to and V3toV2 to return a 2D
+     *      line object.
+     * pre: none
+     * post: a line object (array of points, 2 deep) has been returned
+     * @param p1 - the first point defining the given line
+     * @param p2 - the second point defining the given line
+     * @return - a line object (array of points, 2 deep)
+     */
     private Point[] lineTo2D(Vector3 p1, Vector3 p2){
         Vector3[] line3D;
         Point[] line2D = new Point[2];
