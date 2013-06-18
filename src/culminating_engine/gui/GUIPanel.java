@@ -49,7 +49,7 @@ public class GUIPanel extends JPanel implements Runnable{
      *      and WASD (camera rotation).
      * 
      */
-    int numObjects = 500; //number of obects to randomly generate
+    int numObjects = 200; //number of obects to randomly generate
     double spaceObjectsOccupy = 500; //size of cube in which objects are generated
     double maxObjectSize = 20; 
     double maxRotationSpeed = 0.2;
@@ -147,10 +147,21 @@ public class GUIPanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g) { //all drawing done in paint method
         super.paintComponent(g); 
         
+        long diff = System.currentTimeMillis() - timeeee;
+        
+        double fps_ = 1000.0 / (double) diff;
+        
+        timeeee = System.currentTimeMillis();
+        
         //display the rendered output
         g.drawImage(renderer.wireFrameRender(), 0, 0, this);
+
         
+        System.out.println(String.valueOf(fps_));
+        
+        repaint();
     }
+    long timeeee;
     
     /*
      * Moves all gameObjects, and the player
@@ -163,8 +174,8 @@ public class GUIPanel extends JPanel implements Runnable{
         for (int i = 0; i < objects.size(); i++){            
             objects.get(i).rotateAroundPoint(Math.toRadians(rotations.get(i)[0]),
                                             Math.toRadians(rotations.get(i)[1]), 
-                                            Math.toRadians(rotations.get(i)[2]));//, 
-                    //new Vector3(rotationDistance.get(i)[0],rotationDistance.get(i)[1], rotationDistance.get(i)[2]));
+                                            Math.toRadians(rotations.get(i)[2]),
+                    new Vector3(rotationDistance.get(i)[0],rotationDistance.get(i)[1], rotationDistance.get(i)[2]));
             objects.get(i).rotateAroundSelf(Math.toRadians(rotationsAroundSelf.get(i)[0]),
                                             Math.toRadians(rotationsAroundSelf.get(i)[1]), 
                                             Math.toRadians(rotationsAroundSelf.get(i)[2]));//,
@@ -174,7 +185,6 @@ public class GUIPanel extends JPanel implements Runnable{
         //Move and rotate the camera (based on pressed keys)
         player.move();
         
-        repaint();
     }
   
      /*
