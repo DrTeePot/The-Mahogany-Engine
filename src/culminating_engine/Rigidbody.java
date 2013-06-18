@@ -50,6 +50,14 @@ public class Rigidbody {
     public void setObeysGravity(boolean t){
         obeysGravity = t;
     }
+    
+    public void setForce(Vector3 f){
+        force = new Vector3(f);
+    }
+    
+    public void setMomentum(Vector3 v){
+        momentum = new Vector3(v);
+    }
     //</editor-fold>
     
     //<editor-fold desc="Getters">
@@ -65,6 +73,14 @@ public class Rigidbody {
     public boolean obeysGravity(){
         return(obeysGravity);
     }
+    
+    public Vector3 getForce(){
+        return force;
+    }
+    
+    public Vector3 getMomentum(){
+        return momentum;
+    }
     //</editor-fold>
     
     //<editor-fold desc="physics">
@@ -73,14 +89,19 @@ public class Rigidbody {
         momentum.addVector(v);
     }
     
-    public void addMomentum(Vector3 v, double theta){
-        Vector3 l = 
-        momentum.addVector();
+    public void addForce(Vector3 f){
+        force.addVector(f);
     }
     
-    public void addForce(Vector3 f){
-        force = f;
+    public void removeMomentum(Vector3 v){
+        momentum.subtractVector(v);
     }
+    
+    public void removeForce(Vector3 f){
+        force.subtractVector(f);
+    }
+    
+    //</editor-fold>
     
     
 }

@@ -11,7 +11,7 @@ import culminating_engine.Vector3;
  * @author tristan
  */
 public class Shape extends GameObject{
-    Shape(Vector3 origin, Face[] f){
+    public Shape(Vector3 origin, Face[] f){
         super(f, origin);
     }
 }

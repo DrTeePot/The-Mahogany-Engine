@@ -102,7 +102,7 @@ public class Face {
         l = f.getPoints();
         
         for(Vector3 s : l){
-            s.addVector(u);
+            s = new Vector3(Vector3.addVectors(s, u));
         }
         
         return(new Face(l));

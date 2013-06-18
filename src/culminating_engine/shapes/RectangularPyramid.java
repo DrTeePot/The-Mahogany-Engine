@@ -16,7 +16,7 @@ public class RectangularPyramid extends GameObject{
     private double height;
     private double sideLength;
     
-    RectangularPyramid(Vector3 origin, double l, double w, double h){
+    public RectangularPyramid(Vector3 origin, double l, double w, double h){
         super();
         length = l;
         width = w;

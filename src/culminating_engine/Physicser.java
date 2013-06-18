@@ -18,17 +18,7 @@ public class Physicser {
      * The index of the GameObject in the ArrayList matches that of the forces in the forces array.
      */
     private ArrayList<GameObject> objects;
-    /**
-     * Forces, the forces that have been added to all gameObjects and must be acted upon. <br>
-     * Forces[i][n] = a single Vector3 that is acting on the object, where i is the index of the gameObject
-     * in the objects ArrayList, and n is the index of the force acting on the i object.
-     * n = 0 is the acceleration due to gravity, if enabled.
-     */
-    private ArrayList<ArrayList<Vector3>> forces;
-    /**
-     * Forces that are applied only once, and then disappear, or forces that have become 
-     */
-    private ArrayList<ArrayList<Vector3>> momentum; //same format as forces, where tempForces is the actual vectors being applied 
+    
     private double accelerationDueToGravity;
     
     

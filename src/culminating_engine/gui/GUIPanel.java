@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 public class GUIPanel extends JPanel implements Runnable{
     
     private Thread animator; //This is the thread that this class runs in
-    private final int DELAY = 10; //This is the delay between draw cycles
+    private final int DELAY = 20; //This is the delay between draw cycles
     
     private Player player; //used to move the camera 
     
@@ -163,12 +163,12 @@ public class GUIPanel extends JPanel implements Runnable{
         for (int i = 0; i < objects.size(); i++){            
             objects.get(i).rotateAroundPoint(Math.toRadians(rotations.get(i)[0]),
                                             Math.toRadians(rotations.get(i)[1]), 
-                                            Math.toRadians(rotations.get(i)[2]), 
-                    new Vector3(rotationDistance.get(i)[0],rotationDistance.get(i)[1], rotationDistance.get(i)[2]));
-            objects.get(i).rotateAroundPoint(Math.toRadians(rotationsAroundSelf.get(i)[0]),
+                                            Math.toRadians(rotations.get(i)[2]));//, 
+                    //new Vector3(rotationDistance.get(i)[0],rotationDistance.get(i)[1], rotationDistance.get(i)[2]));
+            objects.get(i).rotateAroundSelf(Math.toRadians(rotationsAroundSelf.get(i)[0]),
                                             Math.toRadians(rotationsAroundSelf.get(i)[1]), 
-                                            Math.toRadians(rotationsAroundSelf.get(i)[2]),
-                                            new Vector3(objects.get(i).getOrigin()));
+                                            Math.toRadians(rotationsAroundSelf.get(i)[2]));//,
+                                            //new Vector3(objects.get(i).getOrigin()));
         }
         
         //Move and rotate the camera (based on pressed keys)
