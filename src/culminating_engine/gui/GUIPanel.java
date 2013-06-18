@@ -29,31 +29,50 @@ public class GUIPanel extends JPanel implements Runnable{
     private Thread animator; //This is the thread that this class runs in
     private final int DELAY = 10; //This is the delay between draw cycles
     
-    private Player player;
+    private Player player; //used to move the camera 
     
-    private Camera camera;
+    private Camera camera; 
     private Renderer renderer;
     
     private Random r = new Random();
     
     private final double PI = Math.PI;
     
-    GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0);
+    GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0); //the game object used to define the player
     
     
-    int numObjects = 500;
-    double spaceObjectsOccupy = 500;
-    double maxObjectSize = 20;
+    /**
+     * The following are variables used to demonstrate the Mahogany engines 
+     *      capabilities. 
+     * It will render a specified number of random rotating shapes, in a floating
+     *      world, which the user may then navigate using arrow keys (movement)
+     *      and WASD (camera rotation).
+     * 
+     */
+    int numObjects = 500; //number of obects to randomly generate
+    double spaceObjectsOccupy = 500; //size of cube in which objects are generated
+    double maxObjectSize = 20; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
     double maxRotationDistance = 100;
             
-    ArrayList<GameObject> objects = new ArrayList<GameObject>();
-    ArrayList<Double[]> rotations = new ArrayList<Double[]>();
+    //will hold all objects
+    ArrayList<GameObject> objects = new ArrayList<GameObject>(); 
+    
+    //will hold the objects' rotation speed around a point
+    ArrayList<Double[]> rotations = new ArrayList<Double[]>(); 
+    
+    //will hold the objects' rotation speed around itself
     ArrayList<Double[]> rotationsAroundSelf = new ArrayList<Double[]>();
+    
+    //will hold the distances of the points that objects will rotate about
     ArrayList<Double[]> rotationDistance = new ArrayList<Double[]>();
 
-    
+    /**
+     * Initializes the GUIPanel. All global variable should be initialized here
+     * pre: none
+     * post: the panel has been initialized
+     */
     public GUIPanel(){
         //Window must be focused to add a KeyListener
         setFocusable(true);
@@ -61,8 +80,10 @@ public class GUIPanel extends JPanel implements Runnable{
         addKeyListener(new Controls()); //allow keyboard input (for controls)
         
         camera = new Camera(new Vector3(0,0,0), Math.toRadians(35));
-        player = new Player(p, camera);
+        player = new Player(p, camera); //add the camera to the player, so that 
+                                        //it moves with the player
         
+        //Randomly generate the objects
         for (int i = 0; i < numObjects; i++){
             objects.add(new RectangularPrism(
                     new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
@@ -72,12 +93,7 @@ public class GUIPanel extends JPanel implements Runnable{
                     );
         }
         
-        for (int i = 0; i < numObjects; i++){
-            rotations.add(new Double[]{r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2),
-                r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2),
-                r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2)});
-        }
-        
+        //Randomly generate points for the objects to rotate around
         for (int i = 0; i < numObjects; i++){
             rotationDistance.add(new Double[]{
                                 objects.get(i).getOrigin().getMagnitude_componentX() + 
@@ -88,6 +104,14 @@ public class GUIPanel extends JPanel implements Runnable{
                     r.nextDouble() *maxRotationDistance - (maxRotationDistance / 2)});
         }
         
+        //Randomly generate how the objects rotate around their points
+        for (int i = 0; i < numObjects; i++){
+            rotations.add(new Double[]{r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2),
+                r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2),
+                r.nextDouble()*maxRotationSpeed - (maxRotationSpeed/2)});
+        }
+        
+        //Randomly generate how each object rotates about itself
         for (int i = 0; i < numObjects; i++){
             rotationsAroundSelf.add(new Double[]{
                 r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2),
@@ -95,6 +119,7 @@ public class GUIPanel extends JPanel implements Runnable{
                 r.nextDouble()*maxRotationAroundSelfSpeed - (maxRotationAroundSelfSpeed/2)});
         }
         
+        //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
         
@@ -122,14 +147,20 @@ public class GUIPanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g) { //all drawing done in paint method
         super.paintComponent(g); 
         
+        //display the rendered output
         g.drawImage(renderer.wireFrameRender(), 0, 0, this);
         
     }
     
-    
+    /*
+     * Moves all gameObjects, and the player
+     * Pre: None
+     * Post: gameObjects and player have been moved to appropriate spaces
+     */
     public void cycle() { //Change ALL THE VARS
-
-        for (int i = 0; i < objects.size(); i++){
+        
+        //Rotate each object properly
+        for (int i = 0; i < objects.size(); i++){            
             objects.get(i).rotateAroundPoint(Math.toRadians(rotations.get(i)[0]),
                                             Math.toRadians(rotations.get(i)[1]), 
                                             Math.toRadians(rotations.get(i)[2]), 
@@ -140,12 +171,13 @@ public class GUIPanel extends JPanel implements Runnable{
                                             new Vector3(objects.get(i).getOrigin()));
         }
         
+        //Move and rotate the camera (based on pressed keys)
         player.move();
         
         repaint();
     }
   
-        /*
+     /*
      * Listens for keys, and reports which keys are down to the player object
      * Pre: None
      * Post: Player object knows what keys are pressed
@@ -213,6 +245,11 @@ public class GUIPanel extends JPanel implements Runnable{
         
     }
     
+    /*
+     * Delays the program for the set delay (taking into account time spent during calculations
+     * Pre: The time before "cycle" occured
+     * Post: She gme has been delayed for the delay
+     */
     public void delay(long beforeTime){
         long timeDiff, sleep;
         timeDiff = System.currentTimeMillis() - beforeTime;
