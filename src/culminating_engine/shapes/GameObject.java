@@ -553,8 +553,9 @@ public abstract class GameObject {
     }
     
     /**
-     * Returns 
-     * @return 
+     * Returns the origin of the GameObject as a Vector3 object. This returns a reference, not a clone.<br>
+     * pre: none <br>
+     * @return Vector3 shapeOrigin
      */
     public Vector3 getOrigin(){
         return shapeOrigin;
@@ -562,6 +563,13 @@ public abstract class GameObject {
     
     //</editor-fold>
     
+    /**
+     * Returns the string of the object. This is created for debugging purposes, and displays a textual version of the 
+     * object. <br>
+     * pre: none
+     * post: All of the points in the GameObject are returned in an organized list.
+     * @return A string of all the points, organized using returns and brackets is returned to the client.
+     */
     @Override
     public String toString(){
         String t = "{ \n";
