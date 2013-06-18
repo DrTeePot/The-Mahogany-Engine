@@ -19,11 +19,6 @@ public abstract class GameObject {
     private Vector3 orientationY;
     private Vector3 orientationZ;
     
-    private boolean renderable;
-    private boolean physicsable;
-    private boolean collideable;
-    private boolean makesSound;
-    
     private Rigidbody physics;
     
     
@@ -67,11 +62,6 @@ public abstract class GameObject {
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
-        
-        renderable = rend;
-        physicsable = physic;
-        collideable = collide;
-        makesSound = sound;
     }
             
     /**
@@ -379,6 +369,8 @@ public abstract class GameObject {
             trs[i].subtractVector(v);
             trs[i].rotate(a,b,c);
         }
+        
+        shapeOrigin.rotate(a, b, c);
         orientationX.rotate(a, b, c);
         orientationY.rotate(a, b, c);
         orientationZ.rotate(a, b, c);
@@ -437,9 +429,11 @@ public abstract class GameObject {
     //<editor-fold desc="Setter and getters">
     
     /**
-     * Resets the 
-     * @param f
-     * @param origin 
+     * Resets the GameObject to have the given faces, and origin. Equivalent to recalling the constructor.<br>
+     * pre: none
+     * post: The object is re-defined.
+     * @param f - the array of faces that defines the object
+     * @param origin - the objects center aka point of rotation/scale
      */
     public void setGameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
@@ -452,51 +446,130 @@ public abstract class GameObject {
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
     }
+    
+    /**
+     * Reset the array of shapes that defines the GameObjects bounds, but not its origin. <br>
+     * pre: none <br>
+     * post: The shape is re-defined, but not its orientation, origin, or physics. 
+     * @param f - the face array that defines the shape to replace the current shape. 
+     */
     public void setShape(Face[] f){
         shape = f;
         populateTransformShape();
     }
     
+    /**
+     * Changes the face at the position i(0-shape.length) in the shape array to another face.<br>
+     * pre: none<b>
+     * post: The face array is changed such that that shape[i] is equivalent to face f.
+     * @param i - the index position of the face to be changed. 
+     * @param f - the face to set the current face to. 
+     */
     public void setFace(int i, Face f){
         shape[i] = new Face(f);
+        populateTransformShape();
     }
     
+    /**
+     * Sets the n (0-2) vertex of the i (0-shape.length) face in the shape array to be equal to a given Vector3.<br>
+     * pre: none<br>
+     * post: The specified vertex of the specified face is changed.<br>
+     * @param i - the index of the face to modify in the shape array.
+     * @param n - the index of the vertex in the face. (0-2)
+     * @param p - the Vector3 to set the vertex to, in relation to the world.
+     */
     public void setPoint(int i, int n, Vector3 p){
         shape[i].setPoint(n, p);
+        populateTransformShape();
     }
     
+    /**
+     * Sets the orientation of the object, specified by three vectors. Care should be taken when using this function,
+     * to retain normal functionality the three vectors must be perpendicular to each other, as rotate functions will 
+     * rotate around an objects axis, and erratic behavior may occur when axis are are non-perpendicular.<br>
+     * pre: none <br>
+     * post: the orientation is set to the given values. 
+     * @param x - the Vector3 to set the x-orientation to.
+     * @param y - the Vector3 to set the y-orientation to.
+     * @param z - the Vector3 to set the z-orientation to.
+     */
     public void setOrientation(Vector3 x, Vector3 y, Vector3 z){
         orientationX = new Vector3(x);
         orientationY = new Vector3(y);
         orientationZ = new Vector3(z);
     }
     
+    /**
+     * Changes the origin of the GameObject to the given value. Note that this will affect rotation and scaling. <br>
+     * pre: none <br>
+     * post: The origin is changed. 
+     * @param o - the Vector3 that represents the point where the origin of the shape will reside, with respect to the world. 
+     */
     public void setOrigin(Vector3 o){
         shapeOrigin = new Vector3(o);
     }
     
+    /**
+     * Returns the face object that is at the given index. This returns a reference, not a clone. <br>
+     * pre: none <br>
+     * post: The face is returned.
+     * @param i - the index in the shape of the face to be returned.
+     * @return shape[i]
+     */
     public Face getFace(int i){
         return(shape[i]);
     }
     
+    /**
+     * Returns the vertex at index n (0-2) of the face at index i of the shape. <br>
+     * pre: none <br>
+     * post: The Vector3 at the given point is returned.
+     * @param i - the index of the face in the shape array.
+     * @param n - the index of the vertex in the face (0-2)
+     * @return Vector3(shape[i].getPoint(n))
+     */
     public Vector3 getPoint(int i, int n){
         return(shape[i].getPoint(n)); //n must be [0,2] <<inclusive
     }
     
+    /**
+     * Returns the array of faces that represents the shape of the object. This is a reference, not a clone.<br> 
+     * pre: none<br>
+     * post: The shape array is returned.
+     * @return Face[] shape
+     */
     public Face[] getShape(){
         return(shape);
     }
     
+    /**
+     * Returns the orientation vectors for the GameObject as an array of Vector3 [0-2]. This is a reference, not a clone.<br>
+     * pre: none <br>
+     * post: the three orientations are returned. 
+     * @return Vector3[]{orientationX, orientationY, orientationZ}
+     */
     public Vector3[] getOrientation(){
         return new Vector3[]{orientationX, orientationY, orientationZ};
     }
     
+    /**
+     * Returns the origin of the GameObject as a Vector3 object. This returns a reference, not a clone.<br>
+     * pre: none <br>
+     * @return Vector3 shapeOrigin
+     */
     public Vector3 getOrigin(){
         return shapeOrigin;
     }
     
     //</editor-fold>
     
+    /**
+     * Returns the string of the object. This is created for debugging purposes, and displays a textual version of the 
+     * object. <br>
+     * pre: none
+     * post: All of the points in the GameObject are returned in an organized list.
+     * @return A string of all the points, organized using returns and brackets is returned to the client.
+     */
     @Override
     public String toString(){
         String t = "{ \n";

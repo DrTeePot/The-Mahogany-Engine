@@ -32,7 +32,6 @@ public class EquilateralTriangularPrism extends GameObject{
         double y = origin.getComponents()[1];
         double z = origin.getComponents()[2];
         
-        
         A = new Vector3(x - (hyp * cos45), y + (cos45 * hyp), z - halfh);
         B = new Vector3(x + (hyp * cos75), y - (cos15 * hyp), z - halfh);
         C = new Vector3(x + (hyp * cos15), y - (cos75 * hyp), z - halfh);

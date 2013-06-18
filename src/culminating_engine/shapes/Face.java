@@ -92,6 +92,13 @@ public class Face {
         }
     }
     
+    /**
+     * Returns the string of the object. This is created for debugging purposes, and displays a textual version of the 
+     * object. <br>
+     * pre: none
+     * post: All of the points in the Face are returned in an organized list.
+     * @return A string of all the points, organized using returns and brackets is returned to the client.
+     */
     @Override
     public String toString(){
         return("{ " + points[0] + ", " + points[1] + ", " + points[2] + " } \n");
