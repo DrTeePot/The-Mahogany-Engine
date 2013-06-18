@@ -19,11 +19,6 @@ public abstract class GameObject {
     private Vector3 orientationY;
     private Vector3 orientationZ;
     
-    private boolean renderable;
-    private boolean physicsable;
-    private boolean collideable;
-    private boolean makesSound;
-    
     private Rigidbody physics;
     
     
@@ -67,11 +62,6 @@ public abstract class GameObject {
         orientationX = new Vector3(1,0,0);
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
-        
-        renderable = rend;
-        physicsable = physic;
-        collideable = collide;
-        makesSound = sound;
     }
             
     /**
@@ -439,9 +429,11 @@ public abstract class GameObject {
     //<editor-fold desc="Setter and getters">
     
     /**
-     * Resets the 
-     * @param f
-     * @param origin 
+     * Resets the GameObject to have the given faces, and origin. Equivalent to recalling the constructor.<br>
+     * pre: none
+     * post: The object is re-defined.
+     * @param f - the array of faces that defines the object
+     * @param origin - the objects center aka point of rotation/scale
      */
     public void setGameObject(Face[] f, Vector3 origin){
         shape = new Face[f.length];
@@ -454,11 +446,23 @@ public abstract class GameObject {
         orientationY = new Vector3(0,1,0);
         orientationZ = new Vector3(0,0,1);
     }
+    
+    /**
+     * Reset the array of shapes that defines the GameObjects bounds, but not its origin. <br>
+     * pre: none <br>
+     * post: The shape is re-defined, but not its orientation, origin, or physics. 
+     * @param f - the face array that defines the shape to replace the current shape. 
+     */
     public void setShape(Face[] f){
         shape = f;
         populateTransformShape();
     }
     
+    /**
+     * Changes the face at the position i in the shape array
+     * @param i
+     * @param f 
+     */
     public void setFace(int i, Face f){
         shape[i] = new Face(f);
     }
