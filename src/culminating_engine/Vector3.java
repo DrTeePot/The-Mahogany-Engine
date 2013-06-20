@@ -5,7 +5,9 @@
 package culminating_engine;
 
 /**
- *
+ * Defines a position vector (vector from the origin to a given point (x,y,z)). This class is used to determine
+ * three dimensional movement, including rotations, and to perform vector operations that are necessary for the
+ * 3D engine to draw and manipulate objects. 
  * @author tristan
  */
 public class Vector3 {

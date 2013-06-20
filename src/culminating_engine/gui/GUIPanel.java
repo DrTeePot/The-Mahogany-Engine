@@ -17,7 +17,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import javax.swing.JPanel;
 
@@ -40,7 +39,7 @@ public class GUIPanel extends JPanel implements Runnable{
     private final double PI = Math.PI;
     
     GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0); //the game object used to define the player
-    GameObject tri1 = new EquilateralTriangularPyramid(new Vector3(10,0,0), 5);
+    GameObject tri1 = new RectangularPyramid(new Vector3(10,0,0), 5,4,5);
     Vector3 o = new Vector3(0,0,0); //origin of world
     //axis of world
     GameObject xp = new Line(o, new Vector3(100,0,0)); 
@@ -174,7 +173,7 @@ public class GUIPanel extends JPanel implements Runnable{
         g.drawImage(renderer.wireFrameRender(), 0, 0, this);
 
         
-        System.out.println(String.valueOf(fps_));
+        //System.out.println(String.valueOf(fps_));
         
         repaint();
     }

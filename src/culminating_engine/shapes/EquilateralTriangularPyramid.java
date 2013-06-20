@@ -7,13 +7,14 @@ package culminating_engine.shapes;
 import culminating_engine.Vector3;
 
 /**
- *
+ * Allows users to easily create a equilateral triangular based pyramid shaped GameObject. Adds small 
+ * functionality related to equilateral triangle pyramids. 
  * @author tristan
  */
 public class EquilateralTriangularPyramid extends GameObject{
     
-    private double sideLength;
-    private final double tetrahedralAngle;
+    private double sideLength; //the side length of the triangles in the pyramid
+    private final double tetrahedralAngle; //the tetrahedral angle. 
     
     /**
      * Creates a GameObject in the shape of a Equilateral Triangular Pyramid. <br>
