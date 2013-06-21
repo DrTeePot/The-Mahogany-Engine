@@ -10,27 +10,57 @@ package culminating_engine;
  */
 public class Rigidbody {
     
-    private double mass;
-    private boolean obeysGravity;
-    private double uFriction;
+    private double mass; //the mass of the object
+    private boolean obeysGravity; //whether or not this object will obey gravity
+    private double uFriction; //the coeficient of friction
     
-    private Vector3 momentum;
-    private Vector3 force;
+    private Vector3 momentum; //the momentum of the object at all times until modified
+    private Vector3 force; //the force being applied to this object at all times until modified
     
+    /**
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * pre: none <br>
+     * post: A Rigidbody is created with a mass and default values. (doesn't obey gravity, frictionless)
+     * @param m - the mass of the object in kilograms
+     */
     public Rigidbody(double m){
         mass = m;
+        obeysGravity = false;
+        uFriction = 0;
     }
     
+    /**
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * pre: none <br>
+     * post: A Rigidbody is created with a mass and the user may define whether the object obeys gravity. (frictionless)
+     * @param m - the mass of the object in kilograms
+     * @param h - boolean value, if true this object obeys gravity. 
+     */
     public Rigidbody(double m, boolean h){
         mass = m;
         obeysGravity = h;
     }
     
+    /**
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * pre: none <br>
+     * post: A Rigidbody is created with a mass and coefficient of friction (does not obey gravity)
+     * @param m - the mass of the object in kilograms
+     * @param f - double value representing the coefficient of friction. If 0, frictionless, if >1 lots of friction. 
+     */
     public Rigidbody(double m, double f){
         mass = m;
         uFriction = f;
     }
     
+    /**
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * pre: none <br>
+     * post: A Rigidbody is created with a mass, coefficient of friction, and user may define whether it obeys gravity.
+     * @param m - the mass of the object in kilograms
+     * @param f - double value representing the coefficient of friction. If 0, frictionless, if >1 lots of friction. 
+     * @param h - boolean value, if true this object obeys gravity.
+     */
     public Rigidbody(double m, double f, boolean h){
         mass = m;
         uFriction = f;

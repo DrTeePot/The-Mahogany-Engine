@@ -19,7 +19,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import javax.swing.JPanel;
 
@@ -42,9 +41,10 @@ public class GUIPanel extends JPanel implements Runnable{
     private final double PI = Math.PI;
     
     GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0); //the game object used to define the player
-    
+    GameObject tri1 = new RectangularPyramid(new Vector3(10,0,0), 5,4,5);
     Vector3 o = new Vector3(0,0,0); //origin of world
     //axis of world
+    GameObject shape1 = new RectangularPyramid(new Vector3(10,0,0), 5,5,5);
     GameObject xp = new Line(o, new Vector3(1000,0,0)); 
     GameObject xn = new Line(o, new Vector3(-1000,0,0));
     GameObject yp = new Line(o, new Vector3(0,1000,0));
@@ -159,12 +159,13 @@ public class GUIPanel extends JPanel implements Runnable{
         //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
-//        renderer.addObject(xp);
-//        renderer.addObject(xn);
-//        renderer.addObject(yp);
-//        renderer.addObject(yn);
-//        renderer.addObject(zp);
-//        renderer.addObject(zn);
+        renderer.addObject(shape1);
+        renderer.addObject(xp);
+        renderer.addObject(xn);
+        renderer.addObject(yp);
+        renderer.addObject(yn);
+        renderer.addObject(zp);
+        renderer.addObject(zn);
         
     }
     
@@ -200,7 +201,7 @@ public class GUIPanel extends JPanel implements Runnable{
         g.drawImage(renderer.wireFrameRender(), 0, 0, this);
 
         
-        System.out.println(String.valueOf(fps_));
+        //System.out.println(String.valueOf(fps_));
         
         repaint();
     }
@@ -224,7 +225,7 @@ public class GUIPanel extends JPanel implements Runnable{
                                             Math.toRadians(rotationsAroundSelf.get(i)[2]));//,
                                             //new Vector3(objects.get(i).getOrigin()));
         }
-        
+        tri1.rotateAroundSelf(Math.toRadians(0), Math.toRadians(0), Math.toRadians(1));
         //Move and rotate the camera (based on pressed keys)
         player.move();
         

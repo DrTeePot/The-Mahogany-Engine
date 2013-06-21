@@ -7,11 +7,15 @@ package culminating_engine.shapes;
 import culminating_engine.Vector3;
 
 /**
- *
+ * Allows users to easily create a rectangular prism shaped GameObject. Adds small functionality related to 
+ * rectangular prisms. 
  * @author tristan
  */
 public class RectangularPrism extends GameObject{
     
+    private double baseWidth; //the distance across the front of the base
+    private double baseDepth; //the distance back the base extends
+    private double prismHeight; //the amound the base extends upwards
     
     public RectangularPrism(Vector3 origin, double width, double height, double depth){
         super();
@@ -23,6 +27,10 @@ public class RectangularPrism extends GameObject{
         final Vector3 B2;
         final Vector3 C2;
         final Vector3 D2;
+        
+        baseWidth = width;
+        baseDepth = depth;
+        prismHeight = height;
         
         double halfw = width / 2;
         double halfh = height / 2;

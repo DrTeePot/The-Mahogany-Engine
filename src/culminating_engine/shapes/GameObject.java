@@ -12,13 +12,16 @@ import culminating_engine.Vector3;
  * @author tristan
  */
 public abstract class GameObject {
-    private Vector3 shapeOrigin;
-    private Face[] shape;
-    private Face[] transformShape;
-    private Vector3 orientationX;
+    
+    private Vector3 shapeOrigin; //the origin of the GameObject, usually the center, that object will rotate/scale around
+    
+    private Face[] shape; // the faces that define the shape of the GameObject in relation to (0,0,0)
+    private Face[] transformShape; //the faces that the shape of the GameObject in relation to shapeOrigin
+    //the orientation of the GameObject
+    private Vector3 orientationX; 
     private Vector3 orientationY;
     private Vector3 orientationZ;
-    
+    //Defines the physical properties of the GameObject
     private Rigidbody physics;
     
     
