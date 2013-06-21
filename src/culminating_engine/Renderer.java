@@ -53,8 +53,8 @@ public class Renderer {
      *      render a scene when given a GameObjects and a camera object
      * pre: none
      * post: A renderer object has been created
-     * @param c - a camera object
-     * @param s - the size of the screen (measured diagonally)
+     * @param w - the width of the screen
+     * @param h - the height of the screen
      */
     public Renderer(Camera c, int w, int h){
         camera = c;
