@@ -62,11 +62,11 @@ public class GUIPanel extends JPanel implements Runnable{
      * 
      */
     int numRect = 100; 
-    int numTriPyr = 50;
+    int numTriPyr = 500;
     int numTriPris = 100;
     int numCube = 50;
     int numObjects = numRect + numTriPyr + numTriPris + numCube;//number of obects to randomly generate
-    double spaceObjectsOccupy = 1000; //size of cube in which objects are generated
+    double spaceObjectsOccupy = 2000; //size of cube in which objects are generated
     double maxObjectSize = 20; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
