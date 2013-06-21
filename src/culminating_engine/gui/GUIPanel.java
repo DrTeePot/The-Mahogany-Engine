@@ -62,11 +62,12 @@ public class GUIPanel extends JPanel implements Runnable{
      * 
      */
     int numRect = 100; 
-    int numTriPyr = 500;
+    int numRectPyr = 100;
+    int numTriPyr = 400;
     int numTriPris = 100;
     int numCube = 50;
-    int numObjects = numRect + numTriPyr + numTriPris + numCube;//number of obects to randomly generate
-    double spaceObjectsOccupy = 2000; //size of cube in which objects are generated
+    int numObjects = numRect + numTriPyr + numTriPris + numCube + numRectPyr;//number of obects to randomly generate
+    double spaceObjectsOccupy = 2500; //size of cube in which objects are generated
     double maxObjectSize = 20; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
@@ -102,6 +103,14 @@ public class GUIPanel extends JPanel implements Runnable{
         //Randomly generate the objects
         for (int i = 0; i < numRect; i++){
             objects.add(new RectangularPrism(
+                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
+                    r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize)
+                    );
+        }
+        for (int i = 0; i < numRectPyr; i++){
+            objects.add(new RectangularPyramid(
                     new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
                     r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
                     r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
@@ -159,13 +168,13 @@ public class GUIPanel extends JPanel implements Runnable{
         //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
-        renderer.addObject(shape1);
-        renderer.addObject(xp);
-        renderer.addObject(xn);
-        renderer.addObject(yp);
-        renderer.addObject(yn);
-        renderer.addObject(zp);
-        renderer.addObject(zn);
+//        renderer.addObject(shape1);
+//        renderer.addObject(xp);
+//        renderer.addObject(xn);
+//        renderer.addObject(yp);
+//        renderer.addObject(yn);
+//        renderer.addObject(zp);
+//        renderer.addObject(zn);
         
     }
     
