@@ -35,7 +35,8 @@ public class Renderer {
      * post: A renderer object has been created
      * @param o - an array of GameObjects (to possibly be rendered)
      * @param c - a camera object
-     * @param s - the size of the screen (measured diagonally)
+     * @param w - the width of the screen
+     * @param h - the height of the screen
      */
     public Renderer(GameObject[] o, Camera c, int w, int h){
         camera = c;
