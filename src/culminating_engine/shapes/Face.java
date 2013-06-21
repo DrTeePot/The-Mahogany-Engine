@@ -208,7 +208,7 @@ public class Face{
      * post: Returns the face that is equivalent to the given face moved in the direction 
      * of the given vector by its magnitude. 
      * @param f - the Face object to add to. 
-     * @param t - the Vector3 object to add to all vertices of the face. 
+     * @param u - the Vector3 object to add to all vertices of the face. 
      */
     public static Face addVector(Face f, Vector3 u){
         Vector3[] l;
@@ -227,7 +227,7 @@ public class Face{
      * post: Returns the face that is equivalent to the given face moved in the opposite direction 
      * of the given vector by its magnitude. 
      * @param f - the Face object to subtract from. 
-     * @param t - the Vector3 object to add to all vertices of the face. 
+     * @param u - the Vector3 object to add to all vertices of the face. 
      */
     public static Face subtractVector(Face f, Vector3 u){
         Vector3[] l;

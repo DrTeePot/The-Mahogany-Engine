@@ -123,10 +123,7 @@ public abstract class GameObject {
      * pre: none <br>
      * post: A GameObject object is created.
      * @param f - the collection of Face objects that make up this object
-     * @param rend - whether the object is renderable
-     * @param physic - whether the object obeys physics
-     * @param collide - whether the object performs collision
-     * @param sound - whether the object makes sounds
+     * @param r - the RigidBody on the object.
      */
     public GameObject(Face[] f, Rigidbody r){
         shape = new Face[f.length];

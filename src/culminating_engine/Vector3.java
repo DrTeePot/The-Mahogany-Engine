@@ -265,7 +265,7 @@ public class Vector3 {
      * pre: none <br>
      * post: the vector is modified to have a new orientation. 
      * @param v - the Vector3 object to rotate around.
-     * @param r - the amount in radians to rotate around v.
+     * @param d - the amount in radians to rotate around v.
      */
     public void rotateAround(Vector3 v, double d){
         
@@ -333,7 +333,6 @@ public class Vector3 {
      * pre: none <br>
      * post: returns the vector object that results when the vector is crossed with the vector s
      * @param s - the vector to be crossed
-     * @return the vector object that results from this x s
      */
     public void crossMultiply(Vector3 s){
         double x2 = s.getComponents()[0];
@@ -353,7 +352,6 @@ public class Vector3 {
      * @param i - the magnitude of the x component of the vector
      * @param j - the magnitude of the y component of the vector
      * @param k - the magnitude of the z component of the vector
-     * @return the vector object that results from the crossing of this vector with (i,j,k)
      */
     public void crossMultiply(double i, double j, double k){
         this.setVector(y*k - z*j,
@@ -366,7 +364,6 @@ public class Vector3 {
      * pre: none <br>
      * post: the vector defined by the scalar multiple is returned.
      * @param k - the multiple that the vector is multiplied by
-     * @return the vector object that results from k*v;
      */
     public void scalarMultiply(double k){
         x = x * k;
@@ -437,7 +434,7 @@ public class Vector3 {
      * Return the magnitude of the vector as a double. <br>
      * pre: none <br>
      * post: the vector's magnitude is returned.
-     * @param 
+     * @param s - the Vector3 object to get the magnitude of.
      * @return magVector
      */
     public static double getMagnitude(Vector3 s){
@@ -559,7 +556,7 @@ public class Vector3 {
      * pre: none <br>
      * post: a double representing the angle between a vector and another vector is returned.
      * @param u - the first Vector3 object to compare the orientation. 
-     * @param s - the second Vector3 object to compare the orientation.
+     * @param v - the second Vector3 object to compare the orientation.
      * @return the angle between the two Vector3 objects in radians.
      */
     public static double getAngle(Vector3 u, Vector3 v){
