@@ -88,7 +88,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving forward or not
      * pre: none
      * post: movingForward returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingForward(){
         return movingForward;
@@ -98,7 +98,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving backward or not
      * pre: none
      * post: movingBackward returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingBackward(){
         return movingBackward;
