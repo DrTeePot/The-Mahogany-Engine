@@ -88,7 +88,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving forward or not
      * pre: none
      * post: movingForward returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingForward(){
         return movingForward;
@@ -98,7 +98,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving backward or not
      * pre: none
      * post: movingBackward returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingBackward(){
         return movingBackward;
@@ -108,7 +108,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving left or not
      * pre: none
      * post: getMovingLeft returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingLeft(){
         return movingLeft;
@@ -118,7 +118,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving right or not
      * pre: none
      * post: movingRight returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingRight(){
         return movingRight;
@@ -128,7 +128,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving up or not
      * pre: none
      * post: movingUp returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingUp(){
         return movingUp;
@@ -138,7 +138,7 @@ public class Player extends GameObject{
      * Getter: Returns whether the player is currently moving down or not
      * pre: none
      * post: movingDown returned
-     * @return 
+     * @return boolean
      */
     public boolean getMovingDown(){
         return movingDown;
@@ -208,7 +208,7 @@ public class Player extends GameObject{
      * Getter: returns rotatingPositiveZ
      * pre: none
      * post: rotatingPositiveZ returned
-     * @return 
+     * @return boolean
      */
     public boolean getRotatingPositiveZ(){
         return rotatingPositiveZ;
@@ -218,7 +218,7 @@ public class Player extends GameObject{
      * Getter: returns rotatingNegativeZ
      * pre: none
      * post: rotatingNegativeZ returned
-     * @return 
+     * @return boolean
      */
     public boolean getRotatingNegativeZ(){
         return rotatingNegativeZ;
@@ -228,7 +228,7 @@ public class Player extends GameObject{
      * Getter: returns rotatingPositiveY
      * pre: none
      * post: rotatingPositiveY returned
-     * @return 
+     * @return boolean
      */
     public boolean getRotatingPositiveY(){
         return rotatingPositiveY;
@@ -238,7 +238,7 @@ public class Player extends GameObject{
      * Getter: returns rotatingNegativeY
      * pre: none
      * post: rotatingNegativeY returned
-     * @return 
+     * @return boolean
      */
     public boolean getRotatingNegativeY(){
         return rotatingNegativeY;
@@ -298,7 +298,7 @@ public class Player extends GameObject{
      * Getter: returns speed
      * pre: none
      * post: speed returned
-     * @return 
+     * @return boolean
      */
     public double getSpeed(){
         return speed;
@@ -308,7 +308,7 @@ public class Player extends GameObject{
      * Getter: returns the player's camera
      * pre: none
      * post: player's camera returned
-     * @return 
+     * @return Camera
      */
     public Camera getCamera(){
         return cam;
