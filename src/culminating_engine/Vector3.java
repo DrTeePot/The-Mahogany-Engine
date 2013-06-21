@@ -340,10 +340,10 @@ public class Vector3 {
         double y2 = s.getComponents()[1];
         double z2 = s.getComponents()[2];
         
-        this.setVector(new Vector3(
+        this.setVector(
                 y*z2 - z*y2,
                 z*x2 - x*z2, 
-                x*y2 - y*x2));
+                x*y2 - y*x2);
     }
     
     /**
@@ -356,9 +356,9 @@ public class Vector3 {
      * @return the vector object that results from the crossing of this vector with (i,j,k)
      */
     public void crossMultiply(double i, double j, double k){
-        this.setVector(new Vector3(y*k - z*j,
+        this.setVector(y*k - z*j,
                 z*i - x*k, 
-                x*j - y*i));
+                x*j - y*i);
     }
     
     /**

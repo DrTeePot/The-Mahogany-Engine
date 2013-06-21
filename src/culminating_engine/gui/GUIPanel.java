@@ -44,6 +44,7 @@ public class GUIPanel extends JPanel implements Runnable{
     GameObject tri1 = new RectangularPyramid(new Vector3(10,0,0), 5,4,5);
     Vector3 o = new Vector3(0,0,0); //origin of world
     //axis of world
+    GameObject shape1 = new RectangularPyramid(new Vector3(10,0,0), 5,5,5);
     GameObject xp = new Line(o, new Vector3(1000,0,0)); 
     GameObject xn = new Line(o, new Vector3(-1000,0,0));
     GameObject yp = new Line(o, new Vector3(0,1000,0));
@@ -158,12 +159,13 @@ public class GUIPanel extends JPanel implements Runnable{
         //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
-//        renderer.addObject(xp);
-//        renderer.addObject(xn);
-//        renderer.addObject(yp);
-//        renderer.addObject(yn);
-//        renderer.addObject(zp);
-//        renderer.addObject(zn);
+        renderer.addObject(shape1);
+        renderer.addObject(xp);
+        renderer.addObject(xn);
+        renderer.addObject(yp);
+        renderer.addObject(yn);
+        renderer.addObject(zp);
+        renderer.addObject(zn);
         
     }
     
