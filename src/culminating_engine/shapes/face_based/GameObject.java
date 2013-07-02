@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package culminating_engine.shapes;
+package culminating_engine.shapes.face_based;
 
 import culminating_engine.Rigidbody;
 import culminating_engine.Vector3;
@@ -510,6 +510,16 @@ public abstract class GameObject {
     }
     
     /**
+     * Changes the Rigidbody of the GameObject. Note that this will affect physical motions. <br>
+     * pre: none <br>
+     * post: The Rigidbody is changed. This is a reference, not a clone. 
+     * @param r - the Rigidbody that represents the physics properties of this object. 
+     */
+    public void setRigidbody(Rigidbody r){
+        physics = r;
+    }
+    
+    /**
      * Returns the face object that is at the given index. This returns a reference, not a clone. <br>
      * pre: none <br>
      * post: The face is returned.
@@ -555,12 +565,22 @@ public abstract class GameObject {
     /**
      * Returns the origin of the GameObject as a Vector3 object. This returns a reference, not a clone.<br>
      * pre: none <br>
+     * post: The reference to the origin of this object is returned. 
      * @return Vector3 shapeOrigin
      */
     public Vector3 getOrigin(){
         return shapeOrigin;
     }
     
+    /**
+     * Returns the Rigidbody of the GameObject. This returns a reference, not a clone.<br>
+     * pre: none <br>
+     * post: The reference to the physics variable of this GameObject is returned. 
+     * @return Rigidbody physics
+     */
+    public Rigidbody getRigidbody(){
+        return physics;
+    }
     //</editor-fold>
     
     /**

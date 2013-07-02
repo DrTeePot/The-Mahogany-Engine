@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package culminating_engine.shapes;
+package culminating_engine.shapes.face_based;
 
 import culminating_engine.Vector3;
 
@@ -16,7 +16,7 @@ public class Shape extends GameObject{
     
     /**
      * Allows users to create GameObjects of any type, by defining each face in the GameObject and its origin. 
-     * Unadvised, as this is hard to conceptualize, especially for complex shapes. <br>
+     * Use is unadvised as this is hard to conceptualize, especially for complex shapes. <br>
      * pre: none
      * post: A GameObject is created.
      * @param origin - the center of motion for this object.

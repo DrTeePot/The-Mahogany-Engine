@@ -18,7 +18,7 @@ public class Rigidbody {
     private Vector3 force; //the force being applied to this object at all times until modified
     
     /**
-     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object. <br>
      * pre: none <br>
      * post: A Rigidbody is created with a mass and default values. (doesn't obey gravity, frictionless)
      * @param m - the mass of the object in kilograms
@@ -27,10 +27,13 @@ public class Rigidbody {
         mass = m;
         obeysGravity = false;
         uFriction = 0;
+        
+        momentum = new Vector3(0,0,0);
+        force = new Vector3(0,0,0);
     }
     
     /**
-     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object. <br>
      * pre: none <br>
      * post: A Rigidbody is created with a mass and the user may define whether the object obeys gravity. (frictionless)
      * @param m - the mass of the object in kilograms
@@ -38,11 +41,15 @@ public class Rigidbody {
      */
     public Rigidbody(double m, boolean h){
         mass = m;
+        uFriction = 0;
         obeysGravity = h;
+        
+        momentum = new Vector3(0,0,0);
+        force = new Vector3(0,0,0);
     }
     
     /**
-     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object. <br>
      * pre: none <br>
      * post: A Rigidbody is created with a mass and coefficient of friction (does not obey gravity)
      * @param m - the mass of the object in kilograms
@@ -51,10 +58,14 @@ public class Rigidbody {
     public Rigidbody(double m, double f){
         mass = m;
         uFriction = f;
+        obeysGravity = false;
+        
+        momentum = new Vector3(0,0,0);
+        force = new Vector3(0,0,0);
     }
     
     /**
-     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object.<br>
+     * Creates a Rigidbody object that determines all of the physics attributes and behaviours of an object. <br>
      * pre: none <br>
      * post: A Rigidbody is created with a mass, coefficient of friction, and user may define whether it obeys gravity.
      * @param m - the mass of the object in kilograms
@@ -65,10 +76,28 @@ public class Rigidbody {
         mass = m;
         uFriction = f;
         obeysGravity = h;
+        
+        momentum = new Vector3(0,0,0);
+        force = new Vector3(0,0,0);
+    }
+    
+    public Rigidbody(Rigidbody r){
+        mass = r.getMass();
+        uFriction = r.getFriction();
+        obeysGravity = r.getObeysGravity();
+        
+        momentum = r.getMomentum();
+        force = r.getForce();
     }
     
     //<editor-fold desc="Setters">
     
+    /**
+     * Sets the mass of this Rigidbody. <br>
+     * pre: none. <br>
+     * post: The mass of this Rigidbody is changed to a new double value.
+     * @param m - the double to set the mass to. 
+     */
     public void setMass(double m){
         mass = m;
     }
@@ -82,11 +111,11 @@ public class Rigidbody {
     }
     
     public void setForce(Vector3 f){
-        force = new Vector3(f);
+        force = f;
     }
     
     public void setMomentum(Vector3 v){
-        momentum = new Vector3(v);
+        momentum = v;
     }
     //</editor-fold>
     
@@ -100,16 +129,16 @@ public class Rigidbody {
         return uFriction;
     }
     
-    public boolean obeysGravity(){
+    public boolean getObeysGravity(){
         return(obeysGravity);
     }
     
     public Vector3 getForce(){
-        return force;
+        return new Vector3(force);
     }
     
     public Vector3 getMomentum(){
-        return momentum;
+        return new Vector3(momentum);
     }
     //</editor-fold>
     

@@ -4,10 +4,10 @@
  */
 package culminating_engine;
 
-import culminating_engine.shapes.Camera;
-import java.awt.Color;
+import culminating_engine.shapes.face_based.Camera;
 import java.awt.Graphics2D;
-import culminating_engine.shapes.GameObject;
+import culminating_engine.shapes.face_based.GameObject;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -26,8 +26,11 @@ public class Renderer {
     private int outWidth;
     private int outHeight;
     
-    private final double PI = Math.PI;
+    double viewDistance;
     
+    private final double PI = Math.PI;
+    BufferedImage output;
+    BufferedImage renderBuffer;
     /**
      * Create a renderer object, which is a factory that has the ability to 
      *      render a scene when given a GameObjects and a camera object
@@ -46,6 +49,9 @@ public class Renderer {
         screenSize = (int)(Math.max(w, h) * Math.sqrt(2));
         
         gameObjects.addAll(Arrays.asList(o));
+        viewDistance = 20;
+        output = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
+        renderBuffer = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
     }
     
     /**
@@ -60,7 +66,9 @@ public class Renderer {
         camera = c;
         outWidth = w;
         outHeight = h;
-        screenSize = (int)(Math.max(w, h) * Math.sqrt(2));    
+        screenSize = (int)(Math.max(w, h) * Math.sqrt(2));  
+        output = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
+        renderBuffer = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
     }
     
     /**
@@ -151,7 +159,7 @@ public class Renderer {
         
         //properly scales and positions the coordinates
         xCoordinate = (screenSize/2) * (width/(vectorMagnitude*camera.getFOV()));
-        yCoordinate = (screenSize/2) * (height/(vectorMagnitude*camera.getFOV()));
+        yCoordinate = (screenSize/2) * (height/(vectorMagnitude*camera.getFOV())) * -1;
        
         return new Point((int)xCoordinate, (int)yCoordinate);
     }
@@ -373,67 +381,71 @@ public class Renderer {
      * @return Buffered Image - The rendered WireFrame
      */
     public BufferedImage wireFrameRender(){
-        BufferedImage output = new BufferedImage((int)screenSize, (int)screenSize, BufferedImage.TYPE_4BYTE_ABGR_PRE);
-        Graphics2D wire2D = output.createGraphics();
+        Graphics2D wire2D = renderBuffer.createGraphics();
                 
         wire2D.setColor(Color.BLACK);
-        
+        wire2D.fillRect(0, 0, 10000, 10000);
         for (int gameObject = 0; gameObject < gameObjects.size(); gameObject++){
-            for (int face = 0; face < gameObjects.get(gameObject).getShape().length;face++){
-                
-                Vector3 p1 = new Vector3(gameObjects.get(gameObject).getFace(face).getPoint(0));
-                Vector3 p2 = new Vector3(gameObjects.get(gameObject).getFace(face).getPoint(1));
-                Vector3 p3 = new Vector3(gameObjects.get(gameObject).getFace(face).getPoint(2));
-                
-                Point[] line_p1_p2;
-                Point[] line_p2_p3;
-                Point[] line_p3_p1;
-                       
-                line_p1_p2 = lineTo2D(p1, p2);
-                line_p2_p3 = lineTo2D(p2, p3);
-                line_p3_p1 = lineTo2D(p3, p1);
-                
-                if (line_p1_p2 != null){
-                    line_p1_p2[0].x += screenSize/2;
-                    line_p1_p2[0].y += screenSize /2;
-                    line_p1_p2[1].x += screenSize/2;
-                    line_p1_p2[1].y += screenSize /2;
-                }
-                if (line_p2_p3 != null){
-                    line_p2_p3[0].x += screenSize/2;
-                    line_p2_p3[0].y += screenSize /2;
-                    line_p2_p3[1].x += screenSize/2;
-                    line_p2_p3[1].y += screenSize /2;
-                }
-                if (line_p3_p1 != null){
-                    line_p3_p1[0].x += screenSize/2;
-                    line_p3_p1[0].y += screenSize /2;
-                    line_p3_p1[1].x += screenSize/2;
-                    line_p3_p1[1].y += screenSize /2;
-                }
-                        
-                if (line_p1_p2 != null){
-                    wire2D.drawLine(line_p1_p2[0].x, line_p1_p2[0].y, 
-                            line_p1_p2[1].x, line_p1_p2[1].y);
-                }
-                if (line_p2_p3 != null){
-                    wire2D.drawLine(line_p2_p3[0].x, line_p2_p3[0].y, 
-                            line_p2_p3[1].x, line_p2_p3[1].y);
-                }
-                if (line_p3_p1 != null){
-                    wire2D.drawLine(line_p3_p1[0].x, line_p3_p1[0].y, 
-                            line_p3_p1[1].x, line_p3_p1[1].y);
-                }
             
-            }
+            //if(new Vector3(Vector3.subtractVectors(camera.getOrigin(), gameObjects.get(gameObject).getOrigin())).getMagnitude() < viewDistance){  
+
+                for (int face = 0; face < gameObjects.get(gameObject).getShape().length;face++){
+                    wire2D.setColor(gameObjects.get(gameObject).getFace(face).getColor());
+                    
+                    Vector3 p1 = new Vector3(gameObjects.get(gameObject).getFace(face).getPoint(0));
+                    Vector3 p2 = new Vector3(gameObjects.get(gameObject).getFace(face).getPoint(1));
+                    Vector3 p3 = new Vector3(gameObjects.get(gameObject).getFace(face).getPoint(2));
+
+                    Point[] line_p1_p2;
+                    Point[] line_p2_p3;
+                    Point[] line_p3_p1;
+
+                    line_p1_p2 = lineTo2D(p1, p2);
+                    line_p2_p3 = lineTo2D(p2, p3);
+                    line_p3_p1 = lineTo2D(p3, p1);
+
+                    if (line_p1_p2 != null){
+                        line_p1_p2[0].x += screenSize/2;
+                        line_p1_p2[0].y += screenSize /2;
+                        line_p1_p2[1].x += screenSize/2;
+                        line_p1_p2[1].y += screenSize /2;
+                    }
+                    if (line_p2_p3 != null){
+                        line_p2_p3[0].x += screenSize/2;
+                        line_p2_p3[0].y += screenSize /2;
+                        line_p2_p3[1].x += screenSize/2;
+                        line_p2_p3[1].y += screenSize /2;
+                    }
+                    if (line_p3_p1 != null){
+                        line_p3_p1[0].x += screenSize/2;
+                        line_p3_p1[0].y += screenSize /2;
+                        line_p3_p1[1].x += screenSize/2;
+                        line_p3_p1[1].y += screenSize /2;
+                    }
+
+                    if (line_p1_p2 != null){
+                        wire2D.drawLine(line_p1_p2[0].x, line_p1_p2[0].y, 
+                                line_p1_p2[1].x, line_p1_p2[1].y);
+                    }
+                    if (line_p2_p3 != null){
+                        wire2D.drawLine(line_p2_p3[0].x, line_p2_p3[0].y, 
+                                line_p2_p3[1].x, line_p2_p3[1].y);
+                    }
+                    if (line_p3_p1 != null){
+                        wire2D.drawLine(line_p3_p1[0].x, line_p3_p1[0].y, 
+                                line_p3_p1[1].x, line_p3_p1[1].y);
+                    }
+
+                }
+            //}
         }        
         wire2D.dispose();
         
-        output = output.getSubimage((screenSize/2) - (outWidth/2), 
+        output = renderBuffer.getSubimage((screenSize/2) - (outWidth/2), 
                                     (screenSize/2) - (outHeight/2), 
                                     outWidth, outHeight);        
         
-        return flipVertically(output);
+        return (output);
     }
 }
     

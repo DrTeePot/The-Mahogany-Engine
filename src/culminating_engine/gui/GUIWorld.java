@@ -4,17 +4,18 @@
  */
 package culminating_engine.gui;
 
-import culminating_engine.shapes.face_based.Camera;
-import culminating_engine.Renderer;
+import culminating_engine.Physicser;
+import culminating_engine.Renderbody;
+import culminating_engine.RendererV2;
+import culminating_engine.Rigidbody;
 import culminating_engine.Vector3;
-import culminating_engine.shapes.face_based.Cube;
-import culminating_engine.shapes.face_based.EquilateralTriangularPrism;
-import culminating_engine.shapes.face_based.EquilateralTriangularPyramid;
-import culminating_engine.shapes.face_based.GameObject;
-import culminating_engine.shapes.face_based.LineSegment;
-import culminating_engine.shapes.face_based.Player;
-import culminating_engine.shapes.face_based.RectangularPrism;
-import culminating_engine.shapes.face_based.RectangularPyramid;
+import culminating_engine.shapes.face_based.Camera;
+import culminating_engine.shapes.line_based.CenteredLineSegment;
+import culminating_engine.shapes.line_based.Cube;
+import culminating_engine.shapes.line_based.GameObject;
+import culminating_engine.shapes.line_based.Line;
+import culminating_engine.shapes.line_based.Player;
+import culminating_engine.shapes.line_based.RectangularPrism;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
@@ -25,54 +26,43 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Aidan
+ * @author tristan
  */
-public class GUIPanel extends JPanel implements Runnable{
-    
+public class GUIWorld extends JPanel implements Runnable{
+
     private Thread animator; //This is the thread that this class runs in
     private final int DELAY = 20; //This is the delay between draw cycles
     
     private Player player; //used to move the camera 
     
     private Camera camera; 
-    private Renderer renderer;
-    
-    private Random r = new Random();
+    private RendererV2 renderer;
+    private Physicser physics;
     
     private final double PI = Math.PI;
     
-    GameObject p = new RectangularPrism(new Vector3(0, 0, 0), 0,0,0); //the game object used to define the player
-    GameObject tri1 = new RectangularPyramid(new Vector3(10,0,0), 5,4,5);
-    Vector3 o = new Vector3(0,0,0); //origin of world
-    //axis of world
-    GameObject shape1 = new RectangularPyramid(new Vector3(10,0,0), 5,5,5);
-    GameObject xp = new LineSegment(o, new Vector3(1000,0,0)); 
-    GameObject xn = new LineSegment(o, new Vector3(-1000,0,0));
-    GameObject yp = new LineSegment(o, new Vector3(0,1000,0));
-    GameObject yn = new LineSegment(o, new Vector3(0,-1000,0));
-    GameObject zp = new LineSegment(o, new Vector3(0,0,1000));
-    GameObject zn = new LineSegment(o, new Vector3(0,0,-1000));
+    //will hold all objects
+    ArrayList<GameObject> floor = new ArrayList<GameObject>(); 
     
+    GameObject p = new GameObject(new Cube(5), new Vector3(0,0,0)) {}; //the game object used to define the player
     
-    /**
-     * The following are variables used to demonstrate the Mahogany engines 
-     *      capabilities. 
-     * It will render a specified number of random rotating shapes, in a floating
-     *      world, which the user may then navigate using arrow keys (movement)
-     *      and WASD (camera rotation).
-     * 
-     */
+    GameObject tri1 = new GameObject(new Cube(2), new Vector3(1,0,0));
+    
+    Rigidbody rigidTest = new Rigidbody(10);
+    
+    private Random r = new Random();
+    
     int numRect = 800; 
-    int numRectPyr = 00;
-    int numTriPyr = 00;
-    int numTriPris = 00;
+    int numRectPyr = 0;
+    int numTriPyr = 0;
+    int numTriPris = 0;
     int numCube = 0;
     int numObjects = numRect + numTriPyr + numTriPris + numCube + numRectPyr;//number of obects to randomly generate
-    double spaceObjectsOccupy = 2500; //size of cube in which objects are generated
-    double maxObjectSize = 20; 
+    double spaceObjectsOccupy = 50; //size of cube in which objects are generated
+    double maxObjectSize = 3; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
-    double maxRotationDistance = 50;
+    double maxRotationDistance = 20;
             
     //will hold all objects
     ArrayList<GameObject> objects = new ArrayList<GameObject>(); 
@@ -86,12 +76,13 @@ public class GUIPanel extends JPanel implements Runnable{
     //will hold the distances of the points that objects will rotate about
     ArrayList<Double[]> rotationDistance = new ArrayList<Double[]>();
 
+    
     /**
      * Initializes the GUIPanel. All global variable should be initialized here
      * pre: none
      * post: the panel has been initialized
      */
-    public GUIPanel(){
+    public GUIWorld(){
         //Window must be focused to add a KeyListener
         setFocusable(true);
         requestFocusInWindow();
@@ -99,17 +90,24 @@ public class GUIPanel extends JPanel implements Runnable{
         
         camera = new Camera(new Vector3(0,0,0), Math.toRadians(35)); // the second argument is the field of view
         player = new Player(p, camera); //add the camera to the player, so that 
-                                        //it moves with the player
+        
         
         //Randomly generate the objects
         for (int i = 0; i < numRect; i++){
-            objects.add(new RectangularPrism(
-                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
-                    r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize)
+            objects.add(new GameObject(
+                    new RectangularPrism(
+                        r.nextDouble()*maxObjectSize,
+                        r.nextDouble()*maxObjectSize, 
+                        r.nextDouble()*maxObjectSize,
+                        Color.WHITE),
+                    new Vector3(
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)))
                     );
         }
+        
+        /*
         for (int i = 0; i < numRectPyr; i++){
             objects.add(new RectangularPyramid(
                     new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
@@ -139,6 +137,7 @@ public class GUIPanel extends JPanel implements Runnable{
                     r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)), 
                     r.nextDouble()*maxObjectSize ));
         }
+        */
         
         //Randomly generate points for the objects to rotate around
         for (int i = 0; i < numObjects; i++){
@@ -167,20 +166,28 @@ public class GUIPanel extends JPanel implements Runnable{
         }
         
         //Create the renderer and add all the objects to it
-        renderer = new Renderer(player.getCamera(), 1000, 600);
+        renderer = new RendererV2(player.getCamera(), 1000, 600, 1000);
         renderer.addObjects(objects);
-//        renderer.addObject(shape1);
-//        renderer.addObject(xp);
-//        renderer.addObject(xn);
-//        renderer.addObject(yp);
-//        renderer.addObject(yn);
-//        renderer.addObject(zp);
-//        renderer.addObject(zn);
+//        Renderbody square = new Renderbody(new Line[]{
+//            new Line(new Vector3(-0.5, 0, 0), new Vector3(0.5, 0, 0)),
+//        new Line(new Vector3(0, 0.5, 0), new Vector3(0, -0.5, 0))});
         
+        for(int x = -20; x < 20; x ++){
+            for(int y = -20; y < 20; y ++ ){
+                GameObject v = new GameObject(new CenteredLineSegment(new Vector3(0.5,0,0)), new Vector3(x,y,0));
+                GameObject h = new GameObject(new CenteredLineSegment(new Vector3(0,0.5,0)), new Vector3(x,y,0));
+                floor.add(v);
+                floor.add(h);
+            }
+        }
+        //Create the renderer and add all the objects to it
+        renderer.addObject(tri1);
+        renderer.addObjects(floor);
+        //tri1.rotateAroundWorld(Math.toRadians(0), Math.toRadians(0), Math.toRadians(20));
     }
     
     /*
-     * Runs after the maze has been initialize. 
+     * Runs after the panel has been initialized. 
      *      Is necessary, because initialization needs to happen before creating a thread
      * Pre: None
      * Post: This thread has been started
@@ -193,9 +200,9 @@ public class GUIPanel extends JPanel implements Runnable{
     }
     
     /*
-     * Called with Repaint, and does all the drawing
+     * Called with repaint, and does all the drawing
      * Pre: None
-     * Post: Board has been updated
+     * Post: Draw has been updated
      */
     @Override
     public void paintComponent(Graphics g) { //all drawing done in paint method
@@ -209,17 +216,17 @@ public class GUIPanel extends JPanel implements Runnable{
         
         //display the rendered output
         g.drawImage(renderer.wireFrameRender(), 0, 0, this);
-
-        fps = String.valueOf(fps_);
         g.setColor(Color.WHITE);
+        fps = String.valueOf(fps_);
+        
         g.drawString(fps, 30, 30);
+        
         //System.out.println(String.valueOf(fps_));
         
         repaint();
     }
-    long timeeee; //used for fps measurements above
+    long timeeee;
     String fps = "";
-    
     /*
      * Moves all gameObjects, and the player
      * Pre: None
@@ -227,7 +234,14 @@ public class GUIPanel extends JPanel implements Runnable{
      */
     public void cycle() { //Change ALL THE VARS
         
-        //Rotate each object properly
+        tri1.rotateAroundPoint(Math.toRadians(0), Math.toRadians(0), Math.toRadians(1), new Vector3(0,5,0));
+        
+        //tri1.translate(0.5,0,0);
+        //Move and rotate the camera (based on pressed keys)
+        player.move();
+        
+        
+        
         for (int i = 0; i < objects.size(); i++){            
             objects.get(i).rotateAroundPoint(Math.toRadians(rotations.get(i)[0]),
                                             Math.toRadians(rotations.get(i)[1]), 
@@ -238,10 +252,11 @@ public class GUIPanel extends JPanel implements Runnable{
                                             Math.toRadians(rotationsAroundSelf.get(i)[2]));//,
                                             //new Vector3(objects.get(i).getOrigin()));
         }
-        tri1.rotateAroundSelf(Math.toRadians(0), Math.toRadians(0), Math.toRadians(1));
-        //Move and rotate the camera (based on pressed keys)
-        player.move();
         
+        //renderer.wireFrameRender();
+        //System.out.println(tri1.getRenderbody().getWorldLines()[0].toString());
+        //update all the physics objects
+        //physics.update();
     }
   
      /*

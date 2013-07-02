@@ -45,7 +45,7 @@ public class Vector3 {
     //<editor-fold desc="Getters and setters">
     
     /**
-     * Sets the vector to be equal to the vector defined by the parameter s <br>
+     * Sets the vector to be equal to the vector defined by the parameter s. <br>
      * pre: none <br>
      * post: The vector's definition is changed to that of the vector s
      * @param s - the vector to set this vector equal to
@@ -58,7 +58,7 @@ public class Vector3 {
     }
     
     /**
-     * Sets the vector to be equal to the vector defined by the vector (i,j,k) <br>
+     * Sets the vector to be equal to the vector defined by the vector (i,j,k). <br>
      * pre: none <br>
      * post: The vector's definition is changed to that of the vector (i,j,k)
      * @param i - the x component of the vector 
@@ -72,7 +72,7 @@ public class Vector3 {
     }
     
     /**
-     * Returns the definition of the vector to the client as an array of doubles (of length 3) <br>
+     * Returns the definition of the vector to the client as an array of doubles (of length 3). <br>
      * pre: none <br>
      * post: The three components of the vector are returned
      * @return double[] l = {x,y,z}
@@ -302,7 +302,7 @@ public class Vector3 {
     }
     
     /**
-     * Return the dot product of the vector by another vector as a double <br>
+     * Return the dot product of the vector by another vector as a double. <br>
      * pre: none <br>
      * post: The dot product is returned <br>
      * @param s - the vector to be dotted with this
@@ -316,7 +316,7 @@ public class Vector3 {
     }
     
     /**
-     * Return the dot product of the vector by another vector as a double <br>
+     * Return the dot product of the vector by another vector as a double. <br>
      * pre: none <br>
      * post: The dot product is returned
      * @param i - the magnitude of the x component to be dotted.
@@ -445,7 +445,7 @@ public class Vector3 {
     }
     
     /**
-     * Return the dot product of the vector by another vector as a double <br>
+     * Return the dot product of the vector by another vector as a double. <br>
      * pre: none <br>
      * post: The dot product is returned
      * @param s - the first Vector3 object to dot multiply.
@@ -465,7 +465,7 @@ public class Vector3 {
     }
     
     /**
-     * Return the dot product of the vector by another vector as a double <br>
+     * Return the dot product of the vector by another vector as a double. <br>
      * pre: none <br>
      * post: The dot product is returned
      * @param x1 - the magnitude of the x component to be dotted.
@@ -560,7 +560,8 @@ public class Vector3 {
      * @return the angle between the two Vector3 objects in radians.
      */
     public static double getAngle(Vector3 u, Vector3 v){
-        return(Math.acos(Vector3.dotMultiply(u,v) / (u.getMagnitude() * v.getMagnitude() ) ) );
+        //System.out.println("dot: " + Vector3.dotMultiply(u, v) + "mag^2 :" + (u.getMagnitude() * v.getMagnitude() ));
+        return(Math.acos(Vector3.dotMultiply(u, v) / (u.getMagnitude() * v.getMagnitude() ) ) );
     }
     
     /**

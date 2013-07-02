@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package culminating_engine.shapes;
+package culminating_engine.shapes.face_based;
 
 import culminating_engine.Vector3;
 
@@ -10,7 +10,7 @@ import culminating_engine.Vector3;
  * Allows users to easily create a line shaped GameObject. Adds small functionality related to lines. 
  * @author tristan
  */
-public class Line extends GameObject{
+public class LineSegment extends GameObject{
     
     private double length;
     
@@ -21,7 +21,7 @@ public class Line extends GameObject{
      * @param origin - the starting point of the line
      * @param pointb - the ending point of the line.
      */
-    public Line(Vector3 origin, Vector3 pointb){
+    public LineSegment(Vector3 origin, Vector3 pointb){
         super(new Face[]{
             new Face(new Vector3(pointb), Vector3.addVectors(origin, pointb), new Vector3(origin))
         }, origin);
@@ -38,7 +38,7 @@ public class Line extends GameObject{
      * point of the line.
      * @param l - whether to add the origin and distance or draw from the origin to distance. 
      */
-    public Line(Vector3 origin, Vector3 pointb, boolean l){
+    public LineSegment(Vector3 origin, Vector3 pointb, boolean l){
         super(new Face[]{
             new Face(new Vector3(origin), (l) ? (Vector3.addVectors(origin, pointb)) : (new Vector3(pointb)), new Vector3(origin))
         }, origin);

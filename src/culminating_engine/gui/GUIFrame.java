@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 public class GUIFrame extends JFrame{
     
     public GUIFrame(){
-        add(new GUIPanel()); //put the maze drawable space on the window
+        add(new GUIWorld()); //put the world drawable space on the window
 
         //build the window        
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

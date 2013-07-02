@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package culminating_engine.shapes;
+package culminating_engine.shapes.face_based;
 
 import culminating_engine.Vector3;
 import java.awt.Color;
@@ -35,7 +35,7 @@ public class Face{
         for(int i = 0; i < 3; i ++){
             points[i] = new Vector3(p[i]);
         }
-        colour = Color.GRAY;
+        colour = Color.WHITE;
     }
     
     /**
@@ -65,7 +65,7 @@ public class Face{
         points[0] = new Vector3(p1);
         points[1] = new Vector3(p2);
         points[2] = new Vector3(p3);
-        colour = Color.GRAY;
+        colour = Color.WHITE;
     }
     
     /**
@@ -100,7 +100,7 @@ public class Face{
     }
     
     /**
-     * Sets the vertex at the given index to be equivalent to the given Vector3.<br>
+     * Sets the vertex at the given index to be equivalent to the given Vector3. <br>
      * pre: none <br>
      * post: The vertex at index i is reset to be a given Vector3.
      * @param i - the index of the vertex to be replaced.

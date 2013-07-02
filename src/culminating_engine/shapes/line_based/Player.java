@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package culminating_engine.shapes;
+package culminating_engine.shapes.line_based;
 
 import culminating_engine.Vector3;
+import culminating_engine.shapes.face_based.Camera;
 
 /**
  *
@@ -30,8 +31,8 @@ public class Player extends GameObject{
      */
     public Player (GameObject g, Camera c){
         super(g);
-        speed = 5;
-        rotSpeed = 1;
+        speed = 0.1;
+        rotSpeed = 0.8;
                 
         cam = c;
     }

@@ -4,7 +4,7 @@
  */
 package culminating_engine;
 
-import culminating_engine.shapes.GameObject;
+import culminating_engine.shapes.face_based.GameObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,46 +19,45 @@ public class Physicser {
      */
     private ArrayList<GameObject> objects;
     
+    /**
+     * The worlds acceleration downwards. This will be applied as a Vector3 force downwards, to all Rigidbody
+     * objects that have the variable obeysGravity set to true. 
+     */
     private double accelerationDueToGravity;
     
     
     
-    Physicser(){
+    public Physicser(){
         objects = new ArrayList();
         accelerationDueToGravity = 9.8;
     }
     
-    Physicser(GameObject[] l){
+    public Physicser(GameObject[] l){
         objects = new ArrayList<GameObject>();
         objects.addAll(Arrays.asList(l));
     }
     
     public void update(){ //needs to be called whenever physics should be updated (ie every frame)
+        for(GameObject o : objects){
+            o.translate(o.getRigidbody().getMomentum());
+            o.getRigidbody().addMomentum(o.getRigidbody().getForce());
+        }
+    }
+    
+    public void addObject(GameObject o){
+        objects.add(o);
+    }
+    
+    public void addObjects(ArrayList<GameObject> o){
+        objects.addAll(o);
+    }
+    
+    public void removeObject(GameObject o){
         
     }
     
-    public void addForce(GameObject o, Vector3 a){
-        if(objects.contains(o)){
-            //TODO add code
-        }
-    }
-    
-    public void addMomentum(GameObject o, Vector3 a){
-        if(objects.contains(o)){
-            //TODO add code
-        }
-    }
-    
-    public void removeForce(GameObject o, Vector3 a){
-        if(objects.contains(o)){
-            //TODO add code
-        }
-    }
-    
-    public void removeMomentum(GameObject o, Vector3 a){
-        if(objects.contains(o)){
-            //TODO add code
-        }
+    public void removeObjects(GameObject[] o){
+        
     }
     
     
