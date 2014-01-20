@@ -1,7 +1,7 @@
 The-Mahogany-Engine
 ===================
 
-The first engine we created, made as a culminating project
+The first engine we created, submitted as a chosen culminating project (my team did this instead of the assigned project). 
 
 This project required working as a member of a team. It is object oriented and does not use external 3D libraries of any kind to accomplish its tasks. 
 
@@ -32,3 +32,4 @@ To edit the actual rendering world, open the appropriate file (GUIWorld or GUIPa
 OTHER
 =====================
 If you are curious as to the parameters and purpose of any of the functions, a fairly complete JavaDoc exists. Since line-based rendering is in alpha right now, it is not completely finished. But all face-based functions are completely documented. 
+For any other questions, please feel free to contact me. 
