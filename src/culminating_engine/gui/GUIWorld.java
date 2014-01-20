@@ -44,7 +44,7 @@ public class GUIWorld extends JPanel implements Runnable{
     //will hold all objects
     ArrayList<GameObject> floor = new ArrayList<GameObject>(); 
     
-    GameObject p = new GameObject(new Cube(5), new Vector3(0,0,0)) {}; //the game object used to define the player
+    GameObject p = new GameObject(new Cube(5), new Vector3(-40,0,5)) {}; //the game object used to define the player
     
     GameObject tri1 = new GameObject(new Cube(2), new Vector3(1,0,0));
     
@@ -52,13 +52,10 @@ public class GUIWorld extends JPanel implements Runnable{
     
     private Random r = new Random();
     
-    int numRect = 800; 
-    int numRectPyr = 0;
-    int numTriPyr = 0;
-    int numTriPris = 0;
-    int numCube = 0;
-    int numObjects = numRect + numTriPyr + numTriPris + numCube + numRectPyr;//number of obects to randomly generate
-    double spaceObjectsOccupy = 50; //size of cube in which objects are generated
+    int numRect = 200; 
+    int numCube = 30;
+    int numObjects = numRect + numCube;//number of obects to randomly generate
+    double spaceObjectsOccupy = 60; //size of cube in which objects are generated
     double maxObjectSize = 3; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
@@ -103,41 +100,20 @@ public class GUIWorld extends JPanel implements Runnable{
                     new Vector3(
                         r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
                         r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)))
-                    );
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2))));
         }
         
-        /*
-        for (int i = 0; i < numRectPyr; i++){
-            objects.add(new RectangularPyramid(
-                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
-                    r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize)
-                    );
-        }
-        for (int i = 0; i < numTriPyr; i++){
-            objects.add(new EquilateralTriangularPyramid(
-                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)), 
-                    r.nextDouble()*maxObjectSize ));
-        }
-        for (int i = 0; i < numTriPris; i++){
-            objects.add(new EquilateralTriangularPrism(
-                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)),
-                    r.nextDouble()*maxObjectSize, r.nextDouble()*maxObjectSize*3));
-        }
         for (int i = 0; i < numCube; i++){
-            objects.add(new Cube(
-                    new Vector3(r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
-                    r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2)), 
-                    r.nextDouble()*maxObjectSize ));
+            objects.add(new GameObject(
+                    new Cube(
+                            r.nextDouble() * maxObjectSize,
+                            Color.WHITE),
+                    new Vector3(
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2),
+                        r.nextDouble()*spaceObjectsOccupy - (spaceObjectsOccupy/2))));
         }
-        */
+        
         
         //Randomly generate points for the objects to rotate around
         for (int i = 0; i < numObjects; i++){

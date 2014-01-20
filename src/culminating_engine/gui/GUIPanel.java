@@ -62,13 +62,13 @@ public class GUIPanel extends JPanel implements Runnable{
      *      and WASD (camera rotation).
      * 
      */
-    int numRect = 800; 
+    int numRect = 200; 
     int numRectPyr = 00;
     int numTriPyr = 00;
     int numTriPris = 00;
     int numCube = 0;
     int numObjects = numRect + numTriPyr + numTriPris + numCube + numRectPyr;//number of obects to randomly generate
-    double spaceObjectsOccupy = 2500; //size of cube in which objects are generated
+    double spaceObjectsOccupy = 200; //size of cube in which objects are generated
     double maxObjectSize = 20; 
     double maxRotationSpeed = 0.2;
     double maxRotationAroundSelfSpeed = 2;
@@ -169,13 +169,13 @@ public class GUIPanel extends JPanel implements Runnable{
         //Create the renderer and add all the objects to it
         renderer = new Renderer(player.getCamera(), 1000, 600);
         renderer.addObjects(objects);
-//        renderer.addObject(shape1);
-//        renderer.addObject(xp);
-//        renderer.addObject(xn);
-//        renderer.addObject(yp);
-//        renderer.addObject(yn);
-//        renderer.addObject(zp);
-//        renderer.addObject(zn);
+        renderer.addObject(shape1);
+        renderer.addObject(xp);
+        renderer.addObject(xn);
+        renderer.addObject(yp);
+        renderer.addObject(yn);
+        renderer.addObject(zp);
+        renderer.addObject(zn);
         
     }
     
