@@ -27,7 +27,7 @@ to
 add(new GUIPanel()); 
 and the rendering world will change. 
 
-To edit the actual rendering world, open the appropriate file (GUIWorld or GUIPanel) and change the constant variables at the top of the class for number of objects, size of objects, and others. The variables are well names. 
+To edit the actual rendering world, open the appropriate file (GUIWorld or GUIPanel) and change the constant variables at the top of the class for number of objects, size of objects, and others. The variables are well named. 
 
 OTHER
 =====================
